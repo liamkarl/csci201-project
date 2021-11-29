@@ -23,6 +23,10 @@ public class DemoApplication {
 	 PostRepository PostRepository;
 	 @Autowired
 	 RestaurantRepository RestaurantRepository;
+	 @Autowired
+	 EventRepository EventRepository;
+	 @Autowired
+	 BookmarkRepository BookmarkRepository;
 	 
 	private static final Logger logger = LoggerFactory.getLogger(DemoApplication.class);
 	public static void main(String[] args) {
@@ -37,6 +41,8 @@ public class DemoApplication {
     	  ImageRepository.save(new Image(1, "url"));
     	  PostRepository.save(new Post());    	  
     	  RestaurantRepository.save(new Restaurant());
+    	  EventRepository.save(new Event());
+    	  BookmarkRepository.save(new Bookmark());
       };
     }
 	
