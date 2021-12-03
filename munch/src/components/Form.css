@@ -1,0 +1,58 @@
+.formcard{
+    color: white;
+    background-color: black;
+
+    margin:30px 0px;
+
+    font-weight: 500;
+
+    padding: 0px 25px;
+
+    width: 80vw;
+    height: 80vh;
+
+    border-radius: 15px;
+}
+
+
+
+.location{
+    height: 50px;
+    border-radius: 15px;
+    border: 1px solid white;
+
+    background-color: black;
+
+    color: white;
+    width: 35vw;
+    padding:10px 20px;
+    font-size: 1em;
+    box-sizing: border-box;
+
+}
+
+.textblock{
+    padding: 25px 0px;
+    font-size: 1.2em;
+}
+
+.comments{
+    border-radius: 15px;
+    border: 1px solid white;
+    background-color: black;
+    color: white;
+    width: 75vw;
+    height: 15 vh;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    font-size: 1em;
+}
+
+button{
+    height: 50px;
+    width: 100px;
+    border-radius: 15px;
+    background-color: #ed9b14;
+    color:white;
+    margin: 25px 0px;
+}
