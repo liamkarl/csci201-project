@@ -26,7 +26,7 @@ public class User {
 	private String bio;
 	private String pfp;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
 	@JsonIgnore
 	private List<Post> posts;
 
@@ -141,41 +141,4 @@ public class User {
 	// List<Group> getGroups()
 	// void addGroup(Group g)
 	// void removeGroup(Group g)
-
-	public boolean Register(String username, String password, String email) {
-		boolean validityCheck = true;
-
-		// if username or email is in use already, fails
-		if (!validityCheck)
-			return false;
-
-		else {
-			this.username = username;
-			this.password = password;
-			this.email = email;
-
-			return true;
-		}
-	}
-
-	public boolean Login(String identifier, String password) {
-		return (((identifier == this.email) || (identifier == this.username)) && (password == this.password));
-	}
-
-	public boolean newPost(Post p) {
-		this.numPosts++;
-
-		return true;
-	}
-
-	public boolean verifyPassword(String attempt) {
-		if (attempt.equals(password))
-			return true;
-		return false;
-	}
-
-	public void changePassword(String newPwd) {
-		password = newPwd;
-	}
-
 }
