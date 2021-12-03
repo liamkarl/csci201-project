@@ -21,9 +21,9 @@ public class Restaurant {
 	// private List<Post> posts
 	// private Map<Integer, Post> popularPosts
 	// private Map<Integer, Post> criticalPosts
-
-	@Autowired
-	private RestaurantRepository restaurantRepo;
+//
+//	@Autowired
+//	private RestaurantRepository restaurantRepo;
 
 	public Restaurant() {
 

@@ -19,8 +19,8 @@ public class Bookmark {
 	private long restaurantID;
 	private String noteText;
 
-	@Autowired
-	private BookmarkRepository bookmarkRepo;
+//	@Autowired
+//	private BookmarkRepository bookmarkRepo;
 
 	public Bookmark() {
 	}

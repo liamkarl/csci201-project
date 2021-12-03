@@ -18,8 +18,8 @@ public class Image {
 
 	private String url;
 
-	@Autowired
-	private ImageRepository imageRepo;
+//	@Autowired
+//	private ImageRepository imageRepo;
 
 	public Image(long userID, String url) {
 		this.userID = userID;
