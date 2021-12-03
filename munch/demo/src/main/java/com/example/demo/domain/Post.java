@@ -7,9 +7,12 @@ import java.util.List;
 //import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -27,6 +30,10 @@ public class Post {
 	private List<String> comments;
 
 	private LocalDateTime date;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user")
+	private User user;
 
 	public Post() {
 
@@ -118,4 +125,13 @@ public class Post {
 	public LocalDateTime getDate() {
 		return date;
 	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setOwner(User user) {
+		this.user = user;
+	}
+
 }
