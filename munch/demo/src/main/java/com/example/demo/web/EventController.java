@@ -1,19 +1,19 @@
-package com.example.web;
+package com.example.demo.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.domain.Post;
-import com.example.demo.domain.PostRepository;
+import com.example.demo.domain.Event;
+import com.example.demo.domain.EventRepository;
 
 @RestController
-public class PostController {
+public class EventController {
 	@Autowired
-	private PostRepository repo;
+	private EventRepository repo;
 
-	@RequestMapping("/posts")
-	public Iterable<Post> getPosts() {
+	@RequestMapping("/events")
+	public Iterable<Event> getEvents() {
 		return repo.findAll();
 	}
 }
