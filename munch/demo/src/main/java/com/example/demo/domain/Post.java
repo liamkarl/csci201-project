@@ -20,7 +20,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 @Table(name = "PostTable")
 public class Post {
 	@Id
@@ -29,6 +33,7 @@ public class Post {
 	private long postID;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
+	@JsonIgnore
 	private List<Image> images;
 
 	@ElementCollection

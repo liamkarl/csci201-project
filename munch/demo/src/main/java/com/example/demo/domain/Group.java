@@ -12,17 +12,22 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 @Table(name = "GroupTable")
 public class Group {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long groupID;
 
-	@ManyToMany(mappedBy = "group")
+	@ManyToMany(mappedBy = "groups")
 	private Set<User> users;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "group")
+	@JsonIgnore
 	private List<Event> events;
 
 	private String name;
