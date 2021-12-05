@@ -6,6 +6,7 @@ import Discover from './Discover'
 import Lists from './Lists'
 import Review from './Review'
 import Account from './Account'
+import Register from './Register'
 
 import Navbar from './components/Navbar'
 
@@ -25,6 +26,7 @@ function App() {
 						<Route path='/review' element={<Review />}></Route>
 						<Route path='/account' element={<Account />}></Route>
 						<Route path='/login' element={<Login/>}></Route>
+						<Route path='/register' element={<Register/>}></Route>
 					</Routes>
 				</div>
 

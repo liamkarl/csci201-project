@@ -1,12 +1,16 @@
-import React from 'react'
+import React from "react";
 
-import LoginPage from './components/LoginPage'
+import LoginPage from "./components/LoginPage";
+
+import "./Login.css";
 
 export default function Login() {
-    return (
-        <div className='login'>
-            <h1>Login Page</h1>
-            <LoginPage/>
-        </div>
-    )
+  return (
+    <div className="login">
+      <div className="headerspan">
+        <h1 className="header">Login Page</h1>
+      </div>
+      <LoginPage />
+    </div>
+  );
 }

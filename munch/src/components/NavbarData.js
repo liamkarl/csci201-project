@@ -38,4 +38,10 @@ export const NavbarData = [
         icon: <MDIcons.MdPermIdentity />,
         className: 'nav-text'
     },
+    {
+        title: 'Register',
+        path: '/Register',
+        icon: <MDIcons.MdAccountCircle />,
+        className: 'nav-text'
+    },
 ]

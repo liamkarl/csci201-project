@@ -1,18 +1,20 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import './Form.css'
+import "./RegisterPage.css";
 
-export default class Login extends Component {
+export default class Register extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      location : "",
-      rating : "",
-      image : "",
-      comments : ""
+      email: "",
+      password: "",
+      password_confirmation: "",
+      registrationErrors: "",
+      username: "",
     };
+
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
@@ -24,26 +26,28 @@ export default class Login extends Component {
   }
 
   handleSubmit(event) {
-    const { email, password } = this.state;
+    const { email, username, password, password_confirmation } = this.state;
 
     axios
       .post(
-        "http://localhost:3000/review",
+        "http://localhost:3001/registrations",
         {
           user: {
             email: email,
+            username: username,
             password: password,
+            password_confirmation: password_confirmation,
           },
         },
         { withCredentials: true }
       )
       .then((response) => {
-        if (response.data.success) {
+        if (response.data.status === "created") {
           this.props.handleSuccessfulAuth(response.data);
         }
       })
       .catch((error) => {
-        console.log("login error", error);
+        console.log("registration error", error);
       });
     event.preventDefault();
   }
@@ -54,10 +58,10 @@ export default class Login extends Component {
         <form onSubmit={this.handleSubmit}>
           <div className="field">
             <input
-              type="text"
-              name="Location"
-              placeholder="type the location you want to review"
-              value={this.state.location}
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={this.state.email}
               onChange={this.handleChange}
               required
             />
@@ -65,33 +69,34 @@ export default class Login extends Component {
           <div className="field">
             <input
               type="text"
-              name="rating"
-              placeholder="type the rating from 1-5"
-              value={this.state.rating}
+              name="username"
+              placeholder="username"
+              value={this.state.username}
               onChange={this.handleChange}
               required
             />
           </div>
           <div className="field">
             <input
-              type="text"
-              name="image"
-              placeholder="paste the image url here"
-              value={this.state.url}
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={this.state.password}
               onChange={this.handleChange}
               required
             />
           </div>
           <div className="field">
             <input
-              type="text"
-              name="comments"
-              placeholder="any additional comments"
-              value={this.state.comments}
+              type="password"
+              name="password_confirmation"
+              placeholder="Password confirmation"
+              value={this.state.password_confirmation}
               onChange={this.handleChange}
+              required
             />
           </div>
-          <button type="submit">Submit</button>
+          <button type="submit">Register</button>
         </form>
       </div>
     );
