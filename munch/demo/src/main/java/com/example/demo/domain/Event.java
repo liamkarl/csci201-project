@@ -19,9 +19,9 @@ public class Event {
 
 	private String startTime, endTime;
 	private boolean closed;
-
-	@Autowired
-	private EventRepository eventRepo;
+//
+//	@Autowired
+//	private EventRepository eventRepo;
 
 	public Event() {
 	}

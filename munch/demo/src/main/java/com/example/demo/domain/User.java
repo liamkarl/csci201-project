@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Table(name = "UserTable")
 public class User {
 	// done
-	@Id
+	
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int numPosts, numFollowers, numFollowing;
 
@@ -56,7 +56,7 @@ public class User {
 	}
 
 	// getters/setters
-	public long getUserID() {
+	public Long getUserID() {
 		return userID;
 	}
 

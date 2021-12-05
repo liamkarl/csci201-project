@@ -3,6 +3,9 @@ package com.example.demo.domain;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+
 //import java.time.LocalDateTime;
 //import java.util.List;
 
@@ -13,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -20,19 +24,26 @@ import javax.persistence.Table;
 public class Post {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(nullable = false, updatable = false)
 	private long postID;
-
-	private long userID, restaurantID;
+//	@Column(nullable = false)
+//	private long userID;
+	@Column(nullable = false)
+	private long restaurantID;
 	private int rating, likes;
 
 	private String postText, location;
+	
+	@OneToMany(targetEntity=Image.class, fetch=FetchType.LAZY)
 	private List<Image> images;
+
+	@ElementCollection
 	private List<String> comments;
 
 	private LocalDateTime date;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user")
+	@JoinColumn(name = "userID")
 	private User user;
 
 	public Post() {
@@ -40,7 +51,6 @@ public class Post {
 	}
 
 	public Post(long userID, long restaurantID, int rating) {
-		this.userID = userID;
 		this.restaurantID = restaurantID;
 		this.rating = rating;
 		date = LocalDateTime.now();
@@ -54,13 +64,15 @@ public class Post {
 		return postID;
 	}
 
-	public void setUserID(long userID) {
-		this.userID = userID;
-	}
+//	public void setUserID(long userID) {
+//		this.userID = userID;
+//	}
+//
+//	public long getUserID() {
+//		return userID;
+//	}
+	
 
-	public long getUserID() {
-		return userID;
-	}
 
 	public void setRestaurantID(long restaurantID) {
 		this.restaurantID = restaurantID;

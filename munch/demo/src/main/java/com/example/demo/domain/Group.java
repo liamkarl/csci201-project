@@ -16,9 +16,9 @@ public class Group {
 	private long groupID;
 
 	private String name;
-
-	@Autowired
-	private GroupRepository groupRepo;
+//
+//	@Autowired
+//	private GroupRepository groupRepo;
 
 	public Group() {
 

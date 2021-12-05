@@ -50,7 +50,7 @@ public class DemoApplication {
 	CommandLineRunner runner() {
 		return args -> {
 			// Save demo data to database
-			UserRepository.save(new User("username", "password", "email", "user"));
+			UserRepository.save(new User("username1", "password", "email", "user"));
 			ImageRepository.save(new Image(1, "url"));
 			PostRepository.save(new Post());
 			RestaurantRepository.save(new Restaurant());

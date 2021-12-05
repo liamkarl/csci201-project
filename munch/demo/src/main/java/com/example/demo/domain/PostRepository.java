@@ -11,10 +11,12 @@ import org.springframework.stereotype.Repository;
 public interface PostRepository extends JpaRepository<Post, Long> {
 	Optional<Post> findByPostID(long postID);
 
-	List<Post> findByUserID(long userID);
+//	List<Post> findByUserID(long userID);
+	@Query(value = "SELECT * FROM Posts p WHERE p.user.getUserID = ?1", nativeQuery = true)
+	List<Post> getUserPosts(long userID);
 
 	List<Post> findByRestaurantID(long restaurantID);
 
-	@Query("count p from Posts p where p.restaurantID = ?1")
+	@Query(value = "COUNT * FROM Posts p where p.restaurantID = ?1", nativeQuery = true)
 	long getRestaurantNumPosts(long restaurantID);
 }
