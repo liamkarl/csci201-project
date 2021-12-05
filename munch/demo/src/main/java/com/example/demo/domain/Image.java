@@ -1,12 +1,13 @@
 package com.example.demo.domain;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Entity
 @Table(name = "ImageTable")
@@ -14,39 +15,38 @@ public class Image {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long imageID;
-	private long userID;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "post")
+	private Post post;
 
 	private String url;
 
-//	@Autowired
-//	private ImageRepository imageRepo;
-
-	public Image(long userID, String url) {
-		this.userID = userID;
+	public Image(Post post, String url) {
 		this.url = url;
 	}
 
-	void setImageID(long imageID) {
-		this.imageID = imageID;
-	}
-
-	long getImageID() {
+	public long getImageID() {
 		return imageID;
 	}
 
-	void setUserID(long userID) {
-		this.userID = userID;
+	public void setImageID(long imageID) {
+		this.imageID = imageID;
 	}
 
-	long getUserID() {
-		return userID;
+	public String getURL() {
+		return this.url;
 	}
 
-	void setURL(String url) {
+	public void setURL(String url) {
 		this.url = url;
 	}
 
-	String getURL() {
-		return url;
+	public Post getPost() {
+		return this.post;
+	}
+
+	public void setPost(Post post) {
+		this.post = post;
 	}
 }

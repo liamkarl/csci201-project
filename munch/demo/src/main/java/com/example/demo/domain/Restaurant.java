@@ -1,12 +1,14 @@
 package com.example.demo.domain;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Entity
 @Table(name = "RestaurantTable")
@@ -15,15 +17,18 @@ public class Restaurant {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long restaurantID;
 
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurant")
+	private List<Post> posts;
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurant")
+	private List<Bookmark> bookmarks;
+
 	private String name, cuisine, price, location, menuLink;
 	private Double avgRating;
+
 	// private List<Image> images
-	// private List<Post> posts
 	// private Map<Integer, Post> popularPosts
 	// private Map<Integer, Post> criticalPosts
-//
-//	@Autowired
-//	private RestaurantRepository restaurantRepo;
 
 	public Restaurant() {
 
@@ -37,51 +42,75 @@ public class Restaurant {
 	}
 
 	// getters/setters
-	public void setRestaurantID(long restaurantID) {
-		this.restaurantID = restaurantID;
-	}
-
 	public long getRestaurantID() {
 		return restaurantID;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setRestaurantID(long restaurantID) {
+		this.restaurantID = restaurantID;
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public void setCuisine(String cuisine) {
-		this.cuisine = cuisine;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getCuisine() {
 		return cuisine;
 	}
 
-	public void setPrice(String price) {
-		this.price = price;
+	public void setCuisine(String cuisine) {
+		this.cuisine = cuisine;
 	}
 
 	public String getPrice() {
 		return price;
 	}
 
-	public void setMenuLink(String menuLink) {
-		this.menuLink = menuLink;
+	public void setPrice(String price) {
+		this.price = price;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
 	public String getMenuLink() {
 		return menuLink;
 	}
 
-	public void setAvgRating(double avgRating) {
-		this.avgRating = avgRating;
+	public void setMenuLink(String menuLink) {
+		this.menuLink = menuLink;
 	}
 
 	public double getAvgRating() {
 		return avgRating;
+	}
+
+	public void setAvgRating(double avgRating) {
+		this.avgRating = avgRating;
+	}
+
+	public List<Post> getPosts() {
+		return posts;
+	}
+
+	public void setPosts(List<Post> posts) {
+		this.posts = posts;
+	}
+
+	public List<Bookmark> getBookmarks() {
+		return bookmarks;
+	}
+
+	public void setBookmarks(List<Bookmark> bookmark) {
+		this.bookmarks = bookmark;
 	}
 }

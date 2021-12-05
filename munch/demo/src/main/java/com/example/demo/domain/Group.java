@@ -1,12 +1,16 @@
 package com.example.demo.domain;
 
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Entity
 @Table(name = "GroupTable")
@@ -15,16 +19,19 @@ public class Group {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long groupID;
 
+	@ManyToMany(mappedBy = "group")
+	private Set<User> users;
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "group")
+	private List<Event> events;
+
 	private String name;
-//
-//	@Autowired
-//	private GroupRepository groupRepo;
 
 	public Group() {
 
 	}
 
-	public Group(User owner, String name) {
+	public Group(String name) {
 		this.name = name;
 	}
 
@@ -42,5 +49,21 @@ public class Group {
 
 	public String getName() {
 		return name;
+	}
+
+	public Set<User> getUsers() {
+		return this.users;
+	}
+
+	public void setUsers(Set<User> users) {
+		this.users = users;
+	}
+
+	public List<Event> getEvents() {
+		return this.events;
+	}
+
+	public void setEvents(List<Event> events) {
+		this.events = events;
 	}
 }

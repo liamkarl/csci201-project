@@ -1,12 +1,13 @@
 package com.example.demo.domain;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Entity
 @Table(name = "BookmarkTable")
@@ -15,53 +16,56 @@ public class Bookmark {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long bookmarkID;
 
-	private long userID;
-	private long restaurantID;
 	private String noteText;
 
-//	@Autowired
-//	private BookmarkRepository bookmarkRepo;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user")
+	private User user;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "restaurant")
+	private Restaurant restaurant;
 
 	public Bookmark() {
 	}
 
-	public Bookmark(long userID, long restaurantID, String noteText) {
-		this.userID = userID;
-		this.restaurantID = restaurantID;
+	public Bookmark(User user, Restaurant restaurant, String noteText) {
+		this.user = user;
+		this.restaurant = restaurant;
 		this.noteText = noteText;
 	}
 
 	// getters/setters
-	public void setBookmarkID(long bookmarkID) {
-		this.bookmarkID = bookmarkID;
-	}
-
 	public long getBookmarkID() {
 		return bookmarkID;
 	}
 
-	public void setUserID(long userID) {
-		this.userID = userID;
+	public void setBookmarkID(long bookmarkID) {
+		this.bookmarkID = bookmarkID;
 	}
 
-	public long getUserID() {
-		return userID;
-	}
-
-	public void setRestaurantID(long restaurantID) {
-		this.restaurantID = restaurantID;
-	}
-
-	public long getRestaurantID() {
-		return restaurantID;
+	public String getNoteText() {
+		return noteText;
 	}
 
 	public void setNoteText(String noteText) {
 		this.noteText = noteText;
 	}
 
-	public String getNoteText() {
-		return noteText;
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Restaurant getRestaurant() {
+		return restaurant;
+	}
+
+	public void setRestaurant(Restaurant restaurant) {
+		this.restaurant = restaurant;
 	}
 
 }
