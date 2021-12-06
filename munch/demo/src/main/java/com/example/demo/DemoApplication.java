@@ -49,9 +49,8 @@ public class DemoApplication {
 	CommandLineRunner runner() {
 		return args -> {
 			// Save demo data to database
-			UserRepository.save(new User("username1", "password", "email", "user"));
-			UserRepository.save(new User("1", "2", "email", "user"));
-			ImageRepository.save(new Image(1, "url"));
+			UserRepository.save(new User());
+			ImageRepository.save(new Image(new Post(), "url"));
 			PostRepository.save(new Post());
 			RestaurantRepository.save(new Restaurant());
 			EventRepository.save(new Event());
