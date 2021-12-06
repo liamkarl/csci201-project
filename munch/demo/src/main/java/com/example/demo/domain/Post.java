@@ -1,6 +1,7 @@
 package com.example.demo.domain;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -30,7 +31,7 @@ public class Post {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(nullable = false, updatable = false)
-	private long postID;
+	private Long postID;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
 	@JsonIgnore
@@ -52,15 +53,38 @@ public class Post {
 	private LocalDateTime date;
 
 	public Post() {
+		super();
 
+		this.images = new ArrayList<Image>();
+		this.comments = new ArrayList<String>();
+		this.user = new User();
+		this.restaurant = new Restaurant();
+
+		this.rating = 0;
+		this.likes = 0;
+
+		this.postText = "";
+		this.location = "";
+
+		this.date = LocalDateTime.now();
 	}
 
-	public Post(User user, Restaurant restaurant, int rating) {
+	public Post(List<Image> images, List<String> comments, User user, Restaurant restaurant, int rating, int likes,
+			String postText, String location) {
+		super();
+		this.images = images;
+		this.comments = comments;
 		this.user = user;
 		this.restaurant = restaurant;
 		this.rating = rating;
-		date = LocalDateTime.now();
+		this.likes = likes;
+		this.postText = postText;
+		this.location = location;
+
+		this.date = LocalDateTime.now();
 	}
+
+	// getters/setters
 
 	public long getPostID() {
 		return postID;
@@ -68,6 +92,38 @@ public class Post {
 
 	public void setPostID(long postID) {
 		this.postID = postID;
+	}
+
+	public List<Image> getImages() {
+		return images;
+	}
+
+	public void setImages(List<Image> images) {
+		this.images = images;
+	}
+
+	public List<String> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<String> comments) {
+		this.comments = comments;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Restaurant getRestaurant() {
+		return restaurant;
+	}
+
+	public void setRestaurant(Restaurant restaurant) {
+		this.restaurant = restaurant;
 	}
 
 	public int getRating() {
@@ -102,22 +158,6 @@ public class Post {
 		this.location = location;
 	}
 
-	public List<Image> getImages() {
-		return images;
-	}
-
-	public void setImages(List<Image> images) {
-		this.images = images;
-	}
-
-	public List<String> getComments() {
-		return comments;
-	}
-
-	public void setComments(List<String> comments) {
-		this.comments = comments;
-	}
-
 	public LocalDateTime getDate() {
 		return date;
 	}
@@ -125,21 +165,4 @@ public class Post {
 	public void setDate(LocalDateTime date) {
 		this.date = date;
 	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public Restaurant getRestaurant() {
-		return restaurant;
-	}
-
-	public void setRestaurant(Restaurant restaurant) {
-		this.restaurant = restaurant;
-	}
-
 }

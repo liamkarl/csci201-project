@@ -1,5 +1,6 @@
 package com.example.demo.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -14,7 +15,8 @@ import javax.persistence.Table;
 public class Event {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long eventID;
+	@Column(nullable = false, updatable = false)
+	private Long eventID;
 
 	// private Ordered_Map<Integer, Bookmark> proposedRestaurants
 
@@ -22,24 +24,35 @@ public class Event {
 	private boolean closed;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "group")
-	private Group group;
+	@JoinColumn(name = "event_group")
+	private Group event_group;
 
 	public Event() {
+		super();
+
+		this.startTime = "";
+		this.endTime = "";
+
+		this.closed = false;
+
+		this.event_group = new Group();
 	}
 
-	public Event(String startTime, String endTime) {
+	public Event(String startTime, String endTime, boolean closed, Group group) {
+		super();
 		this.startTime = startTime;
 		this.endTime = endTime;
+		this.closed = closed;
+		this.event_group = group;
 	}
 
 	// getters/setters
 
-	public long getEventID() {
+	public Long getEventID() {
 		return eventID;
 	}
 
-	public void setEventID(long eventID) {
+	public void setEventID(Long eventID) {
 		this.eventID = eventID;
 	}
 
@@ -59,7 +72,7 @@ public class Event {
 		this.endTime = endTime;
 	}
 
-	public boolean getClosed() {
+	public boolean isClosed() {
 		return closed;
 	}
 
@@ -68,10 +81,10 @@ public class Event {
 	}
 
 	public Group getGroup() {
-		return this.group;
+		return event_group;
 	}
 
 	public void setGroup(Group group) {
-		this.group = group;
+		this.event_group = group;
 	}
 }

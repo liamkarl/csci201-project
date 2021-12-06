@@ -1,5 +1,6 @@
 package com.example.demo.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -14,7 +15,8 @@ import javax.persistence.Table;
 public class Bookmark {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long bookmarkID;
+	@Column(nullable = false, updatable = false)
+	private Long bookmarkID;
 
 	private String noteText;
 
@@ -27,15 +29,22 @@ public class Bookmark {
 	private Restaurant restaurant;
 
 	public Bookmark() {
+		super();
+
+		this.noteText = "";
+		this.user = new User();
+		this.restaurant = new Restaurant();
 	}
 
-	public Bookmark(User user, Restaurant restaurant, String noteText) {
+	public Bookmark(String noteText, User user, Restaurant restaurant) {
+		super();
+		this.noteText = noteText;
 		this.user = user;
 		this.restaurant = restaurant;
-		this.noteText = noteText;
 	}
 
 	// getters/setters
+
 	public long getBookmarkID() {
 		return bookmarkID;
 	}
@@ -67,5 +76,4 @@ public class Bookmark {
 	public void setRestaurant(Restaurant restaurant) {
 		this.restaurant = restaurant;
 	}
-
 }

@@ -1,5 +1,6 @@
 package com.example.demo.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -7,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -14,7 +16,8 @@ import javax.persistence.Table;
 public class Image {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long imageID;
+	@Column(nullable = false, updatable = false)
+	private Long imageID;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "post")
@@ -22,9 +25,20 @@ public class Image {
 
 	private String url;
 
+	public Image() {
+		super();
+
+		this.post = new Post();
+		this.url = "";
+	}
+
 	public Image(Post post, String url) {
+		super();
+		this.post = post;
 		this.url = url;
 	}
+
+	// getters/setters
 
 	public long getImageID() {
 		return imageID;
@@ -34,19 +48,19 @@ public class Image {
 		this.imageID = imageID;
 	}
 
-	public String getURL() {
-		return this.url;
-	}
-
-	public void setURL(String url) {
-		this.url = url;
-	}
-
 	public Post getPost() {
-		return this.post;
+		return post;
 	}
 
 	public void setPost(Post post) {
 		this.post = post;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 }

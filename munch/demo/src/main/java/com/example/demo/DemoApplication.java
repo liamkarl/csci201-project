@@ -23,7 +23,7 @@ import com.example.demo.domain.User;
 import com.example.demo.domain.UserRepository;
 
 @SpringBootApplication
-@ComponentScan("com.packt.userdatabase.domain")
+@ComponentScan("com.example.demo")
 public class DemoApplication {
 
 	@Autowired
@@ -50,11 +50,9 @@ public class DemoApplication {
 	CommandLineRunner runner() {
 		return args -> {
 			// Save demo data to database
-			User user = new User("username1", "password", "email", "user");
-			Post post = new Post();
-			UserRepository.save(user);
-			ImageRepository.save(new Image(post, "url"));
-			PostRepository.save(post);
+			UserRepository.save(new User());
+			ImageRepository.save(new Image());
+			PostRepository.save(new Post());
 			RestaurantRepository.save(new Restaurant());
 			EventRepository.save(new Event());
 			BookmarkRepository.save(new Bookmark());
