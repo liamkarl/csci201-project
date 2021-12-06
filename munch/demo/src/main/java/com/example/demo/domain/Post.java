@@ -29,7 +29,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Table(name = "PostTable")
 public class Post {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="native")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(nullable = false, updatable = false)
 	private Long postID;
 
