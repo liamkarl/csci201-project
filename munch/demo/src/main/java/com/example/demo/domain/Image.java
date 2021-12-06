@@ -2,45 +2,39 @@ package com.example.demo.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "ImageTable")
 public class Image {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long imageID;
-	
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "increment")
+	@GenericGenerator(name = "increment", strategy = "increment")
+	@Column(nullable = false, updatable = false)
+	private long imageID = Long.valueOf(0);
 
 	private String url;
 
 //	@ManyToOne
 //	@JoinColumn(name = "postID")
 //	private Post post;
-	
+
 //	@Autowired
 //	private ImageRepository imageRepo;
 
 	public Image() {
-
-
-		//this.post = new Post();
+		// this.post = new Post();
 		this.url = "";
 	}
 
-	public Image(Post post, String url) {
+	public Image(String url) {
 		super();
-		//this.post = post;
+		// this.post = post;
 		this.url = url;
 	}
 
@@ -50,7 +44,7 @@ public class Image {
 		return imageID;
 	}
 
-	public void setImageID(long imageID) {
+	public void setImageID(Long imageID) {
 		this.imageID = imageID;
 	}
 

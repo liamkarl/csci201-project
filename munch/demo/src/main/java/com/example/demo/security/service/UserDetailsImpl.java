@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -37,11 +36,7 @@ public class UserDetailsImpl implements UserDetails {
 		List<GrantedAuthority> authorities = new ArrayList<>();
 		authorities.add(new SimpleGrantedAuthority("ROLE_" + user.getRole()));
 
-		return new UserDetailsImpl(
-				user.getUserID(), 
-				user.getUsername(), 
-				user.getPassword(), 
-				authorities);
+		return new UserDetailsImpl(user.getUserID(), user.getUsername(), user.getPassword(), authorities);
 	}
 
 	@Override

@@ -10,13 +10,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
+
 @Entity
 @Table(name = "EventTable")
 public class Event {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "increment")
+	@GenericGenerator(name = "increment", strategy = "increment")
 	@Column(nullable = false, updatable = false)
-	private Long eventID;
+	private Long eventID = Long.valueOf(0);
 
 	// private Ordered_Map<Integer, Bookmark> proposedRestaurants
 
@@ -36,6 +39,17 @@ public class Event {
 		this.closed = false;
 
 		this.event_group = new Group();
+	}
+
+	public Event(Group group) {
+		super();
+
+		this.startTime = "";
+		this.endTime = "";
+
+		this.closed = false;
+
+		this.event_group = group;
 	}
 
 	public Event(String startTime, String endTime, boolean closed, Group group) {

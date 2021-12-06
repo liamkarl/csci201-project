@@ -7,12 +7,13 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 
 import com.example.demo.domain.Bookmark;
 import com.example.demo.domain.BookmarkRepository;
 import com.example.demo.domain.Event;
 import com.example.demo.domain.EventRepository;
+import com.example.demo.domain.Group;
+import com.example.demo.domain.GroupRepository;
 import com.example.demo.domain.Image;
 import com.example.demo.domain.ImageRepository;
 import com.example.demo.domain.Post;
@@ -37,6 +38,8 @@ public class DemoApplication {
 	EventRepository EventRepository;
 	@Autowired
 	BookmarkRepository BookmarkRepository;
+	@Autowired
+	GroupRepository GroupRepository;
 
 	private static final Logger logger = LoggerFactory.getLogger(DemoApplication.class);
 
@@ -49,12 +52,17 @@ public class DemoApplication {
 	CommandLineRunner runner() {
 		return args -> {
 			// Save demo data to database
-			UserRepository.save(new User());
-			ImageRepository.save(new Image(new Post(), "url"));
-			PostRepository.save(new Post());
-			RestaurantRepository.save(new Restaurant());
-			EventRepository.save(new Event());
-			BookmarkRepository.save(new Bookmark());
+			User user = new User();
+			Restaurant restaurant = new Restaurant();
+			Group group = new Group();
+
+			user = UserRepository.save(user);
+			restaurant = RestaurantRepository.save(restaurant);
+			PostRepository.save(new Post(user, restaurant));
+			BookmarkRepository.save(new Bookmark(user, restaurant));
+			group = GroupRepository.save(group);
+			ImageRepository.save(new Image());
+			EventRepository.save(new Event(group));
 		};
 	}
 
