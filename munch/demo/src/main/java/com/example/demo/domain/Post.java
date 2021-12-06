@@ -29,11 +29,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Table(name = "PostTable")
 public class Post {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="native")
 	@Column(nullable = false, updatable = false)
 	private Long postID;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonIgnore
 	private List<Image> images;
 
@@ -86,11 +86,11 @@ public class Post {
 
 	// getters/setters
 
-	public long getPostID() {
+	public Long getPostID() {
 		return postID;
 	}
 
-	public void setPostID(long postID) {
+	public void setPostID(Long postID) {
 		this.postID = postID;
 	}
 

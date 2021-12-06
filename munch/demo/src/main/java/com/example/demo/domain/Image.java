@@ -11,31 +11,36 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
 @Entity
 @Table(name = "ImageTable")
 public class Image {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-
-	@Column(nullable = false, updatable = false)
-	private Long imageID;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "post")
-	private Post post;
+	private long imageID;
+	
 
 	private String url;
 
-	public Image() {
-		super();
+//	@ManyToOne
+//	@JoinColumn(name = "postID")
+//	private Post post;
+	
+//	@Autowired
+//	private ImageRepository imageRepo;
 
-		this.post = new Post();
+	public Image() {
+
+
+		//this.post = new Post();
 		this.url = "";
 	}
 
 	public Image(Post post, String url) {
 		super();
-		this.post = post;
+		//this.post = post;
 		this.url = url;
 	}
 
@@ -49,13 +54,13 @@ public class Image {
 		this.imageID = imageID;
 	}
 
-	public Post getPost() {
-		return post;
-	}
-
-	public void setPost(Post post) {
-		this.post = post;
-	}
+//	public Post getPost() {
+//		return post;
+//	}
+//
+//	public void setPost(Post post) {
+//		this.post = post;
+//	}
 
 	public String getUrl() {
 		return url;
