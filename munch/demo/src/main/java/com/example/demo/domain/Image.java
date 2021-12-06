@@ -1,59 +1,67 @@
 package com.example.demo.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Entity
 @Table(name = "ImageTable")
 public class Image {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long imageID;
-	
-	private long userID;
+
+	@Column(nullable = false, updatable = false)
+	private Long imageID;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "post")
+	private Post post;
 
 	private String url;
 
-	@ManyToOne
-	@JoinColumn(name = "postID")
-	private Post post;
-	
-//	@Autowired
-//	private ImageRepository imageRepo;
+	public Image() {
+		super();
 
-	public Image(long userID, String url) {
-		this.userID = userID;
+		this.post = new Post();
+		this.url = "";
+	}
+
+	public Image(Post post, String url) {
+		super();
+		this.post = post;
 		this.url = url;
 	}
 
-	void setImageID(long imageID) {
-		this.imageID = imageID;
-	}
+	// getters/setters
 
-	long getImageID() {
+	public long getImageID() {
 		return imageID;
 	}
 
-	void setUserID(long userID) {
-		this.userID = userID;
+	public void setImageID(long imageID) {
+		this.imageID = imageID;
 	}
 
-	long getUserID() {
-		return userID;
+	public Post getPost() {
+		return post;
 	}
 
-	void setURL(String url) {
-		this.url = url;
+	public void setPost(Post post) {
+		this.post = post;
 	}
 
-	String getURL() {
+	public String getUrl() {
 		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 }
