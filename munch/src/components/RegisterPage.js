@@ -27,7 +27,11 @@ export default class Register extends Component {
 
   handleSubmit(event) {
     const { email, username, password, password_confirmation } = this.state;
-
+    console.log({
+      email: email,
+      username: username,
+      password: password,
+    })
     axios
       .post(
         "http://localhost:3001/registrations",
@@ -36,7 +40,6 @@ export default class Register extends Component {
             email: email,
             username: username,
             password: password,
-            password_confirmation: password_confirmation,
           },
         },
         { withCredentials: true }
