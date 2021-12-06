@@ -15,6 +15,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -23,14 +25,15 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Table(name = "GroupTable")
 public class Group {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "increment")
+	@GenericGenerator(name = "increment", strategy = "increment")
 	@Column(nullable = false, updatable = false)
-	private Long groupID;
+	private Long groupID = Long.valueOf(0);
 
 	@ManyToMany(mappedBy = "groups")
 	private Set<User> users;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "event_group")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "event_group", orphanRemoval = true)
 	@JsonIgnore
 	private List<Event> events;
 
@@ -57,7 +60,7 @@ public class Group {
 		return groupID;
 	}
 
-	public void setGroupID(long groupID) {
+	public void setGroupID(Long groupID) {
 		this.groupID = groupID;
 	}
 

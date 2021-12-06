@@ -10,13 +10,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
+
 @Entity
 @Table(name = "BookmarkTable")
 public class Bookmark {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "increment")
+	@GenericGenerator(name = "increment", strategy = "increment")
 	@Column(nullable = false, updatable = false)
-	private Long bookmarkID;
+	private Long bookmarkID = Long.valueOf(0);
 
 	private String noteText;
 
@@ -30,10 +33,14 @@ public class Bookmark {
 
 	public Bookmark() {
 		super();
+	}
+
+	public Bookmark(User user, Restaurant restaurant) {
+		super();
 
 		this.noteText = "";
-		this.user = new User();
-		this.restaurant = new Restaurant();
+		this.user = user;
+		this.restaurant = restaurant;
 	}
 
 	public Bookmark(String noteText, User user, Restaurant restaurant) {
@@ -49,7 +56,7 @@ public class Bookmark {
 		return bookmarkID;
 	}
 
-	public void setBookmarkID(long bookmarkID) {
+	public void setBookmarkID(Long bookmarkID) {
 		this.bookmarkID = bookmarkID;
 	}
 
