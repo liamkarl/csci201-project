@@ -1,19 +1,19 @@
-package com.example.web;
+package com.example.demo.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.domain.Group;
-import com.example.demo.domain.GroupRepository;
+import com.example.demo.domain.User;
+import com.example.demo.domain.UserRepository;
 
 @RestController
-public class GroupController {
+public class UserController {
 	@Autowired
-	private GroupRepository repo;
+	private UserRepository repo;
 
-	@RequestMapping("/groups")
-	public Iterable<Group> getGroups() {
+	@RequestMapping("/users")
+	public Iterable<User> getUsers() {
 		return repo.findAll();
 	}
 }

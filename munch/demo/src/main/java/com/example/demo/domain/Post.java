@@ -1,8 +1,10 @@
 package com.example.demo.domain;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 
@@ -19,131 +21,148 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 @Table(name = "PostTable")
 public class Post {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(nullable = false, updatable = false)
-	private long postID;
-//	@Column(nullable = false)
-//	private long userID;
-	@Column(nullable = false)
-	private long restaurantID;
-	private int rating, likes;
+	private Long postID;
 
-	private String postText, location;
-	
-	@OneToMany(targetEntity=Image.class, fetch=FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
+	@JsonIgnore
 	private List<Image> images;
 
 	@ElementCollection
 	private List<String> comments;
 
-	private LocalDateTime date;
-
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "userID")
+	@JoinColumn(name = "user")
 	private User user;
 
-	public Post() {
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "restaurant")
+	private Restaurant restaurant;
 
+	private int rating, likes;
+	private String postText, location;
+	private LocalDateTime date;
+
+	public Post() {
+		super();
+
+		this.images = new ArrayList<Image>();
+		this.comments = new ArrayList<String>();
+		this.user = new User();
+		this.restaurant = new Restaurant();
+
+		this.rating = 0;
+		this.likes = 0;
+
+		this.postText = "";
+		this.location = "";
+
+		this.date = LocalDateTime.now();
 	}
 
-	public Post(long userID, long restaurantID, int rating) {
-		this.restaurantID = restaurantID;
+	public Post(List<Image> images, List<String> comments, User user, Restaurant restaurant, int rating, int likes,
+			String postText, String location) {
+		super();
+		this.images = images;
+		this.comments = comments;
+		this.user = user;
+		this.restaurant = restaurant;
 		this.rating = rating;
-		date = LocalDateTime.now();
+		this.likes = likes;
+		this.postText = postText;
+		this.location = location;
+
+		this.date = LocalDateTime.now();
+	}
+
+	// getters/setters
+
+	public long getPostID() {
+		return postID;
 	}
 
 	public void setPostID(long postID) {
 		this.postID = postID;
 	}
 
-	public long getPostID() {
-		return postID;
-	}
-
-//	public void setUserID(long userID) {
-//		this.userID = userID;
-//	}
-//
-//	public long getUserID() {
-//		return userID;
-//	}
-	
-
-
-	public void setRestaurantID(long restaurantID) {
-		this.restaurantID = restaurantID;
-	}
-
-	public long getRestaurantID() {
-		return restaurantID;
-	}
-
-	public void setRating(int rating) {
-		this.rating = rating;
-	}
-
-	public int getRating() {
-		return rating;
-	}
-
-	public void setLikes(int likes) {
-		this.likes = likes;
-	}
-
-	public int getLikes() {
-		return likes;
-	}
-
-	public void setPostText(String postText) {
-		this.postText = postText;
-	}
-
-	public String getPostText() {
-		return postText;
-	}
-
-	public void setLocation(String location) {
-		this.location = location;
-	}
-
-	public String getLocation() {
-		return location;
+	public List<Image> getImages() {
+		return images;
 	}
 
 	public void setImages(List<Image> images) {
 		this.images = images;
 	}
 
-	public List<Image> getImages() {
-		return images;
+	public List<String> getComments() {
+		return comments;
 	}
 
 	public void setComments(List<String> comments) {
 		this.comments = comments;
 	}
 
-	public List<String> getComments() {
-		return comments;
+	public User getUser() {
+		return user;
 	}
 
-	public void setDate(LocalDateTime date) {
-		this.date = date;
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Restaurant getRestaurant() {
+		return restaurant;
+	}
+
+	public void setRestaurant(Restaurant restaurant) {
+		this.restaurant = restaurant;
+	}
+
+	public int getRating() {
+		return rating;
+	}
+
+	public void setRating(int rating) {
+		this.rating = rating;
+	}
+
+	public int getLikes() {
+		return likes;
+	}
+
+	public void setLikes(int likes) {
+		this.likes = likes;
+	}
+
+	public String getPostText() {
+		return postText;
+	}
+
+	public void setPostText(String postText) {
+		this.postText = postText;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
 	public LocalDateTime getDate() {
 		return date;
 	}
 
-	public User getUser() {
-		return user;
+	public void setDate(LocalDateTime date) {
+		this.date = date;
 	}
-
-	public void setOwner(User user) {
-		this.user = user;
-	}
-
 }
