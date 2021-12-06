@@ -34,7 +34,7 @@ public class Post {
 
 	private String postText, location;
 	
-	@ManyToOne(targetEntity=Image.class, fetch=FetchType.LAZY)
+	@OneToMany(targetEntity=Image.class, fetch=FetchType.LAZY)
 	private List<Image> images;
 
 	@ElementCollection

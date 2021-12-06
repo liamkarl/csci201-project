@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +16,15 @@ public class Image {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long imageID;
+	
 	private long userID;
 
 	private String url;
 
+	@ManyToOne
+	@JoinColumn(name = "postID")
+	private Post post;
+	
 //	@Autowired
 //	private ImageRepository imageRepo;
 
