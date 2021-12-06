@@ -52,10 +52,10 @@ public class DemoApplication {
 			// Save demo data to database
 			UserRepository.save(new User("username1", "password", "email", "user"));
 			ImageRepository.save(new Image(1, "url"));
-			PostRepository.save(new Post());
-			RestaurantRepository.save(new Restaurant());
-			EventRepository.save(new Event());
-			BookmarkRepository.save(new Bookmark());
+			PostRepository.save(new Post(0, 0, 0));
+			RestaurantRepository.save(new Restaurant("name", "cuisine", "price", "location"));
+			EventRepository.save(new Event("startTime", "endTime"));
+			BookmarkRepository.save(new Bookmark(0, 0, "noteText"));
 		};
 	}
 
