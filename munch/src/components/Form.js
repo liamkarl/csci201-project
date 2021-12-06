@@ -1,17 +1,17 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import './Form.css'
+import "./Form.css";
 
 export default class Login extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      location : "",
-      rating : "",
-      image : "",
-      comments : ""
+      location: "",
+      rating: "",
+      image: "",
+      comments: "",
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -24,15 +24,22 @@ export default class Login extends Component {
   }
 
   handleSubmit(event) {
-    const { email, password } = this.state;
+    const { location, rating, image, comments } = this.state;
 
     axios
       .post(
         "http://localhost:3000/review",
         {
-          user: {
-            email: email,
-            password: password,
+          // user: {
+          //   email: email,
+          //   password: password,
+          // },
+
+          review: {
+            location: location,
+            rating: rating,
+            image: image,
+            comments: comments,
           },
         },
         { withCredentials: true }
@@ -55,7 +62,7 @@ export default class Login extends Component {
           <div className="field">
             <input
               type="text"
-              name="Location"
+              name="location"
               placeholder="type the location you want to review"
               value={this.state.location}
               onChange={this.handleChange}
