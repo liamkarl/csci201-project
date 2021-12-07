@@ -1,0 +1,56 @@
+.post {
+    position: absolute;
+    display: flex;
+    overflow: hidden;
+    margin: 0.5%;
+    height: 100%;
+    width: 100%;
+}
+
+.post-image {
+    height: 93%;
+    width: 35%;
+    object-fit: cover;
+}
+
+.post-text-container {
+    background: rgb(150, 140, 140);
+    padding: 30px 50px;
+    height: 93%;
+    width: 62%;
+}
+
+.post-info-container {
+    padding-bottom: 25px;
+    border-bottom: 1px solid black;
+}
+
+.post-user {
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.post-restaurant {
+    font-size: 3.5rem;
+}
+
+.post-rating {
+    font-size: 2rem;
+}
+
+.post-description {
+    margin-top: 25px;
+    font-size: 1.5rem;
+    font-weight: 300;
+}
+
+.post-links {
+    position: absolute;
+    bottom: 80px;
+    right: 80px;
+}
+
+.post-link {
+    font-size: 2rem;
+    margin-right: 30px;
+}

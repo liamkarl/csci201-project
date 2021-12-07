@@ -1,0 +1,23 @@
+* {
+    /* color: white; */
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    overflow: hidden;
+}
+
+.home, .login, .review, .discover, .lists, .account {
+    overflow-y: scroll;
+    /* text-align: center; */
+    color: white;
+    background-color: #15213d;
+
+    width: 100%;
+    height: 100vh;
+
+    padding: 30px 100px;
+}

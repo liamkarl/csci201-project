@@ -1,0 +1,35 @@
+.dot {
+    height: 25px;
+    width: 25px;
+    background-color: #ed9b14;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.circle1 {
+    position: absolute;
+    opacity: 20%;
+    z-index: 1;
+    bottom : -180px;
+    left: -30px;
+    height: 300px;
+    width: 300px;
+    background-color: #ed9b14;
+    border-radius: 50%;
+}
+
+.circle2 {
+    position: absolute;
+    opacity: 20%;
+    z-index: 1;
+    top : 80px;
+    right: -200px;
+    height: 700px;
+    width: 700px;
+    background-color: #ed9b14;
+    border-radius: 50%;
+}
+
+.header {
+    font-weight: 200;
+}
