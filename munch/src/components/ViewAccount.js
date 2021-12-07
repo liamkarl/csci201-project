@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { userData } from "./userData.js";
-import "./Account.css"
-import { Form } from "react-bootstrap";
-
+import {userData} from "./userData.js"
 
 export default class ViewAccount extends Component {
   constructor(props) {
@@ -19,9 +16,6 @@ export default class ViewAccount extends Component {
     };
   }
 
-  handleSubmit(event){
-
-  }
 
   // componentDidMount() {
   //   axios
@@ -104,22 +98,17 @@ export default class ViewAccount extends Component {
   // }
 
   render() {
+
     let { username, userBio, numFollowers, numFollowing, profPic } = userData;
     console.log(userData);
     return (
-      <div className="accountpage">
-        <img src={profPic} className="pfp"></img>
-        <h2 className="textblock">{username}</h2>
-        <div className="follow">{numFollowers} followers {numFollowing} following</div>
-        <div className="bio">{userBio}</div>
-
-
-        <form onSubmit={this.handleSubmit}>
-            <button type="submit"> Follow </button>
-        </form>
-
+      <div>
+        <image src={profPic}></image>
+        <div>username: {username}</div>
+        <div>userbio: {userBio}</div>
+        <div>{numFollowers} followers</div>
+        <div>{numFollowing} following</div>
       </div>
     );
-
   }
 }

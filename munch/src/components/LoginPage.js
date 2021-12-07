@@ -25,7 +25,8 @@ export default class Login extends Component {
   handleSubmit(event) {
 
     const { email, password } = this.state;
-
+    console.log({email:email,
+    password: password})
     axios
       .post(
         "http://localhost:3000/login",

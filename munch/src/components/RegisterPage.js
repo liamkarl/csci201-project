@@ -10,7 +10,6 @@ export default class Register extends Component {
     this.state = {
       email: "",
       password: "",
-      password_confirmation: "",
       registrationErrors: "",
       username: "",
     };
@@ -26,9 +25,9 @@ export default class Register extends Component {
   }
 
   handleSubmit(event) {
-    const { email, username, password, password_confirmation } = this.state;
+    const { email, username, password} = this.state;
     console.log({
-      email: email,
+      // email: email,
       username: username,
       password: password,
     })
@@ -37,7 +36,7 @@ export default class Register extends Component {
         "http://localhost:3001/registrations",
         {
           user: {
-            email: email,
+            // email: email,
             username: username,
             password: password,
           },
@@ -59,7 +58,7 @@ export default class Register extends Component {
     return (
       <div className="formcard">
         <form onSubmit={this.handleSubmit}>
-          <div className="field">
+          {/* <div className="field">
             <input
               type="email"
               name="email"
@@ -68,7 +67,7 @@ export default class Register extends Component {
               onChange={this.handleChange}
               required
             />
-          </div>
+          </div> */}
           <div className="field">
             <input
               type="text"
@@ -89,16 +88,7 @@ export default class Register extends Component {
               required
             />
           </div>
-          <div className="field">
-            <input
-              type="password"
-              name="password_confirmation"
-              placeholder="Password confirmation"
-              value={this.state.password_confirmation}
-              onChange={this.handleChange}
-              required
-            />
-          </div>
+
           <button type="submit">Register</button>
         </form>
       </div>

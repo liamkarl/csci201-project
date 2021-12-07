@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
 
+
+
 import "./Form.css";
 
 export default class Login extends Component {
@@ -11,10 +13,11 @@ export default class Login extends Component {
       location: "",
       rating: "",
       image: "",
-      comments: "",
+      postText: "",
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.onImageChange = this.onImageChange.bind(this);
   }
 
   handleChange(event) {
@@ -23,19 +26,29 @@ export default class Login extends Component {
     });
   }
 
+  onImageChange(event){
+    if (event.target.files && event.target.files[0]) {
+      let img = event.target.files[0];
+      this.setState({
+        image: URL.createObjectURL(event.target.files[0])
+      });
+    }
+  }
+
   handleSubmit(event) {
     const { location, rating, image, comments } = this.state;
-
+    console.log({
+      location:location,
+      rating:rating,
+      image:image,
+      comments:comments
+    })
     axios
       .post(
         "http://localhost:3000/review",
         {
-          // user: {
-          //   email: email,
-          //   password: password,
-          // },
 
-          review: {
+          post: {
             location: location,
             rating: rating,
             image: image,
@@ -71,7 +84,10 @@ export default class Login extends Component {
           </div>
           <div className="field">
             <input
-              type="text"
+              type="number"
+              pattern="[1-5]" 
+              min="1"
+              max="5"
               name="rating"
               placeholder="type the rating from 1-5"
               value={this.state.rating}
@@ -79,22 +95,25 @@ export default class Login extends Component {
               required
             />
           </div>
-          <div className="field">
+          <div>
+            <label className="custom-file-upload">
             <input
-              type="text"
+              type="file"
               name="image"
-              placeholder="paste the image url here"
-              value={this.state.url}
-              onChange={this.handleChange}
+              onChange={this.onImageChange}
+              className="choose-file"
               required
             />
+            Upload Image
+            </label>
+            <div className = "imageinfo">{this.state.image}</div>
           </div>
           <div className="field">
             <input
               type="text"
-              name="comments"
+              name="postText"
               placeholder="any additional comments"
-              value={this.state.comments}
+              value={this.state.postText}
               onChange={this.handleChange}
             />
           </div>
