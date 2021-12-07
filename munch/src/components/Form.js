@@ -9,7 +9,7 @@ export default class Form extends Component {
 
     this.state = {
       location: "",
-      rating: "",
+      rating: 5,
       image: "",
       postText: "",
     };
@@ -34,6 +34,11 @@ export default class Form extends Component {
     }
   }
 
+  handleRatingChange(event){
+    this.setState({
+      rating: Number(event.target.value),
+    })
+  }
   handleSubmit(event) {
     const { location, rating, image, postText } = this.state;
 
@@ -43,15 +48,15 @@ export default class Form extends Component {
       image: image,
       postText: postText,
     });
+
     axios
       .post("http://localhost:8080/api/post/create", {
         headers: AuthHeader(),
-        post: {
+
           location: location,
           rating: rating,
           image: image,
           postText: postText,
-        },
       })
 
       .then((response) => {
@@ -80,27 +85,24 @@ export default class Form extends Component {
           <div className="field">
             <input
               type="number"
-              pattern="[1-5]"
               min="1"
               max="5"
               name="rating"
               placeholder="type the rating from 1-5"
               value={this.state.rating}
-              onChange={this.handleChange}
+              onChange={this.handleRatingChange}
             />
           </div>
-          <div>
-            <label className="custom-file-upload">
+
+          <div className="field">
               <input
-                type="file"
+                type="text"
                 name="image"
-                onChange={this.onImageChange}
-                className="choose-file"
+                value={this.state.image}
+                onChange={this.handleChange}
+                placeholder="paste the photo address here:"
                 required
               />
-              Upload Image
-            </label>
-            <div className="imageinfo">{this.state.image}</div>
           </div>
           <div className="field">
             <input
