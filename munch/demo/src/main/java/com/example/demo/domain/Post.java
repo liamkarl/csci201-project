@@ -21,7 +21,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.GenericGenerator;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -29,12 +30,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Table(name = "PostTable")
 public class Post {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "increment")
+	@GenericGenerator(name = "increment", strategy = "increment")
 	@Column(nullable = false, updatable = false)
-	private Long postID;
+	private Long postID = Long.valueOf(0);
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
-	@JsonIgnore
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Image> images;
 
 	@ElementCollection
@@ -54,11 +55,15 @@ public class Post {
 
 	public Post() {
 		super();
+	}
+
+	public Post(User user, Restaurant restaurant) {
+		super();
 
 		this.images = new ArrayList<Image>();
 		this.comments = new ArrayList<String>();
-		this.user = new User();
-		this.restaurant = new Restaurant();
+		this.user = user;
+		this.restaurant = restaurant;
 
 		this.rating = 0;
 		this.likes = 0;
@@ -86,11 +91,11 @@ public class Post {
 
 	// getters/setters
 
-	public long getPostID() {
+	public Long getPostID() {
 		return postID;
 	}
 
-	public void setPostID(long postID) {
+	public void setPostID(Long postID) {
 		this.postID = postID;
 	}
 

@@ -15,8 +15,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -26,18 +27,19 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Table(name = "UserTable")
 public class User {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "increment")
+	@GenericGenerator(name = "increment", strategy = "increment")
 	@Column(nullable = false, updatable = false)
-	private Long userID;
+	private Long userID = Long.valueOf(0);
 
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int numPosts, numFollowers, numFollowing;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
 	@JsonIgnore
 	private List<Post> posts;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
 	@JsonIgnore
 	private List<Bookmark> bookmarks;
 
@@ -75,17 +77,22 @@ public class User {
 		this.pfp = "";
 	}
 
+	public User(String username, String password) {
+		this.username = username;
+		this.password = password;
+	}
+
 	public User(int numPosts, int numFollowers, int numFollowing, List<Post> posts, List<Bookmark> bookmarks,
 			Set<Group> groups, String username, String password, String email, String role, String bio, String pfp) {
 		super();
 		this.numPosts = numPosts;
 		this.numFollowers = numFollowers;
 		this.numFollowing = numFollowing;
-		
+
 		this.posts = posts;
 		this.bookmarks = bookmarks;
 		this.groups = groups;
-		
+
 		this.username = username;
 		this.password = password;
 		this.email = email;

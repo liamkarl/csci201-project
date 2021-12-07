@@ -12,18 +12,21 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
+
 @Entity
 @Table(name = "RestaurantTable")
 public class Restaurant {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "increment")
+	@GenericGenerator(name = "increment", strategy = "increment")
 	@Column(nullable = false, updatable = false)
-	private Long restaurantID;
+	private Long restaurantID = Long.valueOf(0);
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurant")
 	private List<Post> posts;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurant")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurant", orphanRemoval = true)
 	private List<Bookmark> bookmarks;
 
 	private String name, cuisine, price, location, menuLink;
@@ -66,7 +69,7 @@ public class Restaurant {
 		return restaurantID;
 	}
 
-	public void setRestaurantID(long restaurantID) {
+	public void setRestaurantID(Long restaurantID) {
 		this.restaurantID = restaurantID;
 	}
 

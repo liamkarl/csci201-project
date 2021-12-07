@@ -2,39 +2,39 @@ package com.example.demo.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "ImageTable")
 public class Image {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "increment")
+	@GenericGenerator(name = "increment", strategy = "increment")
 	@Column(nullable = false, updatable = false)
-	private Long imageID;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "post")
-	private Post post;
+	private long imageID = Long.valueOf(0);
 
 	private String url;
 
-	public Image() {
-		super();
+//	@ManyToOne
+//	@JoinColumn(name = "postID")
+//	private Post post;
 
-		this.post = new Post();
+//	@Autowired
+//	private ImageRepository imageRepo;
+
+	public Image() {
+		// this.post = new Post();
 		this.url = "";
 	}
 
-	public Image(Post post, String url) {
+	public Image(String url) {
 		super();
-		this.post = post;
+		// this.post = post;
 		this.url = url;
 	}
 
@@ -44,17 +44,17 @@ public class Image {
 		return imageID;
 	}
 
-	public void setImageID(long imageID) {
+	public void setImageID(Long imageID) {
 		this.imageID = imageID;
 	}
 
-	public Post getPost() {
-		return post;
-	}
-
-	public void setPost(Post post) {
-		this.post = post;
-	}
+//	public Post getPost() {
+//		return post;
+//	}
+//
+//	public void setPost(Post post) {
+//		this.post = post;
+//	}
 
 	public String getUrl() {
 		return url;
