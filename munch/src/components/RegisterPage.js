@@ -2,15 +2,16 @@ import React, { Component } from "react";
 import axios from "axios";
 
 import "./RegisterPage.css";
+import AuthService from "../AuthService";
 
 export default class Register extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      email: "",
+      //email: "",
       password: "",
-      registrationErrors: "",
+      //registrationErrors: "",
       username: "",
     };
 
@@ -25,28 +26,15 @@ export default class Register extends Component {
   }
 
   handleSubmit(event) {
-    const { email, username, password} = this.state;
-    console.log({
-      // email: email,
-      username: username,
-      password: password,
-    })
-    axios
-      .post(
-        "http://localhost:3001/registrations",
-        {
-          user: {
-            // email: email,
-            username: username,
-            password: password,
-          },
-        },
-        { withCredentials: true }
-      )
-      .then((response) => {
-        if (response.data.status === "created") {
-          this.props.handleSuccessfulAuth(response.data);
-        }
+    const {username, password} = this.state;
+
+    AuthService.register(
+      username,
+      //email,
+      password
+    ) 
+      .then(() => {
+
       })
       .catch((error) => {
         console.log("registration error", error);
