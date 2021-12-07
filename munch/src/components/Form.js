@@ -1,15 +1,9 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import axios from "axios";
 import "./Form.css";
 import AuthHeader from "../AuthHeader";
-import Form from "react-validation/build/form";
-import Input from "react-validation/build/input";
-import CheckButton from "react-validation/build/button";
 
-import { isEmail } from "validator";
-
-
-export default class Login extends Component {
+export default class Form extends Component {
   constructor(props) {
     super(props);
 
@@ -31,6 +25,8 @@ export default class Login extends Component {
   }
 
   onImageChange(event) {
+    // const [selectedFile, setSelectedFile] = useState();
+    // const [isFilePicked, setIsFilePicked] = useState(false);
     if (event.target.files && event.target.files[0]) {
       this.setState({
         image: URL.createObjectURL(event.target.files[0]),
@@ -39,26 +35,28 @@ export default class Login extends Component {
   }
 
   handleSubmit(event) {
-    const { location, rating, image, comments } = this.state;
-    this.form.validateAll();
+    const { location, rating, image, postText } = this.state;
+
     console.log({
       location: location,
       rating: rating,
       image: image,
-      comments: comments,
+      postText: postText,
     });
     axios
-      .post("http://localhost:3000/review", {
+      .post("http://localhost:8080/api/post/create", {
         headers: AuthHeader(),
         post: {
           location: location,
           rating: rating,
           image: image,
-          comments: comments,
+          postText: postText,
         },
       })
 
-      .then((response) => {})
+      .then((response) => {
+        console.log(response);
+      })
       .catch((error) => {
         console.log("login error", error);
       });

@@ -8,8 +8,8 @@ export default class Register extends Component {
     super(props);
 
     this.state = {
-      password: "",
       username: "",
+      password: "",
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -23,19 +23,15 @@ export default class Register extends Component {
   }
 
   handleSubmit(event) {
-    const {username, password} = this.state;
-    AuthService.register(
-      username,
-      password
-    ) 
+    const { username, password } = this.state;
+    AuthService.register(username, password)
       .then(() => {
-        AuthService.login(username,
-          password)
+        AuthService.login(username, password);
       })
-      .then(({response})=>{
+      .then(({ response }) => {
         localStorage.setItem("user", JSON.stringify(response.data));
-        window.history.pushState({}, '', '/landing');
-        const navEvent = new PopStateEvent('popstate');
+        window.history.pushState({}, "", "/landing");
+        const navEvent = new PopStateEvent("popstate");
         window.dispatchEvent(navEvent);
       })
       .catch((error) => {

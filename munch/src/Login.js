@@ -8,7 +8,7 @@ export default function Login() {
   const user = JSON.parse(localStorage.getItem('user'));
 
   useEffect(() => {
-    if(!user){
+    if(user){
       window.history.pushState({}, '', '/');
       const navEvent = new PopStateEvent('popstate');
       window.dispatchEvent(navEvent);
