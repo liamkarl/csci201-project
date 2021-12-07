@@ -28,8 +28,8 @@ export default class Login extends Component {
     const { username, password } = this.state;
 
     AuthService.login(username, password)
-      .then(() => {
-        
+      .then((response) => {
+        localStorage.setItem("user", JSON.stringify(response.data));
       })
       .catch((error) => {
         console.log("login error", error);

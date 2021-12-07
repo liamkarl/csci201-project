@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import axios from "axios";
 
 import "./RegisterPage.css";
 import AuthService from "../AuthService";
@@ -9,9 +8,7 @@ export default class Register extends Component {
     super(props);
 
     this.state = {
-      //email: "",
       password: "",
-      //registrationErrors: "",
       username: "",
     };
 
@@ -27,14 +24,19 @@ export default class Register extends Component {
 
   handleSubmit(event) {
     const {username, password} = this.state;
-
     AuthService.register(
       username,
-      //email,
       password
     ) 
       .then(() => {
-
+        AuthService.login(username,
+          password)
+      })
+      .then(({response})=>{
+        localStorage.setItem("user", JSON.stringify(response.data));
+        window.history.pushState({}, '', '/landing');
+        const navEvent = new PopStateEvent('popstate');
+        window.dispatchEvent(navEvent);
       })
       .catch((error) => {
         console.log("registration error", error);
@@ -46,16 +48,6 @@ export default class Register extends Component {
     return (
       <div className="formcard">
         <form onSubmit={this.handleSubmit}>
-          {/* <div className="field">
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              value={this.state.email}
-              onChange={this.handleChange}
-              required
-            />
-          </div> */}
           <div className="field">
             <input
               type="text"

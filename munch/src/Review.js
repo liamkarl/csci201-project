@@ -10,7 +10,7 @@ export default function Review() {
             <div className = "headerspan">
             <h1 className = "header">Review Page</h1>
             </div>
-            <Form />
+            <Form/>
         </div>
     )
 }

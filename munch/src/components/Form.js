@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import axios from "axios";
-
-
-
 import "./Form.css";
-import AuthService from "../AuthService";
+import AuthHeader from "../AuthHeader";
+import Form from "react-validation/build/form";
+import Input from "react-validation/build/input";
+import CheckButton from "react-validation/build/button";
+
+import { isEmail } from "validator";
 
 
 export default class Login extends Component {
@@ -28,42 +30,35 @@ export default class Login extends Component {
     });
   }
 
-  onImageChange(event){
+  onImageChange(event) {
     if (event.target.files && event.target.files[0]) {
-      let img = event.target.files[0];
       this.setState({
-        image: URL.createObjectURL(event.target.files[0])
+        image: URL.createObjectURL(event.target.files[0]),
       });
     }
   }
 
   handleSubmit(event) {
     const { location, rating, image, comments } = this.state;
+    this.form.validateAll();
     console.log({
-      location:location,
-      rating:rating,
-      image:image,
-      comments:comments
-    })
+      location: location,
+      rating: rating,
+      image: image,
+      comments: comments,
+    });
     axios
-      .post(
-        "http://localhost:3000/review",
-        {
-
-          post: {
-            location: location,
-            rating: rating,
-            image: image,
-            comments: comments,
-          },
+      .post("http://localhost:3000/review", {
+        headers: AuthHeader(),
+        post: {
+          location: location,
+          rating: rating,
+          image: image,
+          comments: comments,
         },
-        { withCredentials: true }
-      )
-      .then((response) => {
-        if (response.data.success) {
-          this.props.handleSuccessfulAuth(response.data);
-        }
       })
+
+      .then((response) => {})
       .catch((error) => {
         console.log("login error", error);
       });
@@ -87,28 +82,27 @@ export default class Login extends Component {
           <div className="field">
             <input
               type="number"
-              pattern="[1-5]" 
+              pattern="[1-5]"
               min="1"
               max="5"
               name="rating"
               placeholder="type the rating from 1-5"
               value={this.state.rating}
               onChange={this.handleChange}
-              required
             />
           </div>
           <div>
             <label className="custom-file-upload">
-            <input
-              type="file"
-              name="image"
-              onChange={this.onImageChange}
-              className="choose-file"
-              required
-            />
-            Upload Image
+              <input
+                type="file"
+                name="image"
+                onChange={this.onImageChange}
+                className="choose-file"
+                required
+              />
+              Upload Image
             </label>
-            <div className = "imageinfo">{this.state.image}</div>
+            <div className="imageinfo">{this.state.image}</div>
           </div>
           <div className="field">
             <input

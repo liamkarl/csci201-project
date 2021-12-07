@@ -10,17 +10,14 @@ import Account from './Account'
 import Register from './Register'
 import ViewAccount from './ViewAccount'
 import Login from './Login'
-import requireAuth from './requireAuth'
+import LandingPage from './LandingPage'
 
 import Navbar from './components/Navbar'
 
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
 
 function App() {
-	// const [token, setToken] = useState();
-	// if(!token) {
-	// 	return <Login setToken={setToken} />
-	//   }
+
   	return (
 		<Router>
 			<div className="App">
@@ -35,6 +32,7 @@ function App() {
 						<Route path='/review' element={<Review />}></Route>
 						<Route path='/account' element={<Account />}></Route>
 						<Route path='/register' element={<Register/>}></Route>
+						<Route path='/landing' element={<LandingPage/>}></Route>
 					</Routes>
 				</div>
 
