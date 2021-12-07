@@ -1,10 +1,10 @@
 package com.example.demo.domain;
 
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 
@@ -18,7 +18,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -37,9 +36,6 @@ public class Post {
 	@Column(nullable = false, updatable = false)
 	private Long postID = Long.valueOf(0);
 
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Image> images;
-
 	@ElementCollection
 	private List<String> comments;
 
@@ -54,14 +50,18 @@ public class Post {
 	private Restaurant restaurant;
 
 	@Column(nullable = false, updatable = false)
-	@Range(min = 1, max = 10)
+	@Range(min = 1, max = 5)
 	private Integer rating;
 
 	@Column(nullable = false, updatable = true)
 	@Range(min = 0)
 	private Integer likes;
+
 	private String postText, location;
+
 	private LocalDateTime date;
+
+	private URL image;
 
 	public Post() {
 		super();
@@ -69,10 +69,9 @@ public class Post {
 		this.date = LocalDateTime.now();
 	}
 
-	public Post(List<Image> images, User user, Restaurant restaurant, Integer rating, String postText,
-			String location) {
+	public Post(URL image, User user, Restaurant restaurant, Integer rating, String postText, String location) {
 		super();
-		this.images = images;
+		this.image = image;
 		this.comments = new ArrayList<>();
 		this.user = user;
 		this.restaurant = restaurant;
@@ -84,25 +83,6 @@ public class Post {
 		this.date = LocalDateTime.now();
 	}
 
-	public Post(User user, Restaurant restaurant) {
-		super();
-
-		this.images = new ArrayList<>();
-		this.comments = new ArrayList<>();
-		this.user = user;
-		this.restaurant = restaurant;
-
-		this.rating = 5;
-		this.likes = 0;
-
-		this.postText = "";
-		this.location = "";
-
-		this.date = LocalDateTime.now();
-	}
-
-	// getters/setters
-
 	public List<String> getComments() {
 		return comments;
 	}
@@ -111,8 +91,8 @@ public class Post {
 		return date;
 	}
 
-	public List<Image> getImages() {
-		return images;
+	public URL getImage() {
+		return image;
 	}
 
 	public Integer getLikes() {
@@ -151,8 +131,8 @@ public class Post {
 		this.date = date;
 	}
 
-	public void setImages(List<Image> images) {
-		this.images = images;
+	public void setImage(URL image) {
+		this.image = image;
 	}
 
 	public void setLikes(Integer likes) {

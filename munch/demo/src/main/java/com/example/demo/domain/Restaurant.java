@@ -50,6 +50,21 @@ public class Restaurant {
 		this.avgRating = 0.0;
 	}
 
+	public Restaurant(String name) {
+		super();
+
+		this.posts = new ArrayList<>();
+		this.bookmarks = new ArrayList<>();
+
+		this.name = name;
+		this.cuisine = "";
+		this.price = "";
+		this.location = "";
+		this.menuLink = "";
+
+		this.avgRating = 0.0;
+	}
+
 	public Restaurant(String name, String cuisine, String price, String location, String menuLink) {
 		super();
 
@@ -65,10 +80,9 @@ public class Restaurant {
 		this.avgRating = 0.0;
 	}
 
-	// getters/setters
-
 	public void addPost(Post post) {
 		this.posts.add(post);
+		this.updateRating();
 	}
 
 	public Double getAvgRating() {
@@ -107,6 +121,12 @@ public class Restaurant {
 		return restaurantID;
 	}
 
+	public void removePost(Post post) {
+		this.posts.remove(post);
+
+		this.updateRating();
+	}
+
 	public void setAvgRating(Double avgRating) {
 		this.avgRating = avgRating;
 	}
@@ -141,6 +161,22 @@ public class Restaurant {
 
 	public void setRestaurantID(Long restaurantID) {
 		this.restaurantID = restaurantID;
+	}
+
+	// Update average rating from new post
+	public void updateRating() {
+
+		double sum = 0;
+		int numPosts = this.posts.size();
+		for (Post p : this.posts) {
+			sum += p.getRating();
+		}
+
+		if (numPosts > 0)
+			this.avgRating = sum / numPosts;
+
+		else
+			this.avgRating = 0.0;
 	}
 
 	// private List<Image> images

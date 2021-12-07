@@ -102,8 +102,6 @@ public class User {
 		this.role = "USER";
 	}
 
-	// getters/setters
-
 	public void addPost(Post post) {
 		this.posts.add(post);
 		this.numPosts++;
@@ -159,6 +157,11 @@ public class User {
 
 	public String getUsername() {
 		return username;
+	}
+
+	public void removePost(Post post) {
+		this.posts.remove(post);
+		this.numPosts--;
 	}
 
 	public void setBio(String bio) {

@@ -9,7 +9,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.example.demo.domain.BookmarkRepository;
 import com.example.demo.domain.EventRepository;
 import com.example.demo.domain.GroupRepository;
-import com.example.demo.domain.ImageRepository;
 import com.example.demo.domain.PostRepository;
 import com.example.demo.domain.RestaurantRepository;
 import com.example.demo.domain.UserRepository;
@@ -26,8 +25,6 @@ public class DemoApplication {
 
 	@Autowired
 	UserRepository UserRepository;
-	@Autowired
-	ImageRepository ImageRepository;
 	@Autowired
 	PostRepository PostRepository;
 	@Autowired
