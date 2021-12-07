@@ -14,8 +14,8 @@ export default function LandingPage() {
     <div className="login">
       <div className="headerspan">
         <h1 className="header">Success!</h1>
+        <button onClick={handleClick}>Return</button>
       </div>
-      <button onClick={handleClick}>Return Home</button>
     </div>
   );
 }

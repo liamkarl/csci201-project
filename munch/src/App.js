@@ -11,6 +11,7 @@ import Register from './Register'
 import ViewAccount from './ViewAccount'
 import Login from './Login'
 import LandingPage from './LandingPage'
+import Logout from './Logout'
 
 import Navbar from './components/Navbar'
 
@@ -33,6 +34,7 @@ function App() {
 						<Route path='/account' element={<Account />}></Route>
 						<Route path='/register' element={<Register/>}></Route>
 						<Route path='/landing' element={<LandingPage/>}></Route>
+						<Route path='/logout' element={<Logout />}></Route>
 					</Routes>
 				</div>
 

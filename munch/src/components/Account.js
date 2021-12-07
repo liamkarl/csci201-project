@@ -18,23 +18,25 @@ export default class ViewAccount extends Component {
     };
   }
 
+
   handleSubmit(event) {}
 
   render() {
-    let { username, userBio, numFollowers, numFollowing, profPic } = userData;
-    console.log(userData);
+    const user = JSON.parse(localStorage.getItem('user'));
+    let { username } = user;
+    console.log(user);
     return (
       <div className="accountpage">
-        <img src={profPic} className="pfp"></img>
+        {/* <img src={profPic} className="pfp"></img> */}
         <h2 className="textblock">{username}</h2>
-        <div className="follow">
+        {/* <div className="follow">
           {numFollowers} followers {numFollowing} following
         </div>
         <div className="bio">{userBio}</div>
 
         <form onSubmit={this.handleSubmit}>
           <button type="submit"> Follow </button>
-        </form>
+        </form> */}
       </div>
     );
   }

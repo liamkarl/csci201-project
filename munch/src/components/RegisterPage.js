@@ -28,14 +28,15 @@ export default class Register extends Component {
       .then(() => {
         AuthService.login(username, password);
       })
-      .then(({ response }) => {
-        localStorage.setItem("user", JSON.stringify(response.data));
+      .then(() => {
         window.history.pushState({}, "", "/landing");
         const navEvent = new PopStateEvent("popstate");
         window.dispatchEvent(navEvent);
       })
       .catch((error) => {
         console.log("registration error", error);
+        alert("You cannot use this username. Try again.")
+        ;
       });
     event.preventDefault();
   }
@@ -54,6 +55,7 @@ export default class Register extends Component {
               required
             />
           </div>
+
           <div className="field">
             <input
               type="password"

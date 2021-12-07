@@ -1,15 +1,14 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import './LoginPage.css'
+import "./LoginPage.css";
 import AuthService from "../AuthService";
 
 export default class Login extends Component {
   constructor(props) {
     super(props);
-
+  
     this.state = {
-
       username: "",
       password: "",
     };
@@ -24,15 +23,17 @@ export default class Login extends Component {
   }
 
   handleSubmit(event) {
-
     const { username, password } = this.state;
 
     AuthService.login(username, password)
-      .then((response) => {
-        localStorage.setItem("user", JSON.stringify(response.data));
+      .then(() => {
+        window.history.pushState({}, "", "/landing");
+        const navEvent = new PopStateEvent("popstate");
+        window.dispatchEvent(navEvent);
       })
       .catch((error) => {
         console.log("login error", error);
+        alert("Invalid username or password.")
       });
     event.preventDefault();
   }
