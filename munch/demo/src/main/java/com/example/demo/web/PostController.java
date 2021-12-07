@@ -70,14 +70,13 @@ public class PostController {
 		Restaurant restaurant;
 
 		// Finds the first restaurant of that name in database if it exists
-		if (RestaurantRepository.existsByName(PostRequest.getRestaurantName())) {
-			restaurant = RestaurantRepository.findByName(PostRequest.getRestaurantName()).get(0);
+		if (RestaurantRepository.existsByName(PostRequest.getLocation())) {
+			restaurant = RestaurantRepository.findByName(PostRequest.getLocation()).get(0);
 		}
 
 		// Else, adds the restaurant to the database
 		else {
-			restaurant = new Restaurant(PostRequest.getRestaurantName());
-			restaurant.setLocation(PostRequest.getLocation());
+			restaurant = new Restaurant(PostRequest.getLocation());
 
 			restaurant = RestaurantRepository.save(restaurant);
 		}

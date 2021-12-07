@@ -9,14 +9,13 @@ import org.hibernate.validator.constraints.Range;
 
 public class NewPostRequest {
 	@NotBlank
-	private String restaurantName;
+	private String location;
 	@NotNull(message = "rating may not be empty")
 	@Range(min = 1, max = 5)
 	private int rating;
 	@NotBlank
 	private String postText;
-	@NotBlank
-	private String location;
+
 	private URL image;
 
 	public URL getImage() {
@@ -35,10 +34,6 @@ public class NewPostRequest {
 		return rating;
 	}
 
-	public String getRestaurantName() {
-		return restaurantName;
-	}
-
 	public void setImage(URL image) {
 		this.image = image;
 	}
@@ -53,9 +48,5 @@ public class NewPostRequest {
 
 	public void setRating(int rating) {
 		this.rating = rating;
-	}
-
-	public void setRestaurantName(String restaurantName) {
-		this.restaurantName = restaurantName;
 	}
 }

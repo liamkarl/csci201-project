@@ -30,7 +30,7 @@ public class Restaurant {
 	private List<Bookmark> bookmarks;
 
 	@Column(nullable = false)
-	private String name, cuisine, price, location;
+	private String name, cuisine, price, address;
 
 	private String menuLink;
 	private Double avgRating;
@@ -44,7 +44,7 @@ public class Restaurant {
 		this.name = "";
 		this.cuisine = "";
 		this.price = "";
-		this.location = "";
+		this.address = "";
 		this.menuLink = "";
 
 		this.avgRating = 0.0;
@@ -59,13 +59,13 @@ public class Restaurant {
 		this.name = name;
 		this.cuisine = "";
 		this.price = "";
-		this.location = "";
+		this.address = "";
 		this.menuLink = "";
 
 		this.avgRating = 0.0;
 	}
 
-	public Restaurant(String name, String cuisine, String price, String location, String menuLink) {
+	public Restaurant(String name, String cuisine, String price, String address, String menuLink) {
 		super();
 
 		this.posts = new ArrayList<>();
@@ -74,7 +74,7 @@ public class Restaurant {
 		this.name = name;
 		this.cuisine = cuisine;
 		this.price = price;
-		this.location = location;
+		this.address = address;
 		this.menuLink = menuLink;
 
 		this.avgRating = 0.0;
@@ -83,6 +83,10 @@ public class Restaurant {
 	public void addPost(Post post) {
 		this.posts.add(post);
 		this.updateRating();
+	}
+
+	public String getAddress() {
+		return address;
 	}
 
 	public Double getAvgRating() {
@@ -95,10 +99,6 @@ public class Restaurant {
 
 	public String getCuisine() {
 		return cuisine;
-	}
-
-	public String getLocation() {
-		return location;
 	}
 
 	public String getMenuLink() {
@@ -127,6 +127,10 @@ public class Restaurant {
 		this.updateRating();
 	}
 
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
 	public void setAvgRating(Double avgRating) {
 		this.avgRating = avgRating;
 	}
@@ -137,10 +141,6 @@ public class Restaurant {
 
 	public void setCuisine(String cuisine) {
 		this.cuisine = cuisine;
-	}
-
-	public void setLocation(String location) {
-		this.location = location;
 	}
 
 	public void setMenuLink(String menuLink) {
