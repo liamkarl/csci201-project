@@ -8,6 +8,7 @@ import com.example.demo.domain.Group;
 import com.example.demo.domain.GroupRepository;
 
 @RestController
+@RequestMapping("/api/group")
 public class GroupController {
 	@Autowired
 	private GroupRepository repo;

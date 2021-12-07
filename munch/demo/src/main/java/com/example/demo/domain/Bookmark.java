@@ -35,17 +35,17 @@ public class Bookmark {
 		super();
 	}
 
-	public Bookmark(User user, Restaurant restaurant) {
+	public Bookmark(String noteText, User user, Restaurant restaurant) {
 		super();
-
-		this.noteText = "";
+		this.noteText = noteText;
 		this.user = user;
 		this.restaurant = restaurant;
 	}
 
-	public Bookmark(String noteText, User user, Restaurant restaurant) {
+	public Bookmark(User user, Restaurant restaurant) {
 		super();
-		this.noteText = noteText;
+
+		this.noteText = "";
 		this.user = user;
 		this.restaurant = restaurant;
 	}
@@ -56,31 +56,31 @@ public class Bookmark {
 		return bookmarkID;
 	}
 
-	public void setBookmarkID(Long bookmarkID) {
-		this.bookmarkID = bookmarkID;
-	}
-
 	public String getNoteText() {
 		return noteText;
-	}
-
-	public void setNoteText(String noteText) {
-		this.noteText = noteText;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
 	}
 
 	public Restaurant getRestaurant() {
 		return restaurant;
 	}
 
+	public User getUser() {
+		return user;
+	}
+
+	public void setBookmarkID(Long bookmarkID) {
+		this.bookmarkID = bookmarkID;
+	}
+
+	public void setNoteText(String noteText) {
+		this.noteText = noteText;
+	}
+
 	public void setRestaurant(Restaurant restaurant) {
 		this.restaurant = restaurant;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 }

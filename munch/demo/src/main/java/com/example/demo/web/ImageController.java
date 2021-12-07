@@ -8,6 +8,7 @@ import com.example.demo.domain.Image;
 import com.example.demo.domain.ImageRepository;
 
 @RestController
+@RequestMapping("/api/image")
 public class ImageController {
 	@Autowired
 	private ImageRepository repo;

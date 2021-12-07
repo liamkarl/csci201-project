@@ -15,6 +15,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class UserDetailsImpl implements UserDetails {
 	private static final long serialVersionUID = 1L;
 
+	public static UserDetailsImpl build(User user) {
+		List<GrantedAuthority> authorities = new ArrayList<>();
+		authorities.add(new SimpleGrantedAuthority("ROLE_" + user.getRole()));
+
+		return new UserDetailsImpl(user.getUserID(), user.getUsername(), user.getPassword(), authorities);
+	}
+
 	private Long userID;
 
 	private String username;
@@ -32,11 +39,14 @@ public class UserDetailsImpl implements UserDetails {
 		this.authorities = authorities;
 	}
 
-	public static UserDetailsImpl build(User user) {
-		List<GrantedAuthority> authorities = new ArrayList<>();
-		authorities.add(new SimpleGrantedAuthority("ROLE_" + user.getRole()));
-
-		return new UserDetailsImpl(user.getUserID(), user.getUsername(), user.getPassword(), authorities);
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		UserDetailsImpl user = (UserDetailsImpl) o;
+		return Objects.equals(userID, user.userID);
 	}
 
 	@Override
@@ -44,13 +54,13 @@ public class UserDetailsImpl implements UserDetails {
 		return authorities;
 	}
 
-	public Long getUserID() {
-		return userID;
-	}
-
 	@Override
 	public String getPassword() {
 		return password;
+	}
+
+	public Long getUserID() {
+		return userID;
 	}
 
 	@Override
@@ -76,15 +86,5 @@ public class UserDetailsImpl implements UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return true;
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (o == null || getClass() != o.getClass())
-			return false;
-		UserDetailsImpl user = (UserDetailsImpl) o;
-		return Objects.equals(userID, user.userID);
 	}
 }

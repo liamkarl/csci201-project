@@ -8,6 +8,7 @@ import com.example.demo.domain.Event;
 import com.example.demo.domain.EventRepository;
 
 @RestController
+@RequestMapping("/api/event")
 public class EventController {
 	@Autowired
 	private EventRepository repo;

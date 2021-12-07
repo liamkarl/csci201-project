@@ -29,14 +29,17 @@ public class Restaurant {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurant", orphanRemoval = true)
 	private List<Bookmark> bookmarks;
 
-	private String name, cuisine, price, location, menuLink;
+	@Column(nullable = false)
+	private String name, cuisine, price, location;
+
+	private String menuLink;
 	private Double avgRating;
 
 	public Restaurant() {
 		super();
 
-		this.posts = new ArrayList<Post>();
-		this.bookmarks = new ArrayList<Bookmark>();
+		this.posts = new ArrayList<>();
+		this.bookmarks = new ArrayList<>();
 
 		this.name = "";
 		this.cuisine = "";
@@ -47,12 +50,11 @@ public class Restaurant {
 		this.avgRating = 0.0;
 	}
 
-	public Restaurant(List<Post> posts, List<Bookmark> bookmarks, String name, String cuisine, String price,
-			String location, String menuLink, Double avgRating) {
+	public Restaurant(String name, String cuisine, String price, String location, String menuLink) {
 		super();
 
-		this.posts = posts;
-		this.bookmarks = bookmarks;
+		this.posts = new ArrayList<>();
+		this.bookmarks = new ArrayList<>();
 
 		this.name = name;
 		this.cuisine = cuisine;
@@ -60,81 +62,85 @@ public class Restaurant {
 		this.location = location;
 		this.menuLink = menuLink;
 
-		this.avgRating = avgRating;
+		this.avgRating = 0.0;
 	}
 
 	// getters/setters
 
-	public long getRestaurantID() {
-		return restaurantID;
-	}
-
-	public void setRestaurantID(Long restaurantID) {
-		this.restaurantID = restaurantID;
-	}
-
-	public List<Post> getPosts() {
-		return posts;
-	}
-
-	public void setPosts(List<Post> posts) {
-		this.posts = posts;
-	}
-
-	public List<Bookmark> getBookmarks() {
-		return bookmarks;
-	}
-
-	public void setBookmarks(List<Bookmark> bookmarks) {
-		this.bookmarks = bookmarks;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getCuisine() {
-		return cuisine;
-	}
-
-	public void setCuisine(String cuisine) {
-		this.cuisine = cuisine;
-	}
-
-	public String getPrice() {
-		return price;
-	}
-
-	public void setPrice(String price) {
-		this.price = price;
-	}
-
-	public String getLocation() {
-		return location;
-	}
-
-	public void setLocation(String location) {
-		this.location = location;
-	}
-
-	public String getMenuLink() {
-		return menuLink;
-	}
-
-	public void setMenuLink(String menuLink) {
-		this.menuLink = menuLink;
+	public void addPost(Post post) {
+		this.posts.add(post);
 	}
 
 	public Double getAvgRating() {
 		return avgRating;
 	}
 
+	public List<Bookmark> getBookmarks() {
+		return bookmarks;
+	}
+
+	public String getCuisine() {
+		return cuisine;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public String getMenuLink() {
+		return menuLink;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public List<Post> getPosts() {
+		return posts;
+	}
+
+	public String getPrice() {
+		return price;
+	}
+
+	public long getRestaurantID() {
+		return restaurantID;
+	}
+
 	public void setAvgRating(Double avgRating) {
 		this.avgRating = avgRating;
+	}
+
+	public void setBookmarks(List<Bookmark> bookmarks) {
+		this.bookmarks = bookmarks;
+	}
+
+	public void setCuisine(String cuisine) {
+		this.cuisine = cuisine;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public void setMenuLink(String menuLink) {
+		this.menuLink = menuLink;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setPosts(List<Post> posts) {
+		this.posts = posts;
+	}
+
+	public void setPrice(String price) {
+		this.price = price;
+	}
+
+	public void setRestaurantID(Long restaurantID) {
+		this.restaurantID = restaurantID;
 	}
 
 	// private List<Image> images

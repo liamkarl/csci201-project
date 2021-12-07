@@ -22,7 +22,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.Range;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -43,29 +45,54 @@ public class Post {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user")
+	@JsonIgnore
 	private User user;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "restaurant")
+	@JsonIgnore
 	private Restaurant restaurant;
 
-	private int rating, likes;
+	@Column(nullable = false, updatable = false)
+	@Range(min = 1, max = 10)
+	private Integer rating;
+
+	@Column(nullable = false, updatable = true)
+	@Range(min = 0)
+	private Integer likes;
 	private String postText, location;
 	private LocalDateTime date;
 
 	public Post() {
 		super();
+
+		this.date = LocalDateTime.now();
+	}
+
+	public Post(List<Image> images, User user, Restaurant restaurant, Integer rating, String postText,
+			String location) {
+		super();
+		this.images = images;
+		this.comments = new ArrayList<>();
+		this.user = user;
+		this.restaurant = restaurant;
+		this.rating = rating;
+		this.likes = 0;
+		this.postText = postText;
+		this.location = location;
+
+		this.date = LocalDateTime.now();
 	}
 
 	public Post(User user, Restaurant restaurant) {
 		super();
 
-		this.images = new ArrayList<Image>();
-		this.comments = new ArrayList<String>();
+		this.images = new ArrayList<>();
+		this.comments = new ArrayList<>();
 		this.user = user;
 		this.restaurant = restaurant;
 
-		this.rating = 0;
+		this.rating = 5;
 		this.likes = 0;
 
 		this.postText = "";
@@ -74,100 +101,85 @@ public class Post {
 		this.date = LocalDateTime.now();
 	}
 
-	public Post(List<Image> images, List<String> comments, User user, Restaurant restaurant, int rating, int likes,
-			String postText, String location) {
-		super();
-		this.images = images;
-		this.comments = comments;
-		this.user = user;
-		this.restaurant = restaurant;
-		this.rating = rating;
-		this.likes = likes;
-		this.postText = postText;
-		this.location = location;
-
-		this.date = LocalDateTime.now();
-	}
-
 	// getters/setters
-
-	public Long getPostID() {
-		return postID;
-	}
-
-	public void setPostID(Long postID) {
-		this.postID = postID;
-	}
-
-	public List<Image> getImages() {
-		return images;
-	}
-
-	public void setImages(List<Image> images) {
-		this.images = images;
-	}
 
 	public List<String> getComments() {
 		return comments;
-	}
-
-	public void setComments(List<String> comments) {
-		this.comments = comments;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public Restaurant getRestaurant() {
-		return restaurant;
-	}
-
-	public void setRestaurant(Restaurant restaurant) {
-		this.restaurant = restaurant;
-	}
-
-	public int getRating() {
-		return rating;
-	}
-
-	public void setRating(int rating) {
-		this.rating = rating;
-	}
-
-	public int getLikes() {
-		return likes;
-	}
-
-	public void setLikes(int likes) {
-		this.likes = likes;
-	}
-
-	public String getPostText() {
-		return postText;
-	}
-
-	public void setPostText(String postText) {
-		this.postText = postText;
-	}
-
-	public String getLocation() {
-		return location;
-	}
-
-	public void setLocation(String location) {
-		this.location = location;
 	}
 
 	public LocalDateTime getDate() {
 		return date;
 	}
 
+	public List<Image> getImages() {
+		return images;
+	}
+
+	public Integer getLikes() {
+		return likes;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public Long getPostID() {
+		return postID;
+	}
+
+	public String getPostText() {
+		return postText;
+	}
+
+	public Integer getRating() {
+		return rating;
+	}
+
+	public Restaurant getRestaurant() {
+		return restaurant;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setComments(List<String> comments) {
+		this.comments = comments;
+	}
+
 	public void setDate(LocalDateTime date) {
 		this.date = date;
+	}
+
+	public void setImages(List<Image> images) {
+		this.images = images;
+	}
+
+	public void setLikes(Integer likes) {
+		this.likes = likes;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public void setPostID(Long postID) {
+		this.postID = postID;
+	}
+
+	public void setPostText(String postText) {
+		this.postText = postText;
+	}
+
+	public void setRating(Integer rating) {
+		this.rating = rating;
+	}
+
+	public void setRestaurant(Restaurant restaurant) {
+		this.restaurant = restaurant;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 }

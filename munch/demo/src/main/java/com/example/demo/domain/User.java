@@ -52,10 +52,9 @@ public class User {
 	@Column(nullable = false)
 	private String password;
 	@Column(nullable = false)
-	private String email;
-	@Column(nullable = false)
 	private String role;
 
+	private String email;
 	private String bio;
 	private String pfp;
 
@@ -65,21 +64,16 @@ public class User {
 		this.numPosts = 0;
 		this.numFollowing = 0;
 
-		this.posts = new ArrayList<Post>();
-		this.bookmarks = new ArrayList<Bookmark>();
-		this.groups = new HashSet<Group>(0);
+		this.posts = new ArrayList<>();
+		this.bookmarks = new ArrayList<>();
+		this.groups = new HashSet<>(0);
 
 		this.username = "";
 		this.password = "";
 		this.email = "";
-		this.role = "user";
+		this.role = "USER";
 		this.bio = "";
 		this.pfp = "";
-	}
-
-	public User(String username, String password) {
-		this.username = username;
-		this.password = password;
 	}
 
 	public User(int numPosts, int numFollowers, int numFollowing, List<Post> posts, List<Bookmark> bookmarks,
@@ -101,109 +95,121 @@ public class User {
 		this.pfp = pfp;
 	}
 
+	public User(String username, String password) {
+		this.username = username;
+		this.password = password;
+
+		this.role = "USER";
+	}
+
 	// getters/setters
 
-	public Long getUserID() {
-		return userID;
-	}
-
-	public void setUserID(Long userID) {
-		this.userID = userID;
-	}
-
-	public int getNumPosts() {
-		return numPosts;
-	}
-
-	public void setNumPosts(int numPosts) {
-		this.numPosts = numPosts;
-	}
-
-	public int getNumFollowers() {
-		return numFollowers;
-	}
-
-	public void setNumFollowers(int numFollowers) {
-		this.numFollowers = numFollowers;
-	}
-
-	public int getNumFollowing() {
-		return numFollowing;
-	}
-
-	public void setNumFollowing(int numFollowing) {
-		this.numFollowing = numFollowing;
-	}
-
-	public List<Post> getPosts() {
-		return posts;
-	}
-
-	public void setPosts(List<Post> posts) {
-		this.posts = posts;
-	}
-
-	public List<Bookmark> getBookmarks() {
-		return bookmarks;
-	}
-
-	public void setBookmarks(List<Bookmark> bookmarks) {
-		this.bookmarks = bookmarks;
-	}
-
-	public Set<Group> getGroups() {
-		return groups;
-	}
-
-	public void setGroups(Set<Group> groups) {
-		this.groups = groups;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getRole() {
-		return role;
-	}
-
-	public void setRole(String role) {
-		this.role = role;
+	public void addPost(Post post) {
+		this.posts.add(post);
+		this.numPosts++;
 	}
 
 	public String getBio() {
 		return bio;
 	}
 
-	public void setBio(String bio) {
-		this.bio = bio;
+	public List<Bookmark> getBookmarks() {
+		return bookmarks;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public Set<Group> getGroups() {
+		return groups;
+	}
+
+	public int getNumFollowers() {
+		return numFollowers;
+	}
+
+	public int getNumFollowing() {
+		return numFollowing;
+	}
+
+	public int getNumPosts() {
+		return numPosts;
+	}
+
+	public String getPassword() {
+		return password;
 	}
 
 	public String getPfp() {
 		return pfp;
 	}
 
+	public List<Post> getPosts() {
+		return posts;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public Long getUserID() {
+		return userID;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setBio(String bio) {
+		this.bio = bio;
+	}
+
+	public void setBookmarks(List<Bookmark> bookmarks) {
+		this.bookmarks = bookmarks;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public void setGroups(Set<Group> groups) {
+		this.groups = groups;
+	}
+
+	public void setNumFollowers(int numFollowers) {
+		this.numFollowers = numFollowers;
+	}
+
+	public void setNumFollowing(int numFollowing) {
+		this.numFollowing = numFollowing;
+	}
+
+	public void setNumPosts(int numPosts) {
+		this.numPosts = numPosts;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	public void setPfp(String pfp) {
 		this.pfp = pfp;
+	}
+
+	public void setPosts(List<Post> posts) {
+		this.posts = posts;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	public void setUserID(Long userID) {
+		this.userID = userID;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 }

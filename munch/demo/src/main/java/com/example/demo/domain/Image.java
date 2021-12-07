@@ -44,8 +44,8 @@ public class Image {
 		return imageID;
 	}
 
-	public void setImageID(Long imageID) {
-		this.imageID = imageID;
+	public String getUrl() {
+		return url;
 	}
 
 //	public Post getPost() {
@@ -56,8 +56,8 @@ public class Image {
 //		this.post = post;
 //	}
 
-	public String getUrl() {
-		return url;
+	public void setImageID(Long imageID) {
+		this.imageID = imageID;
 	}
 
 	public void setUrl(String url) {

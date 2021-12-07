@@ -62,28 +62,20 @@ public class Event {
 
 	// getters/setters
 
-	public Long getEventID() {
-		return eventID;
-	}
-
-	public void setEventID(Long eventID) {
-		this.eventID = eventID;
-	}
-
-	public String getStartTime() {
-		return startTime;
-	}
-
-	public void setStartTime(String startTime) {
-		this.startTime = startTime;
-	}
-
 	public String getEndTime() {
 		return endTime;
 	}
 
-	public void setEndTime(String endTime) {
-		this.endTime = endTime;
+	public Long getEventID() {
+		return eventID;
+	}
+
+	public Group getGroup() {
+		return event_group;
+	}
+
+	public String getStartTime() {
+		return startTime;
 	}
 
 	public boolean isClosed() {
@@ -94,11 +86,19 @@ public class Event {
 		this.closed = closed;
 	}
 
-	public Group getGroup() {
-		return event_group;
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
+
+	public void setEventID(Long eventID) {
+		this.eventID = eventID;
 	}
 
 	public void setGroup(Group group) {
 		this.event_group = group;
+	}
+
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
 	}
 }

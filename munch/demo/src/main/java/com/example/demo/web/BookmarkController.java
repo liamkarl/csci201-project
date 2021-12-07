@@ -8,6 +8,7 @@ import com.example.demo.domain.Bookmark;
 import com.example.demo.domain.BookmarkRepository;
 
 @RestController
+@RequestMapping("/api/bookmark")
 public class BookmarkController {
 	@Autowired
 	private BookmarkRepository repo;

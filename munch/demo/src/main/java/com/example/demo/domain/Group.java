@@ -42,50 +42,51 @@ public class Group {
 	public Group() {
 		super();
 
-		this.users = new HashSet<User>(0);
-		this.events = new ArrayList<Event>();
+		this.users = new HashSet<>(0);
+		this.events = new ArrayList<>();
 		this.name = "";
 	}
 
-	public Group(Set<User> users, List<Event> events, String name) {
+	public Group(Set<User> users, String name) {
 		super();
 		this.users = users;
-		this.events = events;
+		this.events = new ArrayList<>();
+
 		this.name = name;
 	}
 
 	// getters/setters
 
-	public long getGroupID() {
-		return groupID;
-	}
-
-	public void setGroupID(Long groupID) {
-		this.groupID = groupID;
-	}
-
-	public Set<User> getUsers() {
-		return users;
-	}
-
-	public void setUsers(Set<User> users) {
-		this.users = users;
-	}
-
 	public List<Event> getEvents() {
 		return events;
 	}
 
-	public void setEvents(List<Event> events) {
-		this.events = events;
+	public long getGroupID() {
+		return groupID;
 	}
 
 	public String getName() {
 		return name;
 	}
 
+	public Set<User> getUsers() {
+		return users;
+	}
+
+	public void setEvents(List<Event> events) {
+		this.events = events;
+	}
+
+	public void setGroupID(Long groupID) {
+		this.groupID = groupID;
+	}
+
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public void setUsers(Set<User> users) {
+		this.users = users;
 	}
 
 }

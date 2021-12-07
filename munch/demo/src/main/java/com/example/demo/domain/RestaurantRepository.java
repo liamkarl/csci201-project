@@ -8,9 +8,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
-	Optional<Restaurant> findByRestaurantID(Long restaurantID);
+	List<Restaurant> findByCuisine(String cuisine);
 
 	List<Restaurant> findByName(String name);
 
-	List<Restaurant> findByCuisine(String cuisine);
+	Optional<Restaurant> findByRestaurantID(Long restaurantID);
 }

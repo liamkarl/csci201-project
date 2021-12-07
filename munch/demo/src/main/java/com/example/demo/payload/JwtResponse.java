@@ -16,28 +16,28 @@ public class JwtResponse {
 		return token;
 	}
 
-	public void setAccessToken(String accessToken) {
-		this.token = accessToken;
-	}
-
 	public String getTokenType() {
 		return type;
-	}
-
-	public void setTokenType(String tokenType) {
-		this.type = tokenType;
 	}
 
 	public Long getUserID() {
 		return userID;
 	}
 
-	public void setUserID(Long userID) {
-		this.userID = userID;
-	}
-
 	public String getUsername() {
 		return username;
+	}
+
+	public void setAccessToken(String accessToken) {
+		this.token = accessToken;
+	}
+
+	public void setTokenType(String tokenType) {
+		this.type = tokenType;
+	}
+
+	public void setUserID(Long userID) {
+		this.userID = userID;
 	}
 
 	public void setUsername(String username) {
