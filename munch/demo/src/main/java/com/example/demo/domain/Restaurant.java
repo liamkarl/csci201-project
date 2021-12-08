@@ -20,14 +20,11 @@ public class Restaurant {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "increment")
 	@GenericGenerator(name = "increment", strategy = "increment")
-	@Column(nullable = false, updatable = false)
+	@Column(nullable = false, updatable = false, unique = true)
 	private Long restaurantID = Long.valueOf(0);
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurant")
 	private List<Post> posts;
-
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurant", orphanRemoval = true)
-	private List<Bookmark> bookmarks;
 
 	@Column(nullable = false)
 	private String name, cuisine, price, address;
@@ -39,7 +36,6 @@ public class Restaurant {
 		super();
 
 		this.posts = new ArrayList<>();
-		this.bookmarks = new ArrayList<>();
 
 		this.name = "";
 		this.cuisine = "";
@@ -49,44 +45,34 @@ public class Restaurant {
 
 		this.avgRating = 0.0;
 	}
-	public Restaurant(String name) {
-		super();
 
-<<<<<<< HEAD
-=======
 	public Restaurant(String name) {
 		super();
 
 		this.posts = new ArrayList<>();
-		this.bookmarks = new ArrayList<>();
->>>>>>> 62559cc87d6f52945c2829ef0560b23100ba54e6
 
 		this.name = name;
 		this.cuisine = "";
 		this.price = "";
-<<<<<<< HEAD
-=======
 		this.address = "";
->>>>>>> 62559cc87d6f52945c2829ef0560b23100ba54e6
 		this.menuLink = "";
 
 		this.avgRating = 0.0;
 	}
-<<<<<<< HEAD
-	public Restaurant(String name, String cuisine, String price, String location) {
+
+	public Restaurant(String name, String cuisine, String price, String address) {
 		this.name = name;
 		this.cuisine = cuisine;
 		this.price = price;
-		this.location = location;
-		menuLink = "";
-		avgRating = 0.0;
-=======
+		this.address = address;
+		this.menuLink = "";
+		this.avgRating = 0.0;
+	}
 
 	public Restaurant(String name, String cuisine, String price, String address, String menuLink) {
 		super();
 
 		this.posts = new ArrayList<>();
-		this.bookmarks = new ArrayList<>();
 
 		this.name = name;
 		this.cuisine = cuisine;
@@ -95,7 +81,6 @@ public class Restaurant {
 		this.menuLink = menuLink;
 
 		this.avgRating = 0.0;
->>>>>>> 62559cc87d6f52945c2829ef0560b23100ba54e6
 	}
 
 	public void addPost(Post post) {
@@ -109,10 +94,6 @@ public class Restaurant {
 
 	public Double getAvgRating() {
 		return avgRating;
-	}
-
-	public List<Bookmark> getBookmarks() {
-		return bookmarks;
 	}
 
 	public String getCuisine() {
@@ -151,10 +132,6 @@ public class Restaurant {
 
 	public void setAvgRating(Double avgRating) {
 		this.avgRating = avgRating;
-	}
-
-	public void setBookmarks(List<Bookmark> bookmarks) {
-		this.bookmarks = bookmarks;
 	}
 
 	public void setCuisine(String cuisine) {

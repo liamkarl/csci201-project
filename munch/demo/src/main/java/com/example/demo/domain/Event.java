@@ -18,7 +18,7 @@ public class Event {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "increment")
 	@GenericGenerator(name = "increment", strategy = "increment")
-	@Column(nullable = false, updatable = false)
+	@Column(nullable = false, updatable = false, unique = true)
 	private Long eventID = Long.valueOf(0);
 
 	// private Ordered_Map<Integer, Bookmark> proposedRestaurants

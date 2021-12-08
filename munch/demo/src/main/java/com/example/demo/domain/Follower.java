@@ -21,8 +21,8 @@ public class Follower {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "increment")
 	@GenericGenerator(name = "increment", strategy = "increment")
-	@Column(nullable = false, updatable = false)
-	private Long followerID;
+	@Column(nullable = false, updatable = false, unique = true)
+	private Long followerID = Long.valueOf(0);
 
 	@ManyToOne
 	@JsonIgnore

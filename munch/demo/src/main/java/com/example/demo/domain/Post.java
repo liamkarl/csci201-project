@@ -3,7 +3,9 @@ package com.example.demo.domain;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -17,6 +19,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -33,7 +36,7 @@ public class Post {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "increment")
 	@GenericGenerator(name = "increment", strategy = "increment")
-	@Column(nullable = false, updatable = false)
+	@Column(nullable = false, updatable = false, unique = true)
 	private Long postID = Long.valueOf(0);
 
 	@ElementCollection
@@ -43,6 +46,9 @@ public class Post {
 	@JoinColumn(name = "user")
 	@JsonIgnore
 	private User user;
+
+	@ManyToMany(mappedBy = "likedPosts")
+	private Set<User> likedBy;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "restaurant")
@@ -66,7 +72,13 @@ public class Post {
 	public Post() {
 		super();
 
+		this.likes = 0;
+		this.rating = 3;
+
 		this.date = LocalDateTime.now();
+
+		this.likedBy = new HashSet<>();
+		this.comments = new ArrayList<>();
 	}
 
 	public Post(URL image, User user, Restaurant restaurant, Integer rating, String postText, String location) {
@@ -81,6 +93,8 @@ public class Post {
 		this.location = location;
 
 		this.date = LocalDateTime.now();
+
+		this.likedBy = new HashSet<>();
 	}
 
 	public List<String> getComments() {
@@ -93,6 +107,10 @@ public class Post {
 
 	public URL getImage() {
 		return image;
+	}
+
+	public Set<User> getLikedBy() {
+		return likedBy;
 	}
 
 	public Integer getLikes() {
@@ -133,6 +151,10 @@ public class Post {
 
 	public void setImage(URL image) {
 		this.image = image;
+	}
+
+	public void setLikedBy(Set<User> likedBy) {
+		this.likedBy = likedBy;
 	}
 
 	public void setLikes(Integer likes) {

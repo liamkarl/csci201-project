@@ -27,7 +27,7 @@ public class Group {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "increment")
 	@GenericGenerator(name = "increment", strategy = "increment")
-	@Column(nullable = false, updatable = false)
+	@Column(nullable = false, updatable = false, unique = true)
 	private Long groupID = Long.valueOf(0);
 
 	@ManyToMany(mappedBy = "groups")

@@ -14,12 +14,12 @@ package com.example.demo.web;
 //{
 //    @Autowired
 //    ClubPageService service;
-//    
+//
 //    @PostMapping("/clubpage")
 //    public ClubPage getClubPage( @Valid @RequestBody ClubPageRequest ClubPageRequest)
 //    {
 //        ClubPage cp = service.getClubPage(ClubPageRequest.getKey());
-//        
+//
 //        return cp;
 //    }
 //}

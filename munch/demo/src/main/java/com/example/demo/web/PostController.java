@@ -43,6 +43,9 @@ public class PostController {
 	@DeleteMapping("/remove")
 	public ResponseEntity<?> deletePost(@AuthenticationPrincipal UserDetailsImpl userDetails,
 			@RequestParam @NotBlank Long PostID) {
+		if (userDetails == null)
+			return ResponseEntity.badRequest().body(new Message("Error: You must be logged in to delete posts!"));
+
 		Optional<Post> optionalPost = PostRepository.findById(PostID);
 		Post post = optionalPost.get();
 		User user = post.getUser();
@@ -65,9 +68,45 @@ public class PostController {
 		return PostRepository.findAll();
 	}
 
+	@PostMapping("/like")
+	public ResponseEntity<?> likePost(@AuthenticationPrincipal @NotNull UserDetailsImpl userDetails,
+			@RequestParam @NotNull Long postID) {
+		if (userDetails == null)
+			return ResponseEntity.badRequest().body(new Message("Error: You must be logged in to like posts!"));
+
+		Optional<User> optionalUser = UserRepository.findByUsername(userDetails.getUsername());
+		User user = optionalUser.get();
+
+		Optional<Post> optionalPost;
+		Post likedPost;
+
+		// Finds the first restaurant of that name in database if it exists
+		if (PostRepository.existsByPostID(postID)) {
+			optionalPost = PostRepository.findByPostID(postID);
+			likedPost = optionalPost.get();
+
+			if (user.getLikedPosts().contains(likedPost))
+				return ResponseEntity.badRequest().body(new Message("Error: You already liked this post!"));
+		}
+
+		// If post doesn't exist, return error
+		else {
+			return ResponseEntity.badRequest().body(new Message("Error: That post doesn't exist!"));
+		}
+
+		user.addLikedPost(likedPost);
+		PostRepository.save(likedPost);
+		UserRepository.save(user);
+
+		return ResponseEntity.ok("Liked post successfully!");
+	}
+
 	@PostMapping("/create")
 	public ResponseEntity<?> newPost(@AuthenticationPrincipal @NotNull UserDetailsImpl userDetails,
 			@Valid @RequestBody NewPostRequest PostRequest) {
+		if (userDetails == null)
+			return ResponseEntity.badRequest().body(new Message("Error: You must be logged in to create posts!"));
+
 		Optional<User> optionalUser = UserRepository.findByUsername(userDetails.getUsername());
 		User user = optionalUser.get();
 
@@ -75,7 +114,7 @@ public class PostController {
 
 		// Finds the first restaurant of that name in database if it exists
 		if (RestaurantRepository.existsByName(PostRequest.getLocation())) {
-			restaurant = RestaurantRepository.findByName(PostRequest.getLocation()).get(0);
+			restaurant = RestaurantRepository.findByName(PostRequest.getLocation());
 		}
 
 		// Else, adds the restaurant to the database
@@ -106,6 +145,39 @@ public class PostController {
 		RestaurantRepository.save(restaurant);
 
 		return ResponseEntity.ok("Post uploaded successfully!");
+	}
+
+	@DeleteMapping("/unlike")
+	public ResponseEntity<?> unlikePost(@AuthenticationPrincipal @NotNull UserDetailsImpl userDetails,
+			@RequestParam @NotNull Long postID) {
+		if (userDetails == null)
+			return ResponseEntity.badRequest().body(new Message("Error: You must be logged in to unlike posts!"));
+
+		Optional<User> optionalUser = UserRepository.findByUsername(userDetails.getUsername());
+		User user = optionalUser.get();
+
+		Optional<Post> optionalPost;
+		Post unlikedPost;
+
+		// Finds the first restaurant of that name in database if it exists
+		if (PostRepository.existsByPostID(postID)) {
+			optionalPost = PostRepository.findByPostID(postID);
+			unlikedPost = optionalPost.get();
+
+			if (!user.getLikedPosts().contains(unlikedPost))
+				return ResponseEntity.badRequest().body(new Message("Error: You haven't yet liked this post!"));
+		}
+
+		// If post doesn't exist, return error
+		else {
+			return ResponseEntity.badRequest().body(new Message("Error: That post doesn't exist!"));
+		}
+
+		user.removeLikedPost(unlikedPost);
+		PostRepository.save(unlikedPost);
+		UserRepository.save(user);
+
+		return ResponseEntity.ok("Unliked post successfully!");
 	}
 
 }

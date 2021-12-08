@@ -29,7 +29,7 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "increment")
 	@GenericGenerator(name = "increment", strategy = "increment")
-	@Column(nullable = false, updatable = false)
+	@Column(nullable = false, updatable = false, unique = true)
 	private Long userID = Long.valueOf(0);
 
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -38,10 +38,6 @@ public class User {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
 	@JsonIgnore
 	private List<Post> posts;
-
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
-	@JsonIgnore
-	private List<Bookmark> bookmarks;
 
 	@OneToMany(mappedBy = "userFollower")
 	private Set<Follower> followers;
@@ -52,6 +48,10 @@ public class User {
 	@ManyToMany(cascade = CascadeType.MERGE)
 	@JoinTable(name = "users_groups", joinColumns = @JoinColumn(name = "userID"), inverseJoinColumns = @JoinColumn(name = "groupID"))
 	private Set<Group> groups;
+
+	@ManyToMany(cascade = CascadeType.MERGE)
+	@JoinTable(name = "liked_posts", joinColumns = @JoinColumn(name = "userID"), inverseJoinColumns = @JoinColumn(name = "postID"))
+	private Set<Post> likedPosts;
 
 	@Column(nullable = false, unique = true)
 	private String username;
@@ -74,8 +74,8 @@ public class User {
 		this.following = new HashSet<>();
 
 		this.posts = new ArrayList<>();
-		this.bookmarks = new ArrayList<>();
 		this.groups = new HashSet<>();
+		this.likedPosts = new HashSet<>();
 
 		this.username = "";
 		this.password = "";
@@ -88,14 +88,33 @@ public class User {
 	public User(String username, String password) {
 		this.username = username;
 		this.password = password;
+		this.email = "";
 		this.role = "USER";
 
 		this.followers = new HashSet<>();
 		this.following = new HashSet<>();
 
 		this.posts = new ArrayList<>();
-		this.bookmarks = new ArrayList<>();
-		this.groups = new HashSet<>(0);
+		this.groups = new HashSet<>();
+		this.likedPosts = new HashSet<>();
+
+		this.numFollowers = 0;
+		this.numFollowing = 0;
+		this.numPosts = 0;
+	}
+
+	public User(String username, String password, String email, String role) {
+		this.username = username;
+		this.password = password;
+		this.email = email;
+		this.role = role;
+
+		this.followers = new HashSet<>();
+		this.following = new HashSet<>();
+
+		this.posts = new ArrayList<>();
+		this.groups = new HashSet<>();
+		this.likedPosts = new HashSet<>();
 
 		this.numFollowers = 0;
 		this.numFollowing = 0;
@@ -112,6 +131,11 @@ public class User {
 		this.numFollowing++;
 	}
 
+	public void addLikedPost(Post post) {
+		this.likedPosts.add(post);
+		post.setLikes(post.getLikes() + 1);
+	}
+
 	public void addPost(Post post) {
 		this.posts.add(post);
 		this.numPosts++;
@@ -119,10 +143,6 @@ public class User {
 
 	public String getBio() {
 		return bio;
-	}
-
-	public List<Bookmark> getBookmarks() {
-		return bookmarks;
 	}
 
 	public String getEmail() {
@@ -139,6 +159,10 @@ public class User {
 
 	public Set<Group> getGroups() {
 		return groups;
+	}
+
+	public Set<Post> getLikedPosts() {
+		return likedPosts;
 	}
 
 	public int getNumFollowers() {
@@ -187,6 +211,11 @@ public class User {
 		this.numFollowing--;
 	}
 
+	public void removeLikedPost(Post post) {
+		this.likedPosts.remove(post);
+		post.setLikes(post.getLikes() - 1);
+	}
+
 	public void removePost(Post post) {
 		this.posts.remove(post);
 		this.numPosts--;
@@ -194,10 +223,6 @@ public class User {
 
 	public void setBio(String bio) {
 		this.bio = bio;
-	}
-
-	public void setBookmarks(List<Bookmark> bookmarks) {
-		this.bookmarks = bookmarks;
 	}
 
 	public void setEmail(String email) {
@@ -214,6 +239,10 @@ public class User {
 
 	public void setGroups(Set<Group> groups) {
 		this.groups = groups;
+	}
+
+	public void setLikedPosts(Set<Post> likedPosts) {
+		this.likedPosts = likedPosts;
 	}
 
 	public void setNumFollowers(int numFollowers) {

@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
+	Boolean existsByPostID(Long postID);
+
 	Optional<Post> findByPostID(Long postID);
 
 	@Query(value = "SELECT * FROM Posts p where p.restaurant.getRestaurantID = ?1", nativeQuery = true)
