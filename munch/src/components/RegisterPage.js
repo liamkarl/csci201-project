@@ -1,18 +1,15 @@
 import React, { Component } from "react";
-import axios from "axios";
 
 import "./RegisterPage.css";
+import AuthService from "../AuthService";
 
 export default class Register extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      email: "",
-      password: "",
-      password_confirmation: "",
-      registrationErrors: "",
       username: "",
+      password: "",
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -26,31 +23,20 @@ export default class Register extends Component {
   }
 
   handleSubmit(event) {
-    const { email, username, password, password_confirmation } = this.state;
-    console.log({
-      email: email,
-      username: username,
-      password: password,
-    })
-    axios
-      .post(
-        "http://localhost:3001/registrations",
-        {
-          user: {
-            email: email,
-            username: username,
-            password: password,
-          },
-        },
-        { withCredentials: true }
-      )
-      .then((response) => {
-        if (response.data.status === "created") {
-          this.props.handleSuccessfulAuth(response.data);
-        }
+    const { username, password } = this.state;
+    AuthService.register(username, password)
+      .then(() => {
+        AuthService.login(username, password);
+      })
+      .then(() => {
+        window.history.pushState({}, "", "/landing");
+        const navEvent = new PopStateEvent("popstate");
+        window.dispatchEvent(navEvent);
       })
       .catch((error) => {
         console.log("registration error", error);
+        alert("You cannot use this username. Try again.")
+        ;
       });
     event.preventDefault();
   }
@@ -61,16 +47,6 @@ export default class Register extends Component {
         <form onSubmit={this.handleSubmit}>
           <div className="field">
             <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              value={this.state.email}
-              onChange={this.handleChange}
-              required
-            />
-          </div>
-          <div className="field">
-            <input
               type="text"
               name="username"
               placeholder="username"
@@ -79,6 +55,7 @@ export default class Register extends Component {
               required
             />
           </div>
+
           <div className="field">
             <input
               type="password"
@@ -89,16 +66,7 @@ export default class Register extends Component {
               required
             />
           </div>
-          <div className="field">
-            <input
-              type="password"
-              name="password_confirmation"
-              placeholder="Password confirmation"
-              value={this.state.password_confirmation}
-              onChange={this.handleChange}
-              required
-            />
-          </div>
+
           <button type="submit">Register</button>
         </form>
       </div>

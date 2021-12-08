@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import './LoginPage.css'
+import "./LoginPage.css";
+import AuthService from "../AuthService";
 
 export default class Login extends Component {
   constructor(props) {
     super(props);
-
+  
     this.state = {
-      email: "",
       username: "",
       password: "",
     };
@@ -23,27 +23,17 @@ export default class Login extends Component {
   }
 
   handleSubmit(event) {
+    const { username, password } = this.state;
 
-    const { email, password } = this.state;
-
-    axios
-      .post(
-        "http://localhost:3000/login",
-        {
-          user: {
-            email: email,
-            password: password,
-          },
-        },
-        { withCredentials: true }
-      )
-      .then((response) => {
-        if (response.data.success) {
-          this.props.handleSuccessfulAuth(response.data);
-        }
+    AuthService.login(username, password)
+      .then(() => {
+        window.history.pushState({}, "", "/landing");
+        const navEvent = new PopStateEvent("popstate");
+        window.dispatchEvent(navEvent);
       })
       .catch((error) => {
         console.log("login error", error);
+        alert("Invalid username or password.")
       });
     event.preventDefault();
   }
@@ -54,10 +44,10 @@ export default class Login extends Component {
         <form onSubmit={this.handleSubmit}>
           <div className="field">
             <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              value={this.state.email}
+              type="text"
+              name="username"
+              placeholder="Username"
+              value={this.state.username}
               onChange={this.handleChange}
               required
             />

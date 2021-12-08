@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { userData } from "./userData.js";
+import "./Account.css";
+import { Form } from "react-bootstrap";
 
-
-export default class Account extends Component {
+export default class ViewAccount extends Component {
   constructor(props) {
     super(props);
 
@@ -12,72 +14,30 @@ export default class Account extends Component {
       profPic: "",
       numPosts: "",
       numFollowers: "",
-      numFollowing: ""
+      numFollowing: "",
     };
   }
 
-  componentDidMount(){
-      axios.get('https://localhost:3000/user/name')
-      .then(response =>{
-          this.setState({username:response.data})
-      })
-      .catch(error =>{
-          console.log(error)
-      })
 
-      axios.get('https://localhost:3000/user/bio')
-      .then(response =>{
-          this.setState({userBio:response.data})
-      })
-      .catch(error =>{
-          console.log(error)
-      })
-
-      axios.get('https://localhost:3000/user/pfp')
-      .then(response =>{
-          this.setState({profPic:response.data})
-      })
-      .catch(error =>{
-          console.log(error)
-      })
-
-      axios.get('https://localhost:3000/user/posts')
-      .then(response =>{
-          this.setState({numPosts:response.data})
-      })
-      .catch(error =>{
-          console.log(error)
-      })
-
-      axios.get('https://localhost:3000/user/followers')
-      .then(response =>{
-          this.setState({numFollowers:response.data})
-      })
-      .catch(error =>{
-          console.log(error)
-      })
-
-      axios.get('https://localhost:3000/user/following')
-      .then(response =>{
-          this.setState({numFollowing:response.data})
-      })
-      .catch(error =>{
-          console.log(error)
-      })
-  }
- 
-
+  handleSubmit(event) {}
 
   render() {
-      let{username, userBio, numFollowers, numFollowing, profPic} = this.state;
+    const user = JSON.parse(localStorage.getItem('user'));
+    let { username } = user;
+    console.log(user);
     return (
-        <div>
-            <image src={profPic}></image>
-            <div>username: {username}</div>
-            <div>userbio: {userBio}</div>
-            <div>{numFollowers} followers</div>
-            <div>{numFollowing} following</div>
+      <div className="accountpage">
+        {/* <img src={profPic} className="pfp"></img> */}
+        <h2 className="textblock">{username}</h2>
+        {/* <div className="follow">
+          {numFollowers} followers {numFollowing} following
         </div>
+        <div className="bio">{userBio}</div>
+
+        <form onSubmit={this.handleSubmit}>
+          <button type="submit"> Follow </button>
+        </form> */}
+      </div>
     );
   }
 }

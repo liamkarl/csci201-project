@@ -1,3 +1,7 @@
+input[type="file"] {
+    display: none;
+}
+
 .formcard{
     display: flex;
     align-items: start;
@@ -14,9 +18,6 @@
     height: 80%;
 
     border-radius: 15px;
-}
-.formgroup{
-    
 }
 
 
@@ -59,4 +60,18 @@ button{
     background-color: #ed9b14;
     color:white;
     margin: 25px 0px;
+}
+
+.custom-file-upload {
+    border-radius: 15px;
+    border: 1px solid #ccc;
+    height: 50px;
+    width: 200px;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+.imageinfo{
+    margin:auto;
+    padding: 6px 12px;
 }

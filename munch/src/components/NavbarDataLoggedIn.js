@@ -1,7 +1,7 @@
 import React from 'react'
 import * as MDIcons from 'react-icons/md'
 
-export const NavbarData = [
+export const NavbarDataLoggedIn = [
     {
         title: 'Home',
         path: '/',
@@ -21,15 +21,21 @@ export const NavbarData = [
         className: 'nav-text'
     },
     {
-        title: 'Login',
-        path: '/login',
-        icon: <MDIcons.MdPermIdentity />,
+        title: 'Review',
+        path: '/review',
+        icon: <MDIcons.MdRateReview />,
         className: 'nav-text'
     },
     {
-        title: 'Register',
-        path: '/register',
-        icon: <MDIcons.MdAccountCircle />,
+        title: 'Account',
+        path: '/account',
+        icon: <MDIcons.MdPerson />,
         className: 'nav-text'
     },
+    {
+        title: 'Logout',
+        path: '/logout',
+        icon: <MDIcons.MdPermIdentity />,
+        className: 'nav-text'
+    }
 ]

@@ -5,41 +5,24 @@ import java.util.concurrent.Executor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+<<<<<<< HEAD
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+=======
+>>>>>>> 62559cc87d6f52945c2829ef0560b23100ba54e6
 
-import com.example.demo.domain.Bookmark;
 import com.example.demo.domain.BookmarkRepository;
-import com.example.demo.domain.Event;
 import com.example.demo.domain.EventRepository;
-import com.example.demo.domain.Image;
-import com.example.demo.domain.ImageRepository;
-import com.example.demo.domain.Post;
+import com.example.demo.domain.GroupRepository;
 import com.example.demo.domain.PostRepository;
-import com.example.demo.domain.Restaurant;
 import com.example.demo.domain.RestaurantRepository;
-import com.example.demo.domain.User;
 import com.example.demo.domain.UserRepository;
 
 @SpringBootApplication
 public class DemoApplication {
-
-	@Autowired
-	UserRepository UserRepository;
-	@Autowired
-	ImageRepository ImageRepository;
-	@Autowired
-	PostRepository PostRepository;
-	@Autowired
-	RestaurantRepository RestaurantRepository;
-	@Autowired
-	EventRepository EventRepository;
-	@Autowired
-	BookmarkRepository BookmarkRepository;
 
 	private static final Logger logger = LoggerFactory.getLogger(DemoApplication.class);
 
@@ -48,6 +31,7 @@ public class DemoApplication {
 		logger.info("Hello Spring Boot");
 	}
 
+<<<<<<< HEAD
 	@Bean
 	CommandLineRunner runner() {
 		return args -> {
@@ -77,5 +61,20 @@ public class DemoApplication {
 	    executor.initialize();
 	    return executor;
 	}
+=======
+	@Autowired
+	UserRepository UserRepository;
+	@Autowired
+	PostRepository PostRepository;
+	@Autowired
+	RestaurantRepository RestaurantRepository;
+	@Autowired
+	EventRepository EventRepository;
+>>>>>>> 62559cc87d6f52945c2829ef0560b23100ba54e6
 
+	@Autowired
+	BookmarkRepository BookmarkRepository;
+
+	@Autowired
+	GroupRepository GroupRepository;
 }

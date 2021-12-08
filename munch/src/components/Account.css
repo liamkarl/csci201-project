@@ -1,0 +1,17 @@
+.pfp{
+    height:150px;
+    width:150px;
+    border-radius: 50%
+}
+.accountpage{
+    margin-top:30px;
+    text-align: center;
+}
+.textblock{
+    margin-top: 10px;
+    font-size:larger;
+}
+.bio{
+    margin-top:10px;
+    color:lightgrey;
+}
