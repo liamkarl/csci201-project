@@ -2,10 +2,8 @@ package com.example.demo.web;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Optional;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,13 +40,17 @@ public class PostController {
 
 	@DeleteMapping("/remove")
 	public ResponseEntity<?> deletePost(@AuthenticationPrincipal UserDetailsImpl userDetails,
-			@RequestParam @NotBlank Long PostID) {
+			@RequestParam @NotNull Long postID) {
 		if (userDetails == null)
 			return ResponseEntity.badRequest().body(new Message("Error: You must be logged in to delete posts!"));
 
-		Optional<Post> optionalPost = PostRepository.findById(PostID);
-		Post post = optionalPost.get();
+		Post post = PostRepository.findById(postID).get();
 		User user = post.getUser();
+
+		if (!user.getUserID().equals(userDetails.getUserID())) {
+			return ResponseEntity.badRequest().body(new Message("Error: You can only delete your own posts!"));
+		}
+
 		Restaurant restaurant = post.getRestaurant();
 
 		// Remove post from User and Restaurant profiles
@@ -74,16 +76,12 @@ public class PostController {
 		if (userDetails == null)
 			return ResponseEntity.badRequest().body(new Message("Error: You must be logged in to like posts!"));
 
-		Optional<User> optionalUser = UserRepository.findByUsername(userDetails.getUsername());
-		User user = optionalUser.get();
-
-		Optional<Post> optionalPost;
+		User user = UserRepository.findByUsername(userDetails.getUsername()).get();
 		Post likedPost;
 
-		// Finds the first restaurant of that name in database if it exists
+		// Finds the post of that ID in database if it exists
 		if (PostRepository.existsByPostID(postID)) {
-			optionalPost = PostRepository.findByPostID(postID);
-			likedPost = optionalPost.get();
+			likedPost = PostRepository.findById(postID).get();
 
 			if (user.getLikedPosts().contains(likedPost))
 				return ResponseEntity.badRequest().body(new Message("Error: You already liked this post!"));
@@ -107,8 +105,7 @@ public class PostController {
 		if (userDetails == null)
 			return ResponseEntity.badRequest().body(new Message("Error: You must be logged in to create posts!"));
 
-		Optional<User> optionalUser = UserRepository.findByUsername(userDetails.getUsername());
-		User user = optionalUser.get();
+		User user = UserRepository.findByUsername(userDetails.getUsername()).get();
 
 		Restaurant restaurant;
 
@@ -153,16 +150,12 @@ public class PostController {
 		if (userDetails == null)
 			return ResponseEntity.badRequest().body(new Message("Error: You must be logged in to unlike posts!"));
 
-		Optional<User> optionalUser = UserRepository.findByUsername(userDetails.getUsername());
-		User user = optionalUser.get();
-
-		Optional<Post> optionalPost;
+		User user = UserRepository.findByUsername(userDetails.getUsername()).get();
 		Post unlikedPost;
 
-		// Finds the first restaurant of that name in database if it exists
+		// Finds the post of that ID in database if it exists
 		if (PostRepository.existsByPostID(postID)) {
-			optionalPost = PostRepository.findByPostID(postID);
-			unlikedPost = optionalPost.get();
+			unlikedPost = PostRepository.findByPostID(postID).get();
 
 			if (!user.getLikedPosts().contains(unlikedPost))
 				return ResponseEntity.badRequest().body(new Message("Error: You haven't yet liked this post!"));

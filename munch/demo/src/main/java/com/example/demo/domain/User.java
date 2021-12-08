@@ -36,21 +36,24 @@ public class User {
 	private int numPosts, numFollowers, numFollowing;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
-	@JsonIgnore
 	private List<Post> posts;
 
 	@OneToMany(mappedBy = "userFollower")
+	@JsonIgnore
 	private Set<Follower> following;
 
 	@OneToMany(mappedBy = "userFollowing")
+	@JsonIgnore
 	private Set<Follower> followers;
 
 	@ManyToMany(cascade = CascadeType.MERGE)
 	@JoinTable(name = "users_groups", joinColumns = @JoinColumn(name = "userID"), inverseJoinColumns = @JoinColumn(name = "groupID"))
+	@JsonIgnore
 	private Set<Group> groups;
 
 	@ManyToMany(cascade = CascadeType.MERGE)
 	@JoinTable(name = "liked_posts", joinColumns = @JoinColumn(name = "userID"), inverseJoinColumns = @JoinColumn(name = "postID"))
+	@JsonIgnore
 	private Set<Post> likedPosts;
 
 	@Column(nullable = false, unique = true)
@@ -131,6 +134,10 @@ public class User {
 		this.numFollowing++;
 	}
 
+	public void addGroup(Group group) {
+		this.groups.add(group);
+	}
+
 	public void addLikedPost(Post post) {
 		this.likedPosts.add(post);
 		post.setLikes(post.getLikes() + 1);
@@ -209,6 +216,10 @@ public class User {
 	public void removeFollowing(Follower following) {
 		this.following.remove(following);
 		this.numFollowing--;
+	}
+
+	public void removeGroup(Group group) {
+		this.groups.remove(group);
 	}
 
 	public void removeLikedPost(Post post) {

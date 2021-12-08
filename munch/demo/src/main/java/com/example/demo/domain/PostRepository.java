@@ -13,6 +13,8 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
 	List<Post> findAllByOrderByDateDesc();
 
+	List<Post> findAllByOrderByLikesDesc();
+
 	List<Post> findAllByUserInOrderByDateDesc(Iterable<User> users);
 
 	Optional<Post> findByPostID(Long postID);

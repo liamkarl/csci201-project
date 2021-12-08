@@ -1,7 +1,5 @@
 package com.example.demo.web;
 
-import java.util.Optional;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -38,15 +36,13 @@ public class UserController {
 		if (userDetails == null)
 			return ResponseEntity.badRequest().body(new Message("Error: You must be logged in to follow accounts!"));
 
-		Optional<User> optionalUser = UserRepository.findByUsername(userDetails.getUsername());
-		User userFollower = optionalUser.get();
+		User userFollower = UserRepository.findByUsername(userDetails.getUsername()).get();
 
 		User userFollowing;
 
 		// Finds the other user of that name in database if it exists
 		if ((UserRepository.existsByUsername(username)) && !(username.equals(userFollower.getUsername()))) {
-			optionalUser = UserRepository.findByUsername(username);
-			userFollowing = optionalUser.get();
+			userFollowing = UserRepository.findByUsername(username).get();
 
 			if (FollowerRepository.existsByUserFollowerAndUserFollowing(userFollower, userFollowing))
 				return ResponseEntity.badRequest().body(new Message("Error: You already follow this account!"));
@@ -75,11 +71,6 @@ public class UserController {
 		return ResponseEntity.ok("Followed user successfully!");
 	}
 
-	@GetMapping("/name")
-	public String getName(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-		return userDetails.getUsername();
-	}
-
 	@GetMapping("/users")
 	public Iterable<User> getUsers() {
 		return UserRepository.findAll();
@@ -91,15 +82,13 @@ public class UserController {
 		if (userDetails == null)
 			return ResponseEntity.badRequest().body(new Message("Error: You must be logged in to unfollow accounts!"));
 
-		Optional<User> optionalUser = UserRepository.findByUsername(userDetails.getUsername());
-		User userFollower = optionalUser.get();
+		User userFollower = UserRepository.findByUsername(userDetails.getUsername()).get();
 
 		User userFollowing;
 
 		// Finds the other user of that name in database if it exists
 		if ((UserRepository.existsByUsername(username)) && !(username.equals(userFollower.getUsername()))) {
-			optionalUser = UserRepository.findByUsername(username);
-			userFollowing = optionalUser.get();
+			userFollowing = UserRepository.findByUsername(username).get();
 
 			if (!FollowerRepository.existsByUserFollowerAndUserFollowing(userFollower, userFollowing))
 				return ResponseEntity.badRequest().body(new Message("Error: You don't follow this account!"));
@@ -115,9 +104,7 @@ public class UserController {
 			return ResponseEntity.badRequest().body(new Message("Error: That user doesn't exist!"));
 		}
 
-		Optional<Follower> optionalFollower = FollowerRepository.findByUserFollowerAndUserFollowing(userFollower,
-				userFollowing);
-		Follower delRelation = optionalFollower.get();
+		Follower delRelation = FollowerRepository.findByUserFollowerAndUserFollowing(userFollower, userFollowing).get();
 
 		FollowerRepository.delete(delRelation);
 
@@ -131,16 +118,15 @@ public class UserController {
 	}
 
 	@PostMapping("/name")
-	public ResponseEntity<?> setName(@AuthenticationPrincipal UserDetailsImpl userDetails, String username) {
+	public ResponseEntity<?> setName(@AuthenticationPrincipal @NotNull UserDetailsImpl userDetails,
+			@RequestParam @NotNull String username) {
 		if (userDetails == null)
 			return ResponseEntity.badRequest().body(new Message("Error: You must be logged in to change a username!"));
 
-		Optional<User> optionalUser = UserRepository.findByUsername(userDetails.getUsername());
-		User user = optionalUser.get();
+		User user = UserRepository.findByUsername(userDetails.getUsername()).get();
 
 		user.setUsername(username);
 		UserRepository.save(user);
 		return ResponseEntity.ok("Username updated successfully!");
 	}
-
 }

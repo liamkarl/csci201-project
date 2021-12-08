@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,7 +35,7 @@ public class HomePageController {
 	@Autowired
 	private FollowerRepository FollowerRepository;
 
-	@RequestMapping("/posts")
+	@GetMapping("/posts")
 	public ResponseEntity<Object> getPosts(@AuthenticationPrincipal UserDetailsImpl userDetails) {
 		if (userDetails == null)
 			return ResponseEntity.badRequest()
@@ -57,10 +58,9 @@ public class HomePageController {
 		for (Post post : PostRepository.findAllByUserInOrderByDateDesc(friends)) {
 			JSONObject postJSON = new JSONObject();
 
-			postJSON.put("location", post.getRestaurant().getName());
-			postJSON.put("rating", post.getRating());
-			postJSON.put("image", post.getImage());
-			postJSON.put("postText", post.getPostText());
+			postJSON.put("post", post);
+			postJSON.put("user", post.getUser().getUserID());
+			postJSON.put("restaurant", post.getRestaurant().getRestaurantID());
 
 			postJSONList.add(postJSON);
 			postCount++;

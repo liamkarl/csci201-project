@@ -42,7 +42,7 @@ public class Group {
 	public Group() {
 		super();
 
-		this.users = new HashSet<>(0);
+		this.users = new HashSet<>();
 		this.events = new ArrayList<>();
 		this.name = "";
 	}
@@ -55,7 +55,21 @@ public class Group {
 		this.name = name;
 	}
 
-	// getters/setters
+	public Group(String name) {
+		super();
+		this.users = new HashSet<>();
+		this.events = new ArrayList<>();
+
+		this.name = name;
+	}
+
+	public void addEvent(Event event) {
+		this.events.add(event);
+	}
+
+	public void addUser(User user) {
+		this.users.add(user);
+	}
 
 	public List<Event> getEvents() {
 		return events;
@@ -71,6 +85,14 @@ public class Group {
 
 	public Set<User> getUsers() {
 		return users;
+	}
+
+	public void removeEvent(Event event) {
+		this.events.remove(event);
+	}
+
+	public void removeUser(User user) {
+		this.users.remove(user);
 	}
 
 	public void setEvents(List<Event> events) {

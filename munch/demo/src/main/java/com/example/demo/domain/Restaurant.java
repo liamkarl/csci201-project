@@ -14,6 +14,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "RestaurantTable")
 public class Restaurant {
@@ -26,6 +28,10 @@ public class Restaurant {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurant")
 	private List<Post> posts;
 
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurant")
+	@JsonIgnore
+	private List<Event> events;
+
 	@Column(nullable = false)
 	private String name, cuisine, price, address;
 
@@ -36,6 +42,7 @@ public class Restaurant {
 		super();
 
 		this.posts = new ArrayList<>();
+		this.events = new ArrayList<>();
 
 		this.name = "";
 		this.cuisine = "";
@@ -50,6 +57,7 @@ public class Restaurant {
 		super();
 
 		this.posts = new ArrayList<>();
+		this.events = new ArrayList<>();
 
 		this.name = name;
 		this.cuisine = "";
@@ -61,11 +69,17 @@ public class Restaurant {
 	}
 
 	public Restaurant(String name, String cuisine, String price, String address) {
+		super();
+
+		this.posts = new ArrayList<>();
+		this.events = new ArrayList<>();
+
 		this.name = name;
 		this.cuisine = cuisine;
 		this.price = price;
 		this.address = address;
 		this.menuLink = "";
+
 		this.avgRating = 0.0;
 	}
 
@@ -73,6 +87,7 @@ public class Restaurant {
 		super();
 
 		this.posts = new ArrayList<>();
+		this.events = new ArrayList<>();
 
 		this.name = name;
 		this.cuisine = cuisine;
@@ -81,6 +96,10 @@ public class Restaurant {
 		this.menuLink = menuLink;
 
 		this.avgRating = 0.0;
+	}
+
+	public void addEvent(Event event) {
+		this.events.add(event);
 	}
 
 	public void addPost(Post post) {
@@ -118,6 +137,10 @@ public class Restaurant {
 
 	public long getRestaurantID() {
 		return restaurantID;
+	}
+
+	public void removeEvent(Event event) {
+		this.events.remove(event);
 	}
 
 	public void removePost(Post post) {
@@ -173,9 +196,4 @@ public class Restaurant {
 		else
 			this.avgRating = 0.0;
 	}
-
-	// private List<Image> images
-	// private Map<Integer, Post> popularPosts
-	// private Map<Integer, Post> criticalPosts
-
 }

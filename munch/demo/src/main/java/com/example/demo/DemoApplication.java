@@ -35,7 +35,6 @@ public class DemoApplication {
 	RestaurantRepository RestaurantRepository;
 	@Autowired
 	EventRepository EventRepository;
-
 	@Autowired
 	GroupRepository GroupRepository;
 

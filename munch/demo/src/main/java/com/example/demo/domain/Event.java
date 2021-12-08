@@ -1,5 +1,7 @@
 package com.example.demo.domain;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,6 +13,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "EventTable")
@@ -21,10 +28,14 @@ public class Event {
 	@Column(nullable = false, updatable = false, unique = true)
 	private Long eventID = Long.valueOf(0);
 
-	// private Ordered_Map<Integer, Bookmark> proposedRestaurants
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "restaurant")
+	@JsonIgnore
+	private Restaurant restaurant;
 
-	private String startTime, endTime;
-	private boolean closed;
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm", iso = ISO.DATE_TIME)
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
+	private LocalDateTime startTime, endTime;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "event_group")
@@ -33,72 +44,54 @@ public class Event {
 	public Event() {
 		super();
 
-		this.startTime = "";
-		this.endTime = "";
-
-		this.closed = false;
-
 		this.event_group = new Group();
 	}
 
-	public Event(Group group) {
-		super();
-
-		this.startTime = "";
-		this.endTime = "";
-
-		this.closed = false;
-
-		this.event_group = group;
-	}
-
-	public Event(String startTime, String endTime, boolean closed, Group group) {
+	public Event(LocalDateTime startTime, LocalDateTime endTime, Group group, Restaurant restaurant) {
 		super();
 		this.startTime = startTime;
 		this.endTime = endTime;
-		this.closed = closed;
 		this.event_group = group;
+		this.restaurant = restaurant;
 	}
 
-	// getters/setters
-
-	public String getEndTime() {
+	public LocalDateTime getEndTime() {
 		return endTime;
+	}
+
+	public Group getEvent_group() {
+		return event_group;
 	}
 
 	public Long getEventID() {
 		return eventID;
 	}
 
-	public Group getGroup() {
-		return event_group;
+	public Restaurant getRestaurant() {
+		return restaurant;
 	}
 
-	public String getStartTime() {
+	public LocalDateTime getStartTime() {
 		return startTime;
 	}
 
-	public boolean isClosed() {
-		return closed;
-	}
-
-	public void setClosed(boolean closed) {
-		this.closed = closed;
-	}
-
-	public void setEndTime(String endTime) {
+	public void setEndTime(LocalDateTime endTime) {
 		this.endTime = endTime;
+	}
+
+	public void setEvent_group(Group event_group) {
+		this.event_group = event_group;
 	}
 
 	public void setEventID(Long eventID) {
 		this.eventID = eventID;
 	}
 
-	public void setGroup(Group group) {
-		this.event_group = group;
+	public void setRestaurant(Restaurant restaurant) {
+		this.restaurant = restaurant;
 	}
 
-	public void setStartTime(String startTime) {
+	public void setStartTime(LocalDateTime startTime) {
 		this.startTime = startTime;
 	}
 }
