@@ -16,6 +16,7 @@ export default class Form extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.onImageChange = this.onImageChange.bind(this);
+    this.handleRatingChange = this.handleRatingChange.bind(this);
   }
 
   handleChange(event) {
