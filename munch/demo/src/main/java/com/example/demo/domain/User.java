@@ -43,6 +43,12 @@ public class User {
 	@JsonIgnore
 	private List<Bookmark> bookmarks;
 
+	@OneToMany(mappedBy = "userFollower")
+	private Set<Follower> followers;
+
+	@OneToMany(mappedBy = "userFollowing")
+	private Set<Follower> following;
+
 	@ManyToMany(cascade = CascadeType.MERGE)
 	@JoinTable(name = "users_groups", joinColumns = @JoinColumn(name = "userID"), inverseJoinColumns = @JoinColumn(name = "groupID"))
 	private Set<Group> groups;
@@ -61,12 +67,15 @@ public class User {
 	public User() {
 		super();
 		this.numFollowers = 0;
-		this.numPosts = 0;
 		this.numFollowing = 0;
+		this.numPosts = 0;
+
+		this.followers = new HashSet<>();
+		this.following = new HashSet<>();
 
 		this.posts = new ArrayList<>();
 		this.bookmarks = new ArrayList<>();
-		this.groups = new HashSet<>(0);
+		this.groups = new HashSet<>();
 
 		this.username = "";
 		this.password = "";
@@ -76,30 +85,31 @@ public class User {
 		this.pfp = "";
 	}
 
-	public User(int numPosts, int numFollowers, int numFollowing, List<Post> posts, List<Bookmark> bookmarks,
-			Set<Group> groups, String username, String password, String email, String role, String bio, String pfp) {
-		super();
-		this.numPosts = numPosts;
-		this.numFollowers = numFollowers;
-		this.numFollowing = numFollowing;
-
-		this.posts = posts;
-		this.bookmarks = bookmarks;
-		this.groups = groups;
-
-		this.username = username;
-		this.password = password;
-		this.email = email;
-		this.role = role;
-		this.bio = bio;
-		this.pfp = pfp;
-	}
-
 	public User(String username, String password) {
 		this.username = username;
 		this.password = password;
-
 		this.role = "USER";
+
+		this.followers = new HashSet<>();
+		this.following = new HashSet<>();
+
+		this.posts = new ArrayList<>();
+		this.bookmarks = new ArrayList<>();
+		this.groups = new HashSet<>(0);
+
+		this.numFollowers = 0;
+		this.numFollowing = 0;
+		this.numPosts = 0;
+	}
+
+	public void addFollower(Follower follower) {
+		this.followers.add(follower);
+		this.numFollowers++;
+	}
+
+	public void addFollowing(Follower following) {
+		this.following.add(following);
+		this.numFollowing++;
 	}
 
 	public void addPost(Post post) {
@@ -117,6 +127,14 @@ public class User {
 
 	public String getEmail() {
 		return email;
+	}
+
+	public Set<Follower> getFollowers() {
+		return followers;
+	}
+
+	public Set<Follower> getFollowing() {
+		return following;
 	}
 
 	public Set<Group> getGroups() {
@@ -159,6 +177,16 @@ public class User {
 		return username;
 	}
 
+	public void removeFollower(Follower follower) {
+		this.followers.remove(follower);
+		this.numFollowers--;
+	}
+
+	public void removeFollowing(Follower following) {
+		this.following.remove(following);
+		this.numFollowing--;
+	}
+
 	public void removePost(Post post) {
 		this.posts.remove(post);
 		this.numPosts--;
@@ -174,6 +202,14 @@ public class User {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public void setFollowers(Set<Follower> followers) {
+		this.followers = followers;
+	}
+
+	public void setFollowing(Set<Follower> following) {
+		this.following = following;
 	}
 
 	public void setGroups(Set<Group> groups) {

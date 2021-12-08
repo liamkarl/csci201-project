@@ -1,8 +1,11 @@
 package com.example.demo.web;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Optional;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +16,10 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.domain.Message;
 import com.example.demo.domain.Post;
 import com.example.demo.domain.PostRepository;
 import com.example.demo.domain.Restaurant;
@@ -22,7 +27,6 @@ import com.example.demo.domain.RestaurantRepository;
 import com.example.demo.domain.User;
 import com.example.demo.domain.UserRepository;
 import com.example.demo.payload.NewPostRequest;
-import com.example.demo.payload.RemovePostRequest;
 import com.example.demo.security.service.UserDetailsImpl;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -38,8 +42,8 @@ public class PostController {
 
 	@DeleteMapping("/remove")
 	public ResponseEntity<?> deletePost(@AuthenticationPrincipal UserDetailsImpl userDetails,
-			@Valid @RequestBody RemovePostRequest PostRequest) {
-		Optional<Post> optionalPost = PostRepository.findById(PostRequest.getPostID());
+			@RequestParam @NotBlank Long PostID) {
+		Optional<Post> optionalPost = PostRepository.findById(PostID);
 		Post post = optionalPost.get();
 		User user = post.getUser();
 		Restaurant restaurant = post.getRestaurant();
@@ -77,13 +81,20 @@ public class PostController {
 		// Else, adds the restaurant to the database
 		else {
 			restaurant = new Restaurant(PostRequest.getLocation());
-
 			restaurant = RestaurantRepository.save(restaurant);
 		}
 
+		URL url = null;
+
+		try {
+			url = new URL(PostRequest.getImage());
+		} catch (MalformedURLException e) {
+			return ResponseEntity.badRequest().body(new Message("Error: Image URL is improperly formatted!"));
+		}
+
 		// Create new post
-		Post post = new Post(PostRequest.getImage(), user, restaurant, PostRequest.getRating(),
-				PostRequest.getPostText(), PostRequest.getLocation());
+		Post post = new Post(url, user, restaurant, PostRequest.getRating(), PostRequest.getPostText(),
+				PostRequest.getLocation());
 
 		// Upload post to database
 		post = PostRepository.save(post);

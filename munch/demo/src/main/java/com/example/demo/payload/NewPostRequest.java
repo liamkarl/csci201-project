@@ -1,7 +1,5 @@
 package com.example.demo.payload;
 
-import java.net.URL;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -16,9 +14,9 @@ public class NewPostRequest {
 	@NotBlank
 	private String postText;
 
-	private URL image;
+	private String image;
 
-	public URL getImage() {
+	public String getImage() {
 		return image;
 	}
 
@@ -34,7 +32,7 @@ public class NewPostRequest {
 		return rating;
 	}
 
-	public void setImage(URL image) {
+	public void setImage(String image) {
 		this.image = image;
 	}
 
