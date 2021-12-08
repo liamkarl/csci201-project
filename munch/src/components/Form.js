@@ -40,9 +40,12 @@ export default class Form extends Component {
     })
   }
   handleSubmit(event) {
+    const user = JSON.parse(localStorage.getItem('user'));
     const { location, rating, image, postText } = this.state;
 
     console.log({
+      user,
+      headers: AuthHeader(),
       location: location,
       rating: rating,
       image: image,
@@ -51,13 +54,11 @@ export default class Form extends Component {
 
     axios
       .post("http://localhost:8080/api/post/create", {
-        headers: AuthHeader(),
-
           location: location,
           rating: rating,
           image: image,
           postText: postText,
-      })
+      }, {headers: AuthHeader()})
 
       .then((response) => {
         console.log(response);
