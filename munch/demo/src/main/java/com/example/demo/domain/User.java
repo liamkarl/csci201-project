@@ -40,10 +40,10 @@ public class User {
 	private List<Post> posts;
 
 	@OneToMany(mappedBy = "userFollower")
-	private Set<Follower> followers;
+	private Set<Follower> following;
 
 	@OneToMany(mappedBy = "userFollowing")
-	private Set<Follower> following;
+	private Set<Follower> followers;
 
 	@ManyToMany(cascade = CascadeType.MERGE)
 	@JoinTable(name = "users_groups", joinColumns = @JoinColumn(name = "userID"), inverseJoinColumns = @JoinColumn(name = "groupID"))

@@ -11,7 +11,6 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -25,12 +24,10 @@ public class Follower {
 	private Long followerID = Long.valueOf(0);
 
 	@ManyToOne
-	@JsonIgnore
 	@JoinColumn(name = "userFollower")
 	private User userFollower;
 
 	@ManyToOne
-	@JsonIgnore
 	@JoinColumn(name = "userFollowing")
 	private User userFollowing;
 
