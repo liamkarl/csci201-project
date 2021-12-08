@@ -10,7 +10,7 @@ body {
     overflow: hidden;
 }
 
-.home, .login, .review, .discover, .lists, .account {
+.home, .login, .register, .review, .discover, .lists, .list, .account {
     overflow-y: scroll;
     /* text-align: center; */
     color: white;
