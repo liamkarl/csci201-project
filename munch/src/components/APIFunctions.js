@@ -20,8 +20,12 @@ export const HandleLike = (postID) => {
 export const SearchRestaurant = (searchInput) => {
 	axios.get(
 		requests.search,
-		{ RestaurantSearchRequest: searchInput },
-		{ headers: AuthHeader() }).then((response) => {
+		{ 
+			headers: AuthHeader(), 
+			body: {
+				'search': searchInput
+			}
+		}).then((response) => {
 			return response.data
 		})
         .catch(error => console.error('Error ' + error))
