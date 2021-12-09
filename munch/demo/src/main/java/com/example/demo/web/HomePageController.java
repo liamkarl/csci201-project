@@ -56,7 +56,7 @@ public class HomePageController {
 		for (Post post : PostRepository.findAllByUserInOrderByDateDesc(friends)) {
 			JSONObject postJSON = new JSONObject();
 
-			postJSON.put("user", post.getUser().getUserID());
+			postJSON.put("username", post.getUser().getUsername());
 			postJSON.put("postID", post.getPostID());
 			postJSON.put("image", post.getImage());
 			postJSON.put("restaurant", post.getRestaurant().getName());

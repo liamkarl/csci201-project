@@ -75,7 +75,7 @@ public class UserController {
 	public Iterable<User> getUsers() {
 		return UserRepository.findAll();
 	}
-
+	
 	@DeleteMapping("/unfollow")
 	public ResponseEntity<?> removeFollower(@AuthenticationPrincipal @NotNull UserDetailsImpl userDetails,
 			@RequestParam @NotBlank String username) {
