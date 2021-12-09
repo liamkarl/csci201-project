@@ -11,6 +11,9 @@ import Post from '../Post/Post'
 export default function DiscoverCard(props) {
     const [post, setPost] = useState(false)
 
+    console.log('here')
+    console.log(props.likes)
+
     return (
         <>
             <div className='discover-card' style={{backgroundImage: `url('${props.image}')`}} onClick={()=>{setPost(!post)}} >
@@ -25,7 +28,7 @@ export default function DiscoverCard(props) {
             </div>
             <Modal isOpen={post} className={post ? 'post-modal active' : 'post-modal'} overlayClassName='post-modal-overlay' closeTimeoutMS={100} shouldCloseOnOverlayClick={true} onRequestClose={() => {
          setPost(!post)}} ariaHideApp={false}>
-                <Post user={props.user} image={props.image} restaurant={props.restaurant} rating={props.rating} description={props.description}/>
+                <Post username={props.username} postID={props.postID} image={props.image} restaurant={props.restaurant} rating={props.rating} description={props.description} likes={props.likes}/>
             </Modal>
         </>
     )
