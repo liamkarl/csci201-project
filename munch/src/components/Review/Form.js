@@ -9,13 +9,13 @@ export default class Form extends Component {
 
     this.state = {
       location: "",
-      rating: 5,
       image: "",
       postText: "",
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.onImageChange = this.onImageChange.bind(this);
+    this.handleRatingChange = this.handleRatingChange.bind(this);
   }
 
   handleChange(event) {
@@ -63,6 +63,11 @@ export default class Form extends Component {
 
       .then((response) => {
         console.log(response);
+      })
+      .then(() => {
+        window.history.pushState({}, "", "/landing");
+        const navEvent = new PopStateEvent("popstate");
+        window.dispatchEvent(navEvent);
       })
       .catch((error) => {
         console.log("login error", error);
