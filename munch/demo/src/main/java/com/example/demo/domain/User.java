@@ -40,6 +40,7 @@ public class User {
 	private int numFollowing = 0;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
+	@JsonIgnore
 	private List<Post> posts;
 
 	@OneToMany(mappedBy = "userFollower")
