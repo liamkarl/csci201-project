@@ -1,0 +1,20 @@
+.comment {
+    background: rgb(150, 140, 140);
+	width: 910px;
+	margin: 20px;
+	padding: 20px;
+}
+
+.comment-header {
+	display: flex;
+}
+
+.comment-user-icon {
+	font-size: 1rem;
+	margin-top: 7px;
+	margin-right: 7px;
+}
+
+.comment-poster {
+	padding-bottom: 10px;
+}

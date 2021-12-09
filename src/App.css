@@ -10,6 +10,10 @@ body {
     overflow: hidden;
 }
 
+.home::-webkit-scrollbar, .login::-webkit-scrollbar, .register::-webkit-scrollbar, .review::-webkit-scrollbar, .discover::-webkit-scrollbar, .lists::-webkit-scrollbar, .list::-webkit-scrollbar, .account::-webkit-scrollbar {
+    display: none;
+}
+
 .home, .login, .register, .review, .discover, .lists, .list, .account {
     overflow-y: scroll;
     /* text-align: center; */

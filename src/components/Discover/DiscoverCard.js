@@ -25,7 +25,6 @@ export default function DiscoverCard(props) {
             </div>
             <Modal isOpen={post} className={post ? 'post-modal active' : 'post-modal'} overlayClassName='post-modal-overlay' closeTimeoutMS={100} shouldCloseOnOverlayClick={true} onRequestClose={() => {
          setPost(!post)}}>
-                {/* <AiOutlineClose onClick={()=>{setPost(!post)}} className='exit-modal' /> */}
                 <Post user={props.user} image={props.image} restaurant={props.restaurant} rating={props.rating} description={props.description}/>
             </Modal>
         </>

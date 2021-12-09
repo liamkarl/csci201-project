@@ -10,7 +10,7 @@ export default function Gallery() {
         <div className='home-gallery'>
             {GalleryCardData.map((card, index) => {
                 return (
-                    <GalleryCard key={index} user={card.user} image={card.image} restaurant={card.restaurant} rating={card.rating} description={card.description} />
+                    <GalleryCard key={index} user={card.user} image={card.image} restaurant={card.restaurant} rating={card.rating} description={card.description} comments={card.comments} likes={card.likes}/>
                 )
             })}
         </div>
