@@ -1,5 +1,6 @@
 package com.example.demo.web;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,27 +29,30 @@ public class RestaurantController {
 
 	@PostMapping("/add")
 	public ResponseEntity<?> addRestaurant(@AuthenticationPrincipal @NotNull UserDetailsImpl userDetails,
-			@RequestParam @NotNull Long restaurantID) {
+			@RequestParam @NotNull Long restaurantID, @RequestParam @NotBlank String category) {
 		if (userDetails == null)
-			return ResponseEntity.badRequest().body(new Message("Error: You must be logged in to like posts!"));
+			return ResponseEntity.badRequest().body(new Message("Error: You must be logged in to save restaurants!"));
 
 		User user = UserRepository.findByUsername(userDetails.getUsername()).get();
 		Restaurant savedRestaurant;
 
-		// Finds the post of that ID in database if it exists
+		// Finds the restaurant of that ID in database if it exists
 		if (RestaurantRepository.existsByRestaurantID(restaurantID)) {
 			savedRestaurant = RestaurantRepository.findByRestaurantID(restaurantID).get();
 
-			if (user.getRestaurantList().contains(savedRestaurant))
-				return ResponseEntity.badRequest().body(new Message("Error: You already saved this restaurant!"));
+			for (String checkCategory : user.getRestaurantMap().keySet()) {
+				if (user.getRestaurantMap().get(checkCategory).contains(savedRestaurant))
+					return ResponseEntity.badRequest().body(new Message("Error: You already saved this restaurant!"));
+			}
 		}
 
-		// If post doesn't exist, return error
+		// If restaurant doesn't exist, return error
 		else {
 			return ResponseEntity.badRequest().body(new Message("Error: That restaurant doesn't exist!"));
 		}
 
-		user.addRestaurant(savedRestaurant);
+		user.addRestaurant(category, savedRestaurant);
+		savedRestaurant.addUser(user);
 		RestaurantRepository.save(savedRestaurant);
 		UserRepository.save(user);
 
@@ -62,19 +66,22 @@ public class RestaurantController {
 
 	@DeleteMapping("/remove")
 	public ResponseEntity<?> removeRestaurant(@AuthenticationPrincipal @NotNull UserDetailsImpl userDetails,
-			@RequestParam @NotNull Long restaurantID) {
+			@RequestParam @NotNull Long restaurantID, @RequestParam @NotBlank String category) {
 		if (userDetails == null)
-			return ResponseEntity.badRequest().body(new Message("Error: You must be logged in to like posts!"));
+			return ResponseEntity.badRequest().body(new Message("Error: You must be logged in to unsave restaurants!"));
 
 		User user = UserRepository.findByUsername(userDetails.getUsername()).get();
 		Restaurant delRestaurant;
 
-		// Finds the post of that ID in database if it exists
+		// Finds the restaurant of that ID in database if it exists
 		if (RestaurantRepository.existsByRestaurantID(restaurantID)) {
 			delRestaurant = RestaurantRepository.findByRestaurantID(restaurantID).get();
 
-			if (user.getRestaurantList().contains(delRestaurant))
-				return ResponseEntity.badRequest().body(new Message("Error: You already saved this restaurant!"));
+			for (String checkCategory : user.getRestaurantMap().keySet()) {
+				if (!user.getRestaurantMap().get(checkCategory).contains(delRestaurant))
+					return ResponseEntity.badRequest()
+							.body(new Message("Error: You haven't yet saved this restaurant!"));
+			}
 		}
 
 		// If post doesn't exist, return error
@@ -82,8 +89,9 @@ public class RestaurantController {
 			return ResponseEntity.badRequest().body(new Message("Error: That restaurant doesn't exist!"));
 		}
 
-		user.removeRestaurant(delRestaurant);
-		RestaurantRepository.delete(delRestaurant);
+		user.removeRestaurant(category, delRestaurant);
+		delRestaurant.removeUser(user);
+		RestaurantRepository.save(delRestaurant);
 		UserRepository.save(user);
 
 		return ResponseEntity.ok("Saved restaurant successfully!");

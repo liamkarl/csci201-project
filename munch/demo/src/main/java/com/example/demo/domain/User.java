@@ -1,8 +1,10 @@
 package com.example.demo.domain;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -65,7 +67,7 @@ public class User {
 	@ManyToMany(cascade = CascadeType.MERGE)
 	@JoinTable(name = "user_lists", joinColumns = @JoinColumn(name = "userID"), inverseJoinColumns = @JoinColumn(name = "restaurantID"))
 	@JsonIgnore
-	private Set<Restaurant> restaurantList;
+	private Map<String, Set<Restaurant>> restaurantMap;
 
 	@Column(nullable = false, unique = true)
 	private String username = "";
@@ -91,7 +93,7 @@ public class User {
 		this.posts = new ArrayList<>();
 		this.groups = new HashSet<>();
 		this.likedPosts = new HashSet<>();
-		this.restaurantList = new HashSet<>();
+		this.restaurantMap = new HashMap<>();
 
 		this.username = "";
 		this.password = "";
@@ -114,7 +116,7 @@ public class User {
 		this.posts = new ArrayList<>();
 		this.groups = new HashSet<>();
 		this.likedPosts = new HashSet<>();
-		this.restaurantList = new HashSet<>();
+		this.restaurantMap = new HashMap<>();
 
 		this.numFollowers = 0;
 		this.numFollowing = 0;
@@ -134,7 +136,7 @@ public class User {
 		this.posts = new ArrayList<>();
 		this.groups = new HashSet<>();
 		this.likedPosts = new HashSet<>();
-		this.restaurantList = new HashSet<>();
+		this.restaurantMap = new HashMap<>();
 
 		this.numFollowers = 0;
 		this.numFollowing = 0;
@@ -169,8 +171,17 @@ public class User {
 		this.numPosts++;
 	}
 
-	public void addRestaurant(Restaurant restaurant) {
-		this.restaurantList.add(restaurant);
+	public void addRestaurant(String category, Restaurant restaurant) {
+		if (this.restaurantMap.containsKey(category)) {
+			this.restaurantMap.get(category).add(restaurant);
+		}
+
+		else {
+			Set<Restaurant> newCategory = new HashSet<>();
+			newCategory.add(restaurant);
+
+			this.restaurantMap.put(category, newCategory);
+		}
 	}
 
 	public String getBio() {
@@ -225,8 +236,8 @@ public class User {
 		return posts;
 	}
 
-	public Set<Restaurant> getRestaurantList() {
-		return restaurantList;
+	public Map<String, Set<Restaurant>> getRestaurantMap() {
+		return restaurantMap;
 	}
 
 	public String getRole() {
@@ -269,8 +280,11 @@ public class User {
 		this.numPosts--;
 	}
 
-	public void removeRestaurant(Restaurant restaurant) {
-		this.restaurantList.remove(restaurant);
+	public void removeRestaurant(String category, Restaurant restaurant) {
+		this.restaurantMap.remove(category, restaurant);
+
+		if (this.restaurantMap.get(category).size() == 0)
+			this.restaurantMap.remove(category);
 	}
 
 	public void setBio(String bio) {
@@ -325,8 +339,8 @@ public class User {
 		this.posts = posts;
 	}
 
-	public void setRestaurantList(Set<Restaurant> restaurantList) {
-		this.restaurantList = restaurantList;
+	public void setRestaurantMap(Map<String, Set<Restaurant>> restaurantMap) {
+		this.restaurantMap = restaurantMap;
 	}
 
 	public void setRole(String role) {

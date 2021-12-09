@@ -37,18 +37,18 @@ public class Restaurant {
 	@JsonIgnore
 	private List<Event> events;
 
-	@ManyToMany(mappedBy = "restaurantList")
+	@ManyToMany(mappedBy = "restaurantMap")
 	@JsonIgnore
 	private Set<User> savedBy;
 
 	@Column(nullable = false)
 	private String name = "";
 	@Column(nullable = false)
-	private String cuisine = "";
-	@Column(nullable = false)
 	private String price = "";
 	@Column(nullable = false)
 	private String address = "";
+	@Column(nullable = false)
+	private String cuisine = "";
 
 	@ElementCollection
 	private List<URL> images;
@@ -65,7 +65,6 @@ public class Restaurant {
 		this.savedBy = new HashSet<>();
 
 		this.name = "";
-		this.cuisine = "";
 		this.price = "";
 		this.address = "";
 		this.menuLink = "";
@@ -82,10 +81,10 @@ public class Restaurant {
 		this.images = new ArrayList<>();
 
 		this.name = name;
-		this.cuisine = "";
 		this.price = "";
 		this.address = "";
 		this.menuLink = "";
+		this.cuisine = "";
 
 		this.avgRating = 0.0;
 	}
@@ -99,11 +98,11 @@ public class Restaurant {
 		this.savedBy = new HashSet<>();
 
 		this.name = name;
-		this.cuisine = cuisine;
 		this.price = price;
 		this.address = address;
 		this.menuLink = "";
 
+		this.cuisine = cuisine;
 		this.avgRating = 0.0;
 	}
 
@@ -116,11 +115,11 @@ public class Restaurant {
 		this.savedBy = new HashSet<>();
 
 		this.name = name;
-		this.cuisine = cuisine;
 		this.price = price;
 		this.address = address;
 		this.menuLink = menuLink;
 
+		this.cuisine = cuisine;
 		this.avgRating = 0.0;
 	}
 
@@ -135,6 +134,10 @@ public class Restaurant {
 	public void addPost(Post post) {
 		this.posts.add(post);
 		this.updateRating();
+	}
+
+	public void addUser(User user) {
+		this.savedBy.add(user);
 	}
 
 	public String getAddress() {
@@ -193,6 +196,10 @@ public class Restaurant {
 		this.posts.remove(post);
 
 		this.updateRating();
+	}
+
+	public void removeUser(User user) {
+		this.savedBy.remove(user);
 	}
 
 	public void setAddress(String address) {
