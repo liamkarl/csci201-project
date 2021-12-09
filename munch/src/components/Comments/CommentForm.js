@@ -1,7 +1,7 @@
 import React, { Component, useState } from "react";
 import axios from "axios";
 
-import "./CommentForm.css"
+import "./CommentForm.css";
 import AuthHeader from "../../AuthHeader";
 
 export default class Form extends Component {
@@ -9,7 +9,7 @@ export default class Form extends Component {
     super(props);
 
     this.state = {
-        comment : ""
+      comment: "",
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -25,7 +25,7 @@ export default class Form extends Component {
     console.log(comment);
     // axios
     //   .post("http://localhost:8080/api/post/create", {
-    //     
+    //
     //     comment: comment
     //}
 
@@ -39,21 +39,26 @@ export default class Form extends Component {
   }
 
   render() {
-    return (
-      <div className="">
-        <form onSubmit={this.handleSubmit}>
-          <div className="field">
-            <input
-              type="text"
-              name="comment"
-              placeholder="Your comment..."
-              value={this.state.comment}
-              onChange={this.handleChange}
-            />
-          </div>
-          <button type="submit">Submit</button>
-        </form>
-      </div>
-    );
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user) {
+      return <div></div>;
+    } else {
+      return (
+        <div className="">
+          <form onSubmit={this.handleSubmit}>
+            <div className="commentfield">
+              <input
+                type="text"
+                name="comment"
+                placeholder="Your comment..."
+                value={this.state.comment}
+                onChange={this.handleChange}
+              />
+            </div>
+            <button type="submit">Submit</button>
+          </form>
+        </div>
+      );
+    }
   }
 }
