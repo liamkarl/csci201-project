@@ -33,6 +33,12 @@ public class Comment {
 	private Post post;
 
 	private String content = "";
+	
+	public Comment() {
+		super();
+		
+		content = "";
+	}
 
 	public Comment(User user, Post post, String content) {
 		super();
