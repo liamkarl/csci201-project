@@ -21,6 +21,12 @@ export const NavbarDataLoggedIn = [
         className: 'nav-text'
     },
     {
+        title: 'Search',
+        path: '/search',
+        icon: <MDIcons.MdSearch />,
+        className: 'nav-text'
+    },
+    {
         title: 'Review',
         path: '/review',
         icon: <MDIcons.MdRateReview />,
@@ -37,5 +43,5 @@ export const NavbarDataLoggedIn = [
         path: '/logout',
         icon: <MDIcons.MdPermIdentity />,
         className: 'nav-text'
-    }
+    },
 ]

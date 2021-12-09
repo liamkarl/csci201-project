@@ -33,7 +33,7 @@ export default function Gallery() {
     if(home.length == 0) {
         return (
             <div className='home-gallery'>
-                No posts
+                <h1>No posts</h1>
             </div>
         )
     }
@@ -42,7 +42,7 @@ export default function Gallery() {
         <div className='home-gallery'>
             {home.map((card, index) => {
                 return (
-                    <GalleryCard key={index} user={card.user} image={card.image} restaurant={card.restaurant} rating={card.rating} description={card.description} comments={card.comments} likes={card.likes}/>
+                    <GalleryCard key={index} postID={card.postID} user={card.user} username={card.username} image={card.image} restaurant={card.restaurant} rating={card.rating} description={card.description} comments={card.comments} likes={card.likes}/>
                 )
             })}
         </div>

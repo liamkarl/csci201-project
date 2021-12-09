@@ -13,6 +13,7 @@ import ViewAccount from './ViewAccount'
 import Login from './Login'
 import LandingPage from './LandingPage'
 import Logout from './Logout'
+import Search from './Search'
 
 import Navbar from './components/Navbar/Navbar'
 
@@ -37,6 +38,7 @@ function App() {
 						<Route path='/register' element={<Register/>}></Route>
 						<Route path='/landing' element={<LandingPage/>}></Route>
 						<Route path='/logout' element={<Logout />}></Route>
+						<Route path='/search' element={<Search />}></Route>
 					</Routes>
 				</div>
 
