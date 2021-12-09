@@ -48,7 +48,7 @@ export default function GalleryCard(props) {
                 </div>
             </div>
             <Modal isOpen={comments} className={comments ? 'comments-modal active' : 'comments-modal'} overlayClassName='comments-modal-overlay' closeTimeoutMS={100} shouldCloseOnOverlayClick={true} onRequestClose={() => {
-            setComments(!comments)}}>
+            setComments(!comments)}} ariaHideApp={false} >
                 <Comments comments={props.comments}/>
             </Modal>
         </>

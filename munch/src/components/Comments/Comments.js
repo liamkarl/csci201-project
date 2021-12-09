@@ -1,12 +1,19 @@
 import React from 'react'
 
 import './Comments.css'
-import * as FAIcons from 'react-icons/fa'
 
 import Comment from './Comment'
 import CommentForm from './CommentForm'
 
 export default function Comments(props) {
+	if(!props.comments) {
+		return (
+			<div className='commentz'>
+				<h2>No comments</h2>
+				<CommentForm/>
+			</div>
+		)
+	}
 	
     return (
 		<div className='commentz'>

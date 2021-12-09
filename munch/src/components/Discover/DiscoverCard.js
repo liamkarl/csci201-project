@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState} from 'react'
 import Modal from 'react-modal'
 
 import './DiscoverCard.css'
@@ -24,7 +24,7 @@ export default function DiscoverCard(props) {
                 </div>
             </div>
             <Modal isOpen={post} className={post ? 'post-modal active' : 'post-modal'} overlayClassName='post-modal-overlay' closeTimeoutMS={100} shouldCloseOnOverlayClick={true} onRequestClose={() => {
-         setPost(!post)}}>
+         setPost(!post)}} ariaHideApp={false}>
                 <Post user={props.user} image={props.image} restaurant={props.restaurant} rating={props.rating} description={props.description}/>
             </Modal>
         </>
