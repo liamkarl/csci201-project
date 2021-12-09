@@ -26,9 +26,9 @@ import com.example.demo.domain.UserRepository;
 import com.example.demo.payload.NewEventRequest;
 import com.example.demo.security.service.UserDetailsImpl;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/event")
+@CrossOrigin(origins = "http://localhost:3000")
 public class EventController {
 	@Autowired
 	private EventRepository EventRepository;

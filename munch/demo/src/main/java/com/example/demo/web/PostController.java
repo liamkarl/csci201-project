@@ -36,9 +36,9 @@ import com.example.demo.security.service.UserDetailsImpl;
 
 import net.minidev.json.JSONObject;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/post")
+@CrossOrigin(origins = "http://localhost:3000")
 public class PostController {
 	@Autowired
 	private PostRepository PostRepository;

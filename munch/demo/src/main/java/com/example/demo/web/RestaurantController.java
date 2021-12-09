@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,12 +22,13 @@ import com.example.demo.security.service.UserDetailsImpl;
 
 @RestController
 @RequestMapping("/api/restaurant")
+@CrossOrigin(origins = "http://localhost:3000")
 public class RestaurantController {
 	@Autowired
 	private RestaurantRepository RestaurantRepository;
 	@Autowired
 	private UserRepository UserRepository;
-
+	
 	@PostMapping("/add")
 	public ResponseEntity<?> addRestaurant(@AuthenticationPrincipal @NotNull UserDetailsImpl userDetails,
 			@RequestParam @NotNull Long restaurantID, @RequestParam @NotBlank String category) {

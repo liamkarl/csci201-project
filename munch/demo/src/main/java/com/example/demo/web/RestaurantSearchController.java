@@ -31,7 +31,7 @@ public class RestaurantSearchController {
 
 	@Autowired
 	RestaurantSearchRepository restaurantRepository;
-
+	
 	@GetMapping("/search")
 	public List<Restaurant> getAllRestaurants(@Valid @RequestBody RestaurantSearchRequest request)
 			throws InterruptedException, ExecutionException {

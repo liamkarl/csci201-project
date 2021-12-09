@@ -14,8 +14,8 @@ import com.example.demo.payload.ProfilePageRequest;
 import com.example.demo.service.ProfilePageService;
 
 @RestController
-@CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/api")
+@CrossOrigin(origins = "http://localhost:3000")
 public class ProfilePageController {
 	@Autowired
 	ProfilePageService service;

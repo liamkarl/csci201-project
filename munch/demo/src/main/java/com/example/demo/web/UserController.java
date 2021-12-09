@@ -21,9 +21,9 @@ import com.example.demo.domain.User;
 import com.example.demo.domain.UserRepository;
 import com.example.demo.security.service.UserDetailsImpl;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/user")
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
 	@Autowired
 	private UserRepository UserRepository;

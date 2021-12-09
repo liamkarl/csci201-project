@@ -21,9 +21,9 @@ import com.example.demo.security.service.UserDetailsImpl;
 
 import net.minidev.json.JSONObject;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/list")
+@CrossOrigin(origins = "http://localhost:3000")
 public class ListPageController {
 	@Autowired
 	private UserRepository UserRepository;

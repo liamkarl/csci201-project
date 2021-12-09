@@ -16,9 +16,9 @@ import com.example.demo.domain.PostRepository;
 
 import net.minidev.json.JSONObject;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/explore")
+@CrossOrigin(origins = "http://localhost:3000")
 public class ExplorePageController {
 	@Autowired
 	private PostRepository PostRepository;

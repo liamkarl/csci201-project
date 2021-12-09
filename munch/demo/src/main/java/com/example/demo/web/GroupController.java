@@ -23,9 +23,9 @@ import com.example.demo.domain.User;
 import com.example.demo.domain.UserRepository;
 import com.example.demo.security.service.UserDetailsImpl;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/group")
+@CrossOrigin(origins = "http://localhost:3000")
 public class GroupController {
 	@Autowired
 	private GroupRepository GroupRepository;

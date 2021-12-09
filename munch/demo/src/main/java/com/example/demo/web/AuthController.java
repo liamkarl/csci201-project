@@ -24,9 +24,9 @@ import com.example.demo.payload.RegisterRequest;
 import com.example.demo.security.jwt.JwtUtils;
 import com.example.demo.security.service.UserDetailsImpl;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins = "http://localhost:3000")
 public class AuthController {
 	@Autowired
 	AuthenticationManager authenticationManager;
