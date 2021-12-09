@@ -1,17 +1,17 @@
 import React, { Component } from "react";
-import axios from "axios";
 
-import "./LoginPage.css";
-import AuthService from "../AuthService";
+import "./RegisterPage.css";
+import AuthService from "../../AuthService";
 
-export default class Login extends Component {
+export default class Register extends Component {
   constructor(props) {
     super(props);
-  
+
     this.state = {
       username: "",
       password: "",
     };
+
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
@@ -24,16 +24,19 @@ export default class Login extends Component {
 
   handleSubmit(event) {
     const { username, password } = this.state;
-
-    AuthService.login(username, password)
+    AuthService.register(username, password)
+      .then(() => {
+        AuthService.login(username, password);
+      })
       .then(() => {
         window.history.pushState({}, "", "/landing");
         const navEvent = new PopStateEvent("popstate");
         window.dispatchEvent(navEvent);
       })
       .catch((error) => {
-        console.log("login error", error);
-        alert("Invalid username or password.")
+        console.log("registration error", error);
+        alert("You cannot use this username. Try again.")
+        ;
       });
     event.preventDefault();
   }
@@ -46,12 +49,13 @@ export default class Login extends Component {
             <input
               type="text"
               name="username"
-              placeholder="Username"
+              placeholder="username"
               value={this.state.username}
               onChange={this.handleChange}
               required
             />
           </div>
+
           <div className="field">
             <input
               type="password"
@@ -62,7 +66,8 @@ export default class Login extends Component {
               required
             />
           </div>
-          <button type="submit">Login</button>
+
+          <button type="submit">Register</button>
         </form>
       </div>
     );

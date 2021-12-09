@@ -1,6 +1,6 @@
 import React from 'react'
 
-import ViewAccount from './components/Account'
+import ViewAccount from './components/Account/Account'
 
 export default function Account() {
     return (

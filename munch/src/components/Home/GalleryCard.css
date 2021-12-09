@@ -1,0 +1,155 @@
+.gallery-card {
+    z-index: 99;
+
+    overflow: hidden;
+
+    color: black;
+    background-color: white;
+
+    font-weight: 500;
+
+    /* width: 390px; */
+    width: clamp(250px, 18vw, 390px);
+    height: clamp(450px,28vw, 600px);
+
+    border-radius: 15px;
+
+    margin: 0 0.7vw 3vw 0.7vw;
+    
+    transition: 250ms;
+}
+
+.gallery-card:hover {
+    transform: scale(1.03);
+    transition: 500ms;
+}
+
+.gallery-card-header {
+    display: flex;
+    align-items: center;
+
+    font-size: clamp(1rem, 0.8vw, 2rem);
+
+    padding: 0.25vw 1vw;
+}
+
+.gallery-user-icon {
+    margin-right: 0.4vw;
+}
+
+.gallery-username {
+    color: black;
+}
+
+.gallery-username:hover {
+    color: #ed9b14;
+}
+
+.gallery-image {
+    width:100%;
+    height: clamp(200px, 14.5vw, 400px);
+
+    object-fit: cover;
+}
+
+.gallery-restaurant {
+    display: flex;
+    align-items: center;
+
+    font-size: clamp(1rem, 0.8vw, 2rem);
+
+    border-bottom: 1px solid #E0E0E0;
+    /* padding-top: 8px; */
+    height: 1.5vw;
+    padding: 0 1vw 0.25vw 1vw;
+}
+
+.gallery-restaurant-icon {
+    margin-right: 0.4vw;
+}
+
+.gallery-restaurant-name {
+    color: black;
+}
+
+.gallery-restaurant-name:hover {
+    color: #ed9b14;
+}
+
+.gallery-rating {
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    border-bottom: 1px solid #E0E0E0;
+    height: 2vw;
+    padding: 0 1vw 0.15vw 1vw;
+}
+
+.gallery-description {
+    overflow-y: hidden;
+
+    font-weight: 300;
+    font-size: clamp(1rem, 1vw, 1.5rem);
+    border-bottom: 1px solid #E0E0E0;
+    padding: 0.25vw 1vw;
+    height: 5.5vw;
+}
+
+.gallery-links {
+    padding: 0.35vw 1vw;
+    font-size: 1.2rem;
+    height: 2vw;
+}
+
+.gallery-link {
+    font-size: clamp(1rem, 1vw, 2rem);
+    color: black;
+    margin-right: 0.75vw;
+}
+
+.gallery-link:hover {
+    color: #ed9b14
+}
+
+.star {
+    font-size: clamp(1rem, 1.1vw, 2rem);
+}
+
+.comments-modal {
+    z-index: 99;
+    position: absolute;
+    width: 1000px;
+    height: 900px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgb(168, 158, 158);
+    overflow: auto;
+    outline: none;
+    padding: 20px;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.comments-modal-overlay {
+    z-index: 99;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.ReactModal__Overlay {
+    opacity: 0;
+    transition: opacity 100ms ease-in-out;
+}
+
+.ReactModal__Overlay--after-open{
+    opacity: 1;
+}
+
+.ReactModal__Overlay--before-close{
+    opacity: 0;
+}

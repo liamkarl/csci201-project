@@ -3,27 +3,27 @@ import {Link} from 'react-router-dom'
 
 import './Discover.css'
 
-import {FaSort, FaSortAmountDownAlt} from 'react-icons/fa'
+import {FaSortAmountDownAlt} from 'react-icons/fa'
 
-import DiscoverGallery from './components/DiscoverGallery'
+import DiscoverGallery from './components/Discover/DiscoverGallery'
 
 export default function Discover() {
     return (
         <div className='discover'>
-            <span class='dot'></span>
-            <span class='dot'></span>
-            <span class='dot'></span>
+            <span className='dot'></span>
+            <span className='dot'></span>
+            <span className='dot'></span>
             <span className='header-span'>
                 <h1 className='header'>Discover</h1>
                 <Link to='#' className='sort'>
                     <h1 className='sort-text'>Sort</h1>
-                    <FaSortAmountDownAlt className='sort-icon'/>
+                    <FaSortAmountDownAlt className='sort-icon' onClick={()=>{console.log('oof')}}/>
                 </Link>
             </span>
             <DiscoverGallery />
-            <span class='discover-circle1'></span>
-            <span class='discover-circle2'></span>
-            <span class='discover-circle3'></span>
+            <span className='discover-circle1'></span>
+            <span className='discover-circle2'></span>
+            <span className='discover-circle3'></span>
         </div>
     )
 }

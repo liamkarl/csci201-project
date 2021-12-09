@@ -1,6 +1,6 @@
 import React , {useState, useEffect} from "react";
 
-import LoginPage from "./components/LoginPage";
+import LoginPage from "./components/Login/LoginPage";
 
 import "./Login.css";
 

@@ -1,17 +1,17 @@
 import React, { Component } from "react";
+import axios from "axios";
 
-import "./RegisterPage.css";
-import AuthService from "../AuthService";
+import "./LoginPage.css";
+import AuthService from "../../AuthService";
 
-export default class Register extends Component {
+export default class Login extends Component {
   constructor(props) {
     super(props);
-
+  
     this.state = {
       username: "",
       password: "",
     };
-
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
@@ -24,19 +24,16 @@ export default class Register extends Component {
 
   handleSubmit(event) {
     const { username, password } = this.state;
-    AuthService.register(username, password)
-      .then(() => {
-        AuthService.login(username, password);
-      })
+
+    AuthService.login(username, password)
       .then(() => {
         window.history.pushState({}, "", "/landing");
         const navEvent = new PopStateEvent("popstate");
         window.dispatchEvent(navEvent);
       })
       .catch((error) => {
-        console.log("registration error", error);
-        alert("You cannot use this username. Try again.")
-        ;
+        console.log("login error", error);
+        alert("Invalid username or password.")
       });
     event.preventDefault();
   }
@@ -49,13 +46,12 @@ export default class Register extends Component {
             <input
               type="text"
               name="username"
-              placeholder="username"
+              placeholder="Username"
               value={this.state.username}
               onChange={this.handleChange}
               required
             />
           </div>
-
           <div className="field">
             <input
               type="password"
@@ -66,8 +62,7 @@ export default class Register extends Component {
               required
             />
           </div>
-
-          <button type="submit">Register</button>
+          <button type="submit">Login</button>
         </form>
       </div>
     );
