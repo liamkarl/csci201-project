@@ -4,9 +4,10 @@ import './Comments.css'
 import * as FAIcons from 'react-icons/fa'
 
 import Comment from './Comment'
+import CommentForm from './CommentForm'
 
 export default function Comments(props) {
-
+	
     return (
 		<div className='commentz'>
 			{props.comments.map((comment, index) => {
@@ -14,7 +15,7 @@ export default function Comments(props) {
 					<Comment key={index} user={comment.user} body={comment.body} />
 				)
 			})}
-			{/* PUT A SUBMIT COMMENT FORM HERE */}
+			<CommentForm/>
 		</div>
     )
 }

@@ -34,10 +34,10 @@ export default class Form extends Component {
     }
   }
 
-  handleRatingChange(event){
+  handleRatingChange(event) {
     this.setState({
       rating: Number(event.target.value),
-    })
+    });
   }
   handleSubmit(event) {
     const { location, rating, image, postText } = this.state;
@@ -50,14 +50,16 @@ export default class Form extends Component {
     });
 
     axios
-      .post("http://localhost:8080/api/post/create", {
-        headers: AuthHeader(),
-
+      .post(
+        "http://localhost:8080/api/post/create",
+        {
           location: location,
           rating: rating,
           image: image,
           postText: postText,
-      })
+        },
+        { headers: AuthHeader() }
+      )
 
       .then((response) => {
         console.log(response);
@@ -95,14 +97,14 @@ export default class Form extends Component {
           </div>
 
           <div className="field">
-              <input
-                type="text"
-                name="image"
-                value={this.state.image}
-                onChange={this.handleChange}
-                placeholder="paste the photo address here:"
-                required
-              />
+            <input
+              type="text"
+              name="image"
+              value={this.state.image}
+              onChange={this.handleChange}
+              placeholder="paste the photo address here:"
+              required
+            />
           </div>
           <div className="field">
             <input
