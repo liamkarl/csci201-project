@@ -36,7 +36,7 @@ public class ExplorePageController {
 			postJSON.put("postID", post.getPostID());
 			postJSON.put("image", post.getImage());
 			postJSON.put("restaurant", post.getRestaurant().getName());
-			postJSON.put("image", post.getImage());
+			postJSON.put("likes", post.getLikes());
 			postJSON.put("rating", post.getRating());
 			postJSON.put("description", post.getPostText());
 
