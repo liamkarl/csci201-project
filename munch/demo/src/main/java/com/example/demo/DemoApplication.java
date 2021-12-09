@@ -14,6 +14,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import com.example.demo.domain.EventRepository;
 import com.example.demo.domain.GroupRepository;
 import com.example.demo.domain.PostRepository;
+import com.example.demo.domain.Restaurant;
 import com.example.demo.domain.RestaurantRepository;
 import com.example.demo.domain.UserRepository;
 
@@ -41,6 +42,12 @@ public class DemoApplication {
 	@Bean
 	CommandLineRunner runner() {
 		return args -> {
+			RestaurantRepository.save(new Restaurant("Mcdonalds", "American", "$", "1234 fat food avenue"));
+            RestaurantRepository.save(new Restaurant("Wendys", "American", "$", "1234 obese food avenue"));
+            RestaurantRepository.save(new Restaurant("Panda Express", "Chinese", "$", "1234 yummy food avenue"));
+            RestaurantRepository.save(new Restaurant("Rock & Reilly's USC Village", "Bar", "$$", "3201 S Hoover St"));
+            RestaurantRepository.save(new Restaurant("Taco Bell", "Mexican", "$", "3629 S Vermont avenue"));
+            RestaurantRepository.save(new Restaurant("Yummys", "Chinese", "$", "1234 yummy food avenue"));
 		};
 	}
 
