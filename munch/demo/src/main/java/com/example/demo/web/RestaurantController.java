@@ -28,7 +28,7 @@ public class RestaurantController {
 	private RestaurantRepository RestaurantRepository;
 	@Autowired
 	private UserRepository UserRepository;
-	
+
 	@PostMapping("/add")
 	public ResponseEntity<?> addRestaurant(@AuthenticationPrincipal @NotNull UserDetailsImpl userDetails,
 			@RequestParam @NotNull Long restaurantID, @RequestParam @NotBlank String category) {

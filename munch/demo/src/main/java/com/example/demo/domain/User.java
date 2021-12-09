@@ -64,7 +64,7 @@ public class User {
 	@JsonIgnore
 	private Set<Post> likedPosts;
 
-	@ManyToMany(cascade = CascadeType.MERGE)
+	@ManyToMany(cascade = CascadeType.MERGE, targetEntity = Restaurant.class)
 	@JoinTable(name = "user_lists", joinColumns = @JoinColumn(name = "userID"), inverseJoinColumns = @JoinColumn(name = "restaurantID"))
 	@JsonIgnore
 	private Map<String, Set<Restaurant>> restaurantMap;
