@@ -2,7 +2,6 @@ package com.example.demo.web;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,8 +40,7 @@ public class HomePageController {
 			return ResponseEntity.badRequest()
 					.body(new Message("Error: You must be logged in to view friend's posts!"));
 
-		Optional<User> optionalUser = UserRepository.findByUsername(userDetails.getUsername());
-		User user = optionalUser.get();
+		User user = UserRepository.findByUsername(userDetails.getUsername()).get();
 
 		List<Follower> friendList = FollowerRepository.findAllByUserFollower(user);
 		List<User> friends = new ArrayList<>();
@@ -58,9 +56,12 @@ public class HomePageController {
 		for (Post post : PostRepository.findAllByUserInOrderByDateDesc(friends)) {
 			JSONObject postJSON = new JSONObject();
 
-			postJSON.put("post", post);
 			postJSON.put("user", post.getUser().getUserID());
-			postJSON.put("restaurant", post.getRestaurant().getRestaurantID());
+			postJSON.put("image", post.getImage());
+			postJSON.put("restaurant", post.getRestaurant().getName());
+			postJSON.put("image", post.getImage());
+			postJSON.put("rating", post.getRating());
+			postJSON.put("description", post.getPostText());
 
 			postJSONList.add(postJSON);
 			postCount++;

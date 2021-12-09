@@ -10,6 +10,8 @@ import org.springframework.stereotype.Repository;
 public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
 	Boolean existsByName(String name);
 
+	Boolean existsByRestaurantID(Long restaurantID);
+
 	List<Restaurant> findAllByCuisine(String cuisine);
 
 	List<Restaurant> findAllByName(String search);

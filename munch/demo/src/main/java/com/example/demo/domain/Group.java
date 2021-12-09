@@ -37,7 +37,7 @@ public class Group {
 	@JsonIgnore
 	private List<Event> events;
 
-	private String name;
+	private String name = "";
 
 	public Group() {
 		super();

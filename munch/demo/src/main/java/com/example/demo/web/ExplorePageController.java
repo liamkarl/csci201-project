@@ -32,9 +32,12 @@ public class ExplorePageController {
 		for (Post post : PostRepository.findAllByOrderByLikesDesc()) {
 			JSONObject postJSON = new JSONObject();
 
-			postJSON.put("post", post);
 			postJSON.put("user", post.getUser().getUserID());
-			postJSON.put("restaurant", post.getRestaurant().getRestaurantID());
+			postJSON.put("image", post.getImage());
+			postJSON.put("restaurant", post.getRestaurant().getName());
+			postJSON.put("image", post.getImage());
+			postJSON.put("rating", post.getRating());
+			postJSON.put("description", post.getPostText());
 
 			postJSONList.add(postJSON);
 			postCount++;

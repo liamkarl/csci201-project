@@ -2,21 +2,27 @@ package com.example.demo.web;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.domain.Comment;
+import com.example.demo.domain.CommentRepository;
 import com.example.demo.domain.Message;
 import com.example.demo.domain.Post;
 import com.example.demo.domain.PostRepository;
@@ -24,8 +30,11 @@ import com.example.demo.domain.Restaurant;
 import com.example.demo.domain.RestaurantRepository;
 import com.example.demo.domain.User;
 import com.example.demo.domain.UserRepository;
+import com.example.demo.payload.NewCommentRequest;
 import com.example.demo.payload.NewPostRequest;
 import com.example.demo.security.service.UserDetailsImpl;
+
+import net.minidev.json.JSONObject;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -37,6 +46,67 @@ public class PostController {
 	private UserRepository UserRepository;
 	@Autowired
 	private RestaurantRepository RestaurantRepository;
+	@Autowired
+	private CommentRepository CommentRepository;
+
+	@PostMapping("/comment/create")
+	public ResponseEntity<?> addComment(@AuthenticationPrincipal @NotNull UserDetailsImpl userDetails,
+			@Valid @RequestBody NewCommentRequest CommentRequest) {
+		if (userDetails == null)
+			return ResponseEntity.badRequest().body(new Message("Error: You must be logged in to create comments!"));
+
+		User user = UserRepository.findByUsername(userDetails.getUsername()).get();
+		Post post;
+
+		if (PostRepository.existsByPostID(CommentRequest.getPostID()))
+			post = PostRepository.findByPostID(CommentRequest.getPostID()).get();
+		else
+			return ResponseEntity.badRequest().body(new Message("Error: No such post exists!"));
+
+		Comment comment = new Comment(user, post, CommentRequest.getComment());
+
+		comment = CommentRepository.save(comment);
+
+		post.addComment(comment);
+		user.addComment(comment);
+
+		UserRepository.save(user);
+		PostRepository.save(post);
+
+		return ResponseEntity.ok("Commented successfully!");
+	}
+
+	@DeleteMapping("/comment/delete")
+	public ResponseEntity<?> deleteComment(@AuthenticationPrincipal @NotNull UserDetailsImpl userDetails,
+			@RequestParam @NotNull Long commentID) {
+		if (userDetails == null)
+			return ResponseEntity.badRequest().body(new Message("Error: You must be logged in to delete comments!"));
+
+		Comment comment;
+
+		if (CommentRepository.existsByCommentID(commentID))
+			comment = CommentRepository.findByCommentID(commentID).get();
+		else
+			return ResponseEntity.badRequest().body(new Message("Error: No such comment exists!"));
+
+		User user = comment.getUser();
+		Post post = comment.getPost();
+
+		if (!user.getUserID().equals(userDetails.getUserID())) {
+			return ResponseEntity.badRequest().body(new Message("Error: You can only delete your own comment!"));
+		}
+
+		// Remove comment from User and Post
+		user.removeComment(comment);
+		post.removeComment(comment);
+
+		// Update database
+		UserRepository.save(user);
+		PostRepository.save(post);
+		CommentRepository.delete(comment);
+
+		return ResponseEntity.ok("Comment deleted successfully!");
+	}
 
 	@DeleteMapping("/remove")
 	public ResponseEntity<?> deletePost(@AuthenticationPrincipal UserDetailsImpl userDetails,
@@ -44,7 +114,7 @@ public class PostController {
 		if (userDetails == null)
 			return ResponseEntity.badRequest().body(new Message("Error: You must be logged in to delete posts!"));
 
-		Post post = PostRepository.findById(postID).get();
+		Post post = PostRepository.findByPostID(postID).get();
 		User user = post.getUser();
 
 		if (!user.getUserID().equals(userDetails.getUserID())) {
@@ -56,6 +126,7 @@ public class PostController {
 		// Remove post from User and Restaurant profiles
 		user.removePost(post);
 		restaurant.removePost(post);
+		restaurant.removeImage(post.getImage());
 
 		// Update database
 		UserRepository.save(user);
@@ -63,6 +134,23 @@ public class PostController {
 		PostRepository.delete(post);
 
 		return ResponseEntity.ok("Post removed successfully!");
+	}
+
+	@GetMapping("/comments")
+	public ResponseEntity<Object> getComments(@RequestParam @NotNull Long postID) {
+		Post post = PostRepository.findByPostID(postID).get();
+		List<JSONObject> commentJSONList = new ArrayList<>();
+
+		for (Comment comment : post.getComments()) {
+			JSONObject commentJSON = new JSONObject();
+
+			commentJSON.put("user", comment.getUser().getUserID());
+			commentJSON.put("body", comment.getContent());
+
+			commentJSONList.add(commentJSON);
+		}
+
+		return new ResponseEntity<>(commentJSONList, HttpStatus.OK);
 	}
 
 	@RequestMapping("/posts")
@@ -138,6 +226,7 @@ public class PostController {
 		// Updating user and restaurant with new post info
 		user.addPost(post);
 		restaurant.addPost(post);
+		restaurant.addImage(post.getImage());
 		UserRepository.save(user);
 		RestaurantRepository.save(restaurant);
 
@@ -172,5 +261,4 @@ public class PostController {
 
 		return ResponseEntity.ok("Unliked post successfully!");
 	}
-
 }

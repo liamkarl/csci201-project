@@ -1,14 +1,19 @@
 package com.example.demo.domain;
 
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -32,17 +37,32 @@ public class Restaurant {
 	@JsonIgnore
 	private List<Event> events;
 
-	@Column(nullable = false)
-	private String name, cuisine, price, address;
+	@ManyToMany(mappedBy = "restaurantList")
+	@JsonIgnore
+	private Set<User> savedBy;
 
-	private String menuLink;
-	private Double avgRating;
+	@Column(nullable = false)
+	private String name = "";
+	@Column(nullable = false)
+	private String cuisine = "";
+	@Column(nullable = false)
+	private String price = "";
+	@Column(nullable = false)
+	private String address = "";
+
+	@ElementCollection
+	private List<URL> images;
+
+	private String menuLink = "";
+	private Double avgRating = 0.0;
 
 	public Restaurant() {
 		super();
 
 		this.posts = new ArrayList<>();
 		this.events = new ArrayList<>();
+		this.images = new ArrayList<>();
+		this.savedBy = new HashSet<>();
 
 		this.name = "";
 		this.cuisine = "";
@@ -58,6 +78,8 @@ public class Restaurant {
 
 		this.posts = new ArrayList<>();
 		this.events = new ArrayList<>();
+		this.savedBy = new HashSet<>();
+		this.images = new ArrayList<>();
 
 		this.name = name;
 		this.cuisine = "";
@@ -73,6 +95,8 @@ public class Restaurant {
 
 		this.posts = new ArrayList<>();
 		this.events = new ArrayList<>();
+		this.images = new ArrayList<>();
+		this.savedBy = new HashSet<>();
 
 		this.name = name;
 		this.cuisine = cuisine;
@@ -88,6 +112,8 @@ public class Restaurant {
 
 		this.posts = new ArrayList<>();
 		this.events = new ArrayList<>();
+		this.images = new ArrayList<>();
+		this.savedBy = new HashSet<>();
 
 		this.name = name;
 		this.cuisine = cuisine;
@@ -100,6 +126,10 @@ public class Restaurant {
 
 	public void addEvent(Event event) {
 		this.events.add(event);
+	}
+
+	public void addImage(URL image) {
+		this.images.add(image);
 	}
 
 	public void addPost(Post post) {
@@ -117,6 +147,14 @@ public class Restaurant {
 
 	public String getCuisine() {
 		return cuisine;
+	}
+
+	public List<Event> getEvents() {
+		return events;
+	}
+
+	public List<URL> getImages() {
+		return images;
 	}
 
 	public String getMenuLink() {
@@ -139,8 +177,16 @@ public class Restaurant {
 		return restaurantID;
 	}
 
+	public Set<User> getSavedBy() {
+		return savedBy;
+	}
+
 	public void removeEvent(Event event) {
 		this.events.remove(event);
+	}
+
+	public void removeImage(URL image) {
+		this.images.remove(image);
 	}
 
 	public void removePost(Post post) {
@@ -161,6 +207,14 @@ public class Restaurant {
 		this.cuisine = cuisine;
 	}
 
+	public void setEvents(List<Event> events) {
+		this.events = events;
+	}
+
+	public void setImages(List<URL> images) {
+		this.images = images;
+	}
+
 	public void setMenuLink(String menuLink) {
 		this.menuLink = menuLink;
 	}
@@ -179,6 +233,10 @@ public class Restaurant {
 
 	public void setRestaurantID(Long restaurantID) {
 		this.restaurantID = restaurantID;
+	}
+
+	public void setSavedBy(Set<User> savedBy) {
+		this.savedBy = savedBy;
 	}
 
 	// Update average rating from new post

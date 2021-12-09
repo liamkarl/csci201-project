@@ -33,7 +33,9 @@ public class User {
 	private Long userID = Long.valueOf(0);
 
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int numPosts, numFollowers, numFollowing;
+	private int numPosts = 0;
+	private int numFollowers = 0;
+	private int numFollowing = 0;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
 	private List<Post> posts;
@@ -46,6 +48,10 @@ public class User {
 	@JsonIgnore
 	private Set<Follower> followers;
 
+	@OneToMany(mappedBy = "user")
+	@JsonIgnore
+	private List<Comment> comments;
+
 	@ManyToMany(cascade = CascadeType.MERGE)
 	@JoinTable(name = "users_groups", joinColumns = @JoinColumn(name = "userID"), inverseJoinColumns = @JoinColumn(name = "groupID"))
 	@JsonIgnore
@@ -56,16 +62,21 @@ public class User {
 	@JsonIgnore
 	private Set<Post> likedPosts;
 
-	@Column(nullable = false, unique = true)
-	private String username;
-	@Column(nullable = false)
-	private String password;
-	@Column(nullable = false)
-	private String role;
+	@ManyToMany(cascade = CascadeType.MERGE)
+	@JoinTable(name = "user_lists", joinColumns = @JoinColumn(name = "userID"), inverseJoinColumns = @JoinColumn(name = "restaurantID"))
+	@JsonIgnore
+	private Set<Restaurant> restaurantList;
 
-	private String email;
-	private String bio;
-	private String pfp;
+	@Column(nullable = false, unique = true)
+	private String username = "";
+	@Column(nullable = false)
+	private String password = "";
+	@Column(nullable = false)
+	private String role = "";
+
+	private String email = "";
+	private String bio = "";
+	private String pfp = "";
 
 	public User() {
 		super();
@@ -76,9 +87,11 @@ public class User {
 		this.followers = new HashSet<>();
 		this.following = new HashSet<>();
 
+		this.comments = new ArrayList<>();
 		this.posts = new ArrayList<>();
 		this.groups = new HashSet<>();
 		this.likedPosts = new HashSet<>();
+		this.restaurantList = new HashSet<>();
 
 		this.username = "";
 		this.password = "";
@@ -97,9 +110,11 @@ public class User {
 		this.followers = new HashSet<>();
 		this.following = new HashSet<>();
 
+		this.comments = new ArrayList<>();
 		this.posts = new ArrayList<>();
 		this.groups = new HashSet<>();
 		this.likedPosts = new HashSet<>();
+		this.restaurantList = new HashSet<>();
 
 		this.numFollowers = 0;
 		this.numFollowing = 0;
@@ -115,13 +130,19 @@ public class User {
 		this.followers = new HashSet<>();
 		this.following = new HashSet<>();
 
+		this.comments = new ArrayList<>();
 		this.posts = new ArrayList<>();
 		this.groups = new HashSet<>();
 		this.likedPosts = new HashSet<>();
+		this.restaurantList = new HashSet<>();
 
 		this.numFollowers = 0;
 		this.numFollowing = 0;
 		this.numPosts = 0;
+	}
+
+	public void addComment(Comment comment) {
+		this.comments.add(comment);
 	}
 
 	public void addFollower(Follower follower) {
@@ -148,8 +169,16 @@ public class User {
 		this.numPosts++;
 	}
 
+	public void addRestaurant(Restaurant restaurant) {
+		this.restaurantList.add(restaurant);
+	}
+
 	public String getBio() {
 		return bio;
+	}
+
+	public List<Comment> getComments() {
+		return comments;
 	}
 
 	public String getEmail() {
@@ -196,6 +225,10 @@ public class User {
 		return posts;
 	}
 
+	public Set<Restaurant> getRestaurantList() {
+		return restaurantList;
+	}
+
 	public String getRole() {
 		return role;
 	}
@@ -206,6 +239,10 @@ public class User {
 
 	public String getUsername() {
 		return username;
+	}
+
+	public void removeComment(Comment comment) {
+		this.comments.remove(comment);
 	}
 
 	public void removeFollower(Follower follower) {
@@ -232,8 +269,16 @@ public class User {
 		this.numPosts--;
 	}
 
+	public void removeRestaurant(Restaurant restaurant) {
+		this.restaurantList.remove(restaurant);
+	}
+
 	public void setBio(String bio) {
 		this.bio = bio;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
 	}
 
 	public void setEmail(String email) {
@@ -278,6 +323,10 @@ public class User {
 
 	public void setPosts(List<Post> posts) {
 		this.posts = posts;
+	}
+
+	public void setRestaurantList(Set<Restaurant> restaurantList) {
+		this.restaurantList = restaurantList;
 	}
 
 	public void setRole(String role) {

@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -17,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -38,8 +38,9 @@ public class Post {
 	@Column(nullable = false, updatable = false, unique = true)
 	private Long postID = Long.valueOf(0);
 
-	@ElementCollection
-	private List<String> comments;
+	@OneToMany(mappedBy = "post")
+	@JsonIgnore
+	private List<Comment> comments;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user")
@@ -56,13 +57,14 @@ public class Post {
 
 	@Column(nullable = false, updatable = false)
 	@Range(min = 1, max = 5)
-	private Integer rating;
+	private Integer rating = 3;
 
 	@Column(nullable = false, updatable = true)
 	@Range(min = 0)
-	private Integer likes;
+	private Integer likes = 0;
 
-	private String postText, location;
+	private String postText = "";
+	private String location = "";
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm", iso = ISO.DATE_TIME)
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
@@ -75,10 +77,13 @@ public class Post {
 
 		this.likes = 0;
 		this.rating = 3;
+		this.location = "";
+		this.postText = "";
 
 		this.date = LocalDateTime.now();
 
 		this.likedBy = new HashSet<>();
+		this.comments = new ArrayList<>();
 		this.comments = new ArrayList<>();
 	}
 
@@ -96,9 +101,14 @@ public class Post {
 		this.date = LocalDateTime.now();
 
 		this.likedBy = new HashSet<>();
+		this.comments = new ArrayList<>();
 	}
 
-	public List<String> getComments() {
+	public void addComment(Comment comment) {
+		this.comments.add(comment);
+	}
+
+	public List<Comment> getComments() {
 		return comments;
 	}
 
@@ -142,7 +152,11 @@ public class Post {
 		return user;
 	}
 
-	public void setComments(List<String> comments) {
+	public void removeComment(Comment comment) {
+		this.comments.remove(comment);
+	}
+
+	public void setComments(List<Comment> comments) {
 		this.comments = comments;
 	}
 
