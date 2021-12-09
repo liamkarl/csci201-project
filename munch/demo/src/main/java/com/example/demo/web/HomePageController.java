@@ -57,6 +57,7 @@ public class HomePageController {
 			JSONObject postJSON = new JSONObject();
 
 			postJSON.put("user", post.getUser().getUserID());
+			postJSON.put("postID", post.getPostID());
 			postJSON.put("image", post.getImage());
 			postJSON.put("restaurant", post.getRestaurant().getName());
 			postJSON.put("image", post.getImage());

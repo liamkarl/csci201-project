@@ -9,7 +9,6 @@ export default class Form extends Component {
 
     this.state = {
       location: "",
-      rating: 5,
       image: "",
       postText: "",
     };
@@ -64,6 +63,11 @@ export default class Form extends Component {
 
       .then((response) => {
         console.log(response);
+      })
+      .then(() => {
+        window.history.pushState({}, "", "/landing");
+        const navEvent = new PopStateEvent("popstate");
+        window.dispatchEvent(navEvent);
       })
       .catch((error) => {
         console.log("login error", error);
